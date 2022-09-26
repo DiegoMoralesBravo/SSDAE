@@ -7,9 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model test_table {
-  id   BigInt  @id
-  name String?
-
-  @@map("test-table")
+model user {
+  user     String  @id
+  password String?
 }

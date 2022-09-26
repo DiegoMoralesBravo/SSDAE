@@ -13,10 +13,12 @@ const app = express();
 app.use(cors());
 
 //Ya te lo convierte a objeto lo que llega
-app.use(express.json()); 
+app.use(express.json()); //Recibir datos con content-type app/json
+app.use(express.urlencoded({extended:true})); // form-urlencoded
 
 //Rutas
 app.use("/user",routerUser); 
+
 
 
 //Crear serivodor y escuchar peticiones
