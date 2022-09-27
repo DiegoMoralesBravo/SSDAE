@@ -6,4 +6,23 @@ _Con el propósito de simplificar y eficientizar el proceso de seguimiento y eva
 
 ## Construido con 🛠️
 
-_Cosas_
+_Backend_
+
+* [Node.js](https://nodejs.org/es/) - Entorno de ejecución para JavaScript construido con V8
+* [Express](https://expressjs.com/) - Framework para backend, se utiliza para manejar las peticiones http
+* [Prisma](https://www.prisma.io/docs//) - ORM para Node
+* [Postgresql](https://www.prisma.io/docs//) - Base de datos del tipo SQL
+
+
+_Frontend_
+
+* [React](https://es.reactjs.org/) - El framework web usado
+
+## Herramietas ⚙️
+
+_Herramientas para desarrollo_
+
+* [Postman](https://www.postman.com/) - Aplicacion para probar endpoints en APIs
+* [pgAdmin](https://www.pgadmin.org/) - Administrador de base de datos
+
+
