@@ -5,16 +5,22 @@ import { ResetPass } from './components/ResetPass';
 
 
 function App() {
-
-
+  let formDisplay;
 
   const [login, setLogin] = useState(false);
   const [showPassForm, setShowPassForm] = useState(false);
 
 
+  if(showPassForm){
+    formDisplay = <ResetPass setShowPassForm={setShowPassForm} />;
+  }else{
+    formDisplay = <Login setLogin={setLogin} setShowPassForm={setShowPassForm} />;
+  }
+
+
   return (
     <div className="App">
-        {showPassForm ? <ResetPass setShowPassForm={setShowPassForm}/> : <Login setLogin={setLogin} setShowPassForm={setShowPassForm}/>}
+     {login ? <Home/> : formDisplay}
     </div>
   )
 }

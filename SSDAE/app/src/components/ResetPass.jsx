@@ -2,8 +2,11 @@ import React from 'react'
 
 export const ResetPass = ({ setShowPassForm }) => {
 
-    const showLoginForm = e => {
+    const sendEmail = e => {
         e.preventDefault();
+    }
+
+    const showLoginForm = e => {
         setShowPassForm(false);
     }
 
@@ -11,10 +14,10 @@ export const ResetPass = ({ setShowPassForm }) => {
         <div>
             <div className="login-page">
                 <div className="form">
-                    <form className="login-form">
-                        <input type="text" placeholder="Correo electronico" />
+                    <form className="login-form" onSubmit={sendEmail}>
+                        <input type="text" placeholder="Correo electronico" required/>
                         <button>Recuperar contraseña</button>
-                        <p className="link"><a href="#" onClick={showLoginForm} >Iniciar sesion</a></p>
+                        <p className="link"><a href="#"  onClick={showLoginForm}>Iniciar sesion</a></p>
                     </form>
                 </div>
             </div>

@@ -1,22 +1,24 @@
 const nodemailer = require('nodemailer');
 
 
-const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: {
-            user: 'olin94@ethereal.email',
-            pass: 'a4f7Z58DUvArgA2YsU'
-        }
-});
+var transporter = nodemailer.createTransport({
+    name: 'diego',
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "30825ea6c0b648",
+      pass: "1508fed290558c"
+    }
+  });
+
 
 const mailOptions = {
-    from: "Remitente",
+    from: "sender@server.com",
     to: "diegomorales1359@gmail.com",
-    subject: "Prueba",
-    text: "Vaya no se si esto funcionara a la primera"
-}
-
+    subject: "Message title",
+    text: "Plaintext version of the message",
+    html: "<p>HTML version of the message</p>"
+  };
 
 const test = (req, res) => {
 

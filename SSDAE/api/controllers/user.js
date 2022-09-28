@@ -26,13 +26,12 @@ const create = async (req, res) => {
 };
 
 const validation = async (req, res) => {
+    console.log('Validacion');
+
     //Recoger los parametros por post a guardar
     let data = req.body;
     data.password = md5(data.password)
 
-    //Validar datos
-    
-    console.log('Validacion');
 
     //Leer la base de dato
     const user = await prisma.user.findMany({
@@ -44,12 +43,11 @@ const validation = async (req, res) => {
 
     if(user.length){
         return res.status(200).json({
-            mensaje: 'Login correcto',
-            data,
+            mensaje: 'User found'
         })
     }else{
         return res.status(200).json({
-            mensaje: 'Login Incorrecto',
+            mensaje: 'User not found'
         });
     }
 };
