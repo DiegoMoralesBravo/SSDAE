@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Login } from './components/Login'
 import { Home } from './components/Home'
+import { ResetPass } from './components/ResetPass';
 
 
 function App() {
@@ -8,11 +9,12 @@ function App() {
 
 
   const [login, setLogin] = useState(false);
+  const [showPassForm, setShowPassForm] = useState(false);
 
 
   return (
     <div className="App">
-        {login ? <Home/> : <Login setLogin={setLogin} />}
+        {showPassForm ? <ResetPass setShowPassForm={setShowPassForm}/> : <Login setLogin={setLogin} setShowPassForm={setShowPassForm}/>}
     </div>
   )
 }

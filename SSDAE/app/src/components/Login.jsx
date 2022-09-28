@@ -1,16 +1,21 @@
 import React from 'react'
 import { useState } from 'react'
 
-export const Login = ({setLogin}) => {
+export const Login = ({ setLogin, setShowPassForm }) => {
+
+    const showPassForm = e => {
+        e.preventDefault();
+        setShowPassForm(true);
+    }
 
     const validationLogin = async (e) => {
         e.preventDefault();
-        
+
         let dataForm = {
             user: e.target.user.value,
             password: e.target.password.value
         };
-        
+
         const url = "http:///localhost:3000/user/validation";
 
         let request = await fetch(url, {
@@ -20,23 +25,22 @@ export const Login = ({setLogin}) => {
                 "Content-Type": "application/json"
             }
         });
-        
+
         let data = await request.json();
-        if(data.data){
+        if (data.data) {
             setLogin(true);
         }
     }
 
     return (
-        <div>
-            <div className="login-page">
-                <div className="form" id="Formulario">
-                    <form className="login-form" onSubmit={validationLogin}>
-                        <input type="text" placeholder="usuario" name='user'/>
-                        <input type="password" placeholder="contrasena" name='password'/>
-                        <button>login</button>
-                    </form>
-                </div>
+        <div className="login-page">
+            <div className="form">
+                <form className="login-form" onSubmit={validationLogin} >
+                    <input type="text" placeholder="Correo electronico" />
+                    <input type="password" placeholder="Contraseña" />
+                    <button>Iniciar sesion</button>
+                    <p className="link"><a  href="#" onClick={showPassForm} >¿Olvidaste tu contraseña?</a></p>
+                </form>
             </div>
         </div>
     )

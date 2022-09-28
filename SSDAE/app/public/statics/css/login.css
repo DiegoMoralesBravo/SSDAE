@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .login-page {
-    width: 360px;
+    width: 500px;
     padding: 8% 0 0;
     margin: auto;
 }
@@ -33,7 +33,7 @@
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #5d5d5d;
+    background: #4d4d4d;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -44,22 +44,69 @@
     cursor: pointer;
 }
 
-
-.form button:focus {
-    background: #5d5d5d;
-}
-
 .form button:hover,
-.form button:active {
-    background: #9b9b9b;
+.form button:active,
+.form button:focus {
+    background: #2c2c2c;
 }
 
+.form .link {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+
+.form .link a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.container:before,
+.container:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.container .info {
+    margin: 50px auto;
+    text-align: center;
+}
+
+.container .info h1 {
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 36px;
+    font-weight: 300;
+    color: #1a1a1a;
+}
+
+.container .info span {
+    color: #4d4d4d;
+    font-size: 12px;
+}
+
+.container .info span a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.container .info span .fa {
+    color: #EF3B3A;
+}
 
 body {
-    background: #5d5d5d;
+    background: #c8c9c8;
     /* fallback for old browsers */
-    background: rgb(105, 105, 105);
-    background: linear-gradient(90deg, rgb(125, 123, 123) 0%, rgb(105, 105, 105) 50%);
+    background: rgb(155, 155, 155);
+    background: linear-gradient(90deg, rgba(155, 155, 155, 1) 0%, rgba(155, 155, 155, 1) 50%);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
