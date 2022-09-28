@@ -20,6 +20,7 @@ export const Login = ({setLogin}) => {
                 "Content-Type": "application/json"
             }
         });
+        
         let data = await request.json();
         if(data.data){
             setLogin(true);

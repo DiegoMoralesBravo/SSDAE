@@ -21,7 +21,7 @@ const create = async (req, res) => {
 
     return res.status(200).json({
         mensaje: 'User created',
-        data,
+        data
     });
 };
 
@@ -41,7 +41,6 @@ const validation = async (req, res) => {
           password: data.password
         },
     })
- 
 
     if(user.length){
         return res.status(200).json({
