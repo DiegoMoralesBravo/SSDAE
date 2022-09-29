@@ -1,11 +1,10 @@
 export const useApi = () => {
 
-    const request = async(body) => {
+    const request = async(url, method, body) => {
 
-        const url = "http:///localhost:3000/user/validation";
         
         let req = await fetch(url, {
-            method: "POST",
+            method: method,
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json"

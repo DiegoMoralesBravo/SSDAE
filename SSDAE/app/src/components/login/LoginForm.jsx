@@ -11,14 +11,16 @@ export const LoginForm = ({ setLogin, setShowPassForm, showPassForm }) => {
     const api = useApi();
 
     const validationLogin = async (e) => {
-        e.preventDefault();
 
+
+        e.preventDefault();
         let dataForm = {
             user: inputEmail.current.value,
             password: inputPass.current.value
         };
-
-        let res = api.request(dataForm);
+        
+        const url = "http:///localhost:3000/user/validation";
+        let res = await api.request(url, "POST", dataForm);
 
         if (res.mensaje == 'User found') {
             setLogin(true);

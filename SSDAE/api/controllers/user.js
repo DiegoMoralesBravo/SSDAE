@@ -9,6 +9,7 @@ const test = (req, res) => {
 };
 
 const create = async (req, res) => {
+    console.log('Creacion de usuario');
     //Recoger los parametros por post a guardar
     let data = req.body;
     data.password = md5(data.password)
@@ -26,8 +27,7 @@ const create = async (req, res) => {
 };
 
 const validation = async (req, res) => {
-    console.log('Validacion');
-
+    console.log('Validacion de usuario');
     //Recoger los parametros por post a guardar
     let data = req.body;
     data.password = md5(data.password)
