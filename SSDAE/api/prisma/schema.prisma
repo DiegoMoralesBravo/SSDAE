@@ -13,7 +13,7 @@ model user {
 }
 
 model Alumnos {
-  id_alumno  BigInt   @id(map: "id_alumno")
+  id_alumno  BigInt   @id(map: "id_alumno") @default(autoincrement())
   nombre     String   @db.VarChar
   ap_p       String   @db.VarChar
   ap_m       String   @db.VarChar

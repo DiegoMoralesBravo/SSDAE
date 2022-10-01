@@ -2,11 +2,6 @@ const md5 = require('md5');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const test = (req, res) => {
-    return res.status(200).json({
-        mensaje: 'Soy una prueba'
-    });
-};
 
 const create = async (req, res) => {
     console.log('Creacion de usuario');
@@ -14,11 +9,12 @@ const create = async (req, res) => {
     let data = req.body;
     data.password = md5(data.password)
 
-    //Validar datos
-
-
     //Insertar los datos en la base
-    const insertData = await prisma.user.create({data});
+    try {
+        const insertData = await prisma.user.create({data});
+    } catch (err){
+        console.log(err);
+    }
 
     return res.status(200).json({
         mensaje: 'User created',
@@ -54,7 +50,6 @@ const validation = async (req, res) => {
 
 
 module.exports ={
-    test,
     create,
     validation,
 }
