@@ -20,11 +20,12 @@ model Alumnos {
   contrasena String   @db.VarChar
   estatus    String   @db.VarChar
   fecha_ing  DateTime @db.Date
+  correo     String   @db.VarChar
   Tesis      Tesis[]
 }
 
 model Avances {
-  id_avance  BigInt       @id(map: "id_avance")
+  id_avance  BigInt       @id(map: "id_avance") @default(autoincrement())
   id_tesis   BigInt
   doc        String       @db.VarChar
   fecha      DateTime     @db.Date
@@ -44,7 +45,7 @@ model Prof_Tesis {
 }
 
 model Profesores {
-  id_profesor     BigInt       @id(map: "id_profesor")
+  id_profesor     BigInt       @id(map: "id_profesor") @default(autoincrement())
   nombre          String       @db.VarChar
   ap_p            String       @db.VarChar
   ap_m            String       @db.VarChar
@@ -64,7 +65,7 @@ model Recuperaciones {
 }
 
 model Revisiones {
-  id_revision             BigInt     @id(map: "id_revision")
+  id_revision             BigInt     @id(map: "id_revision") @default(autoincrement())
   id_tesis                BigInt
   id_avance               BigInt
   id_prof                 BigInt
@@ -84,7 +85,7 @@ model Revisiones {
 }
 
 model Tesis {
-  id_tesis    BigInt       @id(map: "id_tesis")
+  id_tesis    BigInt       @id(map: "id_tesis") @default(autoincrement())
   tema        String       @db.VarChar
   id_alumno   BigInt
   descripcion String       @db.VarChar

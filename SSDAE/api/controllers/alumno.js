@@ -9,9 +9,8 @@ const create = async (req, res) => {
     
     let data = req.body;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
-    //data.id_alumno = parseInt(data.id_alumno);
     data.contrasena = md5(data.contrasena);
-    data.fecha_ing = new Date('1999-01-08');
+    data.fecha_ing = new Date(data.fecha_ing);
 
     console.log(data)
 
@@ -28,7 +27,34 @@ const create = async (req, res) => {
     });
 };
 
+const validation = async (req, res) => {
+    console.log('Validacion de alumno');
+    //Recoger los parametros por post a guardar
+    let data = req.body;
+    data.contrasena = md5(data.contrasena)
+
+
+    //Leer la base de dato
+    const student = await prisma.alumnos.findMany({
+        where: {
+          correo: data.correo,
+          contrasena: data.contrasena
+        },
+    })
+
+    if(student.length){
+        return res.status(200).json({
+            mensaje: 'User found'
+        })
+    }else{
+        return res.status(200).json({
+            mensaje: 'User not found'
+        });
+    }
+};
+
 
 module.exports ={
-    create
+    create,
+    validation
 }

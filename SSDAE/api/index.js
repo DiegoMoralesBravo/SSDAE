@@ -4,6 +4,7 @@ const cors = require('cors');
 const userRouter = require('./paths/user');
 const emailRouter = require('./paths/email');
 const alumnoRouter = require('./paths/alumno');
+const resetPassRouter = require('./paths/resetPass');
 
 const puerto = 3000;
 const app = express();
@@ -30,6 +31,8 @@ app.use("/email",emailRouter);
 //Rutas para alumnos
 app.use("/alumno",alumnoRouter); 
 
+//Rutas para resetear contrasena
+app.use("/resetPass",resetPassRouter); 
 
 //Crear serivodor y escuchar peticiones
 app.listen(puerto, () => {
