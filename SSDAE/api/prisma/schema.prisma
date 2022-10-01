@@ -11,3 +11,85 @@ model user {
   user     String  @id
   password String?
 }
+
+model Alumnos {
+  id_alumno  BigInt   @id(map: "id_alumno")
+  nombre     String   @db.VarChar
+  ap_p       String   @db.VarChar
+  ap_m       String   @db.VarChar
+  contrasena String   @db.VarChar
+  estatus    String   @db.VarChar
+  fecha_ing  DateTime @db.Date
+  Tesis      Tesis[]
+}
+
+model Avances {
+  id_avance  BigInt       @id(map: "id_avance")
+  id_tesis   BigInt
+  doc        String       @db.VarChar
+  fecha      DateTime     @db.Date
+  Tesis      Tesis        @relation(fields: [id_tesis], references: [id_tesis], onDelete: NoAction, onUpdate: NoAction, map: "id_tesis")
+  Revisiones Revisiones[]
+}
+
+model Prof_Tesis {
+  id_prof    BigInt
+  id_tesis   BigInt
+  roles      String     @db.VarChar
+  Profesores Profesores @relation(fields: [id_prof], references: [id_profesor], onDelete: NoAction, onUpdate: NoAction, map: "id_prof")
+  Tesis      Tesis      @relation(fields: [id_tesis], references: [id_tesis], onDelete: NoAction, onUpdate: NoAction, map: "id_tesis")
+
+  @@id([id_prof, id_tesis], map: "id_proftesis")
+  @@map("Prof-Tesis")
+}
+
+model Profesores {
+  id_profesor     BigInt       @id(map: "id_profesor")
+  nombre          String       @db.VarChar
+  ap_p            String       @db.VarChar
+  ap_m            String       @db.VarChar
+  correo          String       @db.VarChar
+  contrasena      String       @db.VarChar
+  interno_externo BigInt
+  Prof_Tesis      Prof_Tesis[]
+  Revisiones      Revisiones[]
+}
+
+model Recuperaciones {
+  id_user          BigInt
+  token            BigInt
+  fecha_expiracion DateTime @db.Date
+
+  @@id([id_user, token], map: "id_usertoken")
+}
+
+model Revisiones {
+  id_revision             BigInt     @id(map: "id_revision")
+  id_tesis                BigInt
+  id_avance               BigInt
+  id_prof                 BigInt
+  estructura_clara        String     @db.VarChar
+  actualidad              String     @db.VarChar
+  grado_avance            String     @db.VarChar
+  asertividad             String     @db.VarChar
+  nivel_propues           String     @db.VarChar
+  apreciacion_general     String     @db.VarChar
+  promedio                BigInt
+  fecha                   DateTime   @db.Date
+  observaciones_generales String     @db.VarChar
+  doc                     String?    @db.VarChar
+  Avances                 Avances    @relation(fields: [id_avance], references: [id_avance], onDelete: NoAction, onUpdate: NoAction, map: "id_avance")
+  Profesores              Profesores @relation(fields: [id_prof], references: [id_profesor], onDelete: NoAction, onUpdate: NoAction, map: "id_prof")
+  Tesis                   Tesis      @relation(fields: [id_tesis], references: [id_tesis], onDelete: NoAction, onUpdate: NoAction, map: "id_tesis")
+}
+
+model Tesis {
+  id_tesis    BigInt       @id(map: "id_tesis")
+  tema        String       @db.VarChar
+  id_alumno   BigInt
+  descripcion String       @db.VarChar
+  Alumnos     Alumnos      @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction, onUpdate: NoAction, map: "id_alumnos")
+  Avances     Avances[]
+  Prof_Tesis  Prof_Tesis[]
+  Revisiones  Revisiones[]
+}
