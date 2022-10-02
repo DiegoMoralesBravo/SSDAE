@@ -1,18 +1,24 @@
 import { useState } from 'react'
-import { Login } from './components/login/Login'
-import { Home } from './components/Home'
-
-
+import { loginContext } from './context/loginContext';
+import { MisRutas } from './router/MisRutas'
 function App() {
-  let formDisplay;
 
-  const [login, setLogin] = useState(false);
   const [showPassForm, setShowPassForm] = useState(false);
-
+  const [login, setLogin] = useState(false);
 
   return (
     <div className="App">
-     {login ? <Home/> : <Login setLogin={setLogin} setShowPassForm={setShowPassForm} showPassForm={showPassForm}/>}
+      
+      <loginContext.Provider value={{
+        showPassForm,
+        setShowPassForm,
+        login,
+        setLogin
+      }}>
+
+        <MisRutas />
+
+      </loginContext.Provider>
     </div>
   )
 }

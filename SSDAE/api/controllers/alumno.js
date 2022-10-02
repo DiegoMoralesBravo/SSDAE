@@ -31,6 +31,7 @@ const validation = async (req, res) => {
     console.log('Validacion de alumno');
     //Recoger los parametros por post a guardar
     let data = req.body;
+    console.log(data)
     data.contrasena = md5(data.contrasena)
 
 

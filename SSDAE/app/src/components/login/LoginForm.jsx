@@ -1,9 +1,13 @@
 import React from 'react'
 import { useRef } from 'react';
+import { useContext } from 'react';
+import { loginContext } from '../../context/loginContext';
 import { useApi } from '../../hooks/useApi';
 
 
-export const LoginForm = ({ setLogin, setShowPassForm, showPassForm }) => {
+export const LoginForm = () => {
+
+    const { setShowPassForm, setLogin} = useContext(loginContext);
 
     const inputEmail = useRef();
     const inputPass = useRef();
@@ -15,11 +19,11 @@ export const LoginForm = ({ setLogin, setShowPassForm, showPassForm }) => {
 
         e.preventDefault();
         let dataForm = {
-            user: inputEmail.current.value,
-            password: inputPass.current.value
+            corre: inputEmail.current.value,
+            contrasena: inputPass.current.value
         };
         
-        const url = "http:///localhost:3000/user/validation";
+        const url = "http:///localhost:3000/alumno/validation";
         let res = await api.request(url, "POST", dataForm);
 
         if (res.mensaje == 'User found') {
@@ -29,7 +33,9 @@ export const LoginForm = ({ setLogin, setShowPassForm, showPassForm }) => {
             inputEmail.current.className = 'fail';
             inputPass.current.className = 'fail';
             alert.current.style.display = 'block';
+            inputPass.current.value = '';
         }
+        
     }
 
     const showForm = e => {
