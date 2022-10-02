@@ -36,7 +36,7 @@ export const ResetPassForm = () => {
         <div className="login-page">
             <div className="form">
                 <form className="login-form" onSubmit={sendEmail}>
-                    <input ref={inputEmail} type="text" placeholder="Correo electronico" required />
+                    <input ref={inputEmail} type="email" placeholder="Correo electronico" required />
                     <button>Recuperar contraseña</button>
                     <p className="link"><a href="#" onClick={showLoginForm}>Iniciar sesion</a></p>
                 </form>

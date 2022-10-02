@@ -1,0 +1,42 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #262626;
+}
+
+.nav-list {
+  display: flex;
+}
+
+
+.nav-list li {
+  list-style-type: none;
+}
+
+.brand a {
+  color: black;
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 20px;
+}
+
+.nav-list li a {
+  color: black;
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 20px;
+}
+
+.nav-list li:hover {
+  background-color: rgb(0, 114, 180);
+
+}

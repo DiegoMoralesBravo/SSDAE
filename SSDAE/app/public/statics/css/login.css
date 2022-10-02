@@ -42,7 +42,7 @@
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #4d4d4d;
+    background: #262626;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -56,11 +56,11 @@
 .form button:hover,
 .form button:active,
 .form button:focus {
-    background: #2c2c2c;
+    background: #504f4f;
 }
 
 .form .link a {
-    color: #000000;
+    color: #262626;
     text-decoration: none;
 }
 
@@ -77,5 +77,5 @@
 
 
 body {
-    background: #4d4d4d;
+    background: whitesmoke;
 }
