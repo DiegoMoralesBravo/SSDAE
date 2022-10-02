@@ -7,7 +7,7 @@ import { useApi } from '../../hooks/useApi';
 
 export const LoginForm = () => {
 
-    const { setShowPassForm, setLogin} = useContext(loginContext);
+    const { setShowPassForm, setLogin, setUser, user } = useContext(loginContext);
 
     const inputEmail = useRef();
     const inputPass = useRef();
@@ -19,15 +19,21 @@ export const LoginForm = () => {
 
         e.preventDefault();
         let dataForm = {
-            corre: inputEmail.current.value,
+            corre: inputEmail.current.value.toLowerCase(),
             contrasena: inputPass.current.value
         };
-        
+
         const url = "http:///localhost:3000/alumno/validation";
         let res = await api.request(url, "POST", dataForm);
 
         if (res.mensaje == 'User found') {
             setLogin(true);
+            setUser({
+                id_user: res.student.id_alumno,
+                correo: res.student.correo,
+                nombre: res.student.nombre,
+                ap_p: res.student.ap_p
+            })
         }
         else {
             inputEmail.current.className = 'fail';
@@ -35,7 +41,7 @@ export const LoginForm = () => {
             alert.current.style.display = 'block';
             inputPass.current.value = '';
         }
-        
+
     }
 
     const showForm = e => {

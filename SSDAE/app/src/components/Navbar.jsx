@@ -1,8 +1,17 @@
 import React from 'react'
+import { useContext } from 'react';
+import { loginContext } from '../context/loginContext';
 
 export const Navbar = () => {
 
+    const { setShowPassForm, setLogin, setUser, user } = useContext(loginContext);
+
     let usuario = 'Diego';
+
+    const logout = () => {
+        setLogin(false);
+        setUser('');
+    };
 
     return (
             <div className="nav-container">
@@ -15,7 +24,7 @@ export const Navbar = () => {
                             <a href="#!">{usuario}</a>
                         </li>
                         <li>
-                            <a href="#!">Cerrar sesion</a>
+                            <a href="#!"  onClick={logout} >Cerrar sesion</a>
                         </li>
                     </ul>
                 </nav>

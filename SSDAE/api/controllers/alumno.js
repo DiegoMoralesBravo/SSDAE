@@ -31,7 +31,6 @@ const validation = async (req, res) => {
     console.log('Validacion de alumno');
     //Recoger los parametros por post a guardar
     let data = req.body;
-    console.log(data)
     data.contrasena = md5(data.contrasena)
 
 
@@ -42,10 +41,13 @@ const validation = async (req, res) => {
           contrasena: data.contrasena
         },
     })
+    
+    student[0].id_alumno = Number(student[0].id_alumno)
 
     if(student.length){
         return res.status(200).json({
-            mensaje: 'User found'
+            mensaje: 'User found',
+            student: student[0]
         })
     }else{
         return res.status(200).json({

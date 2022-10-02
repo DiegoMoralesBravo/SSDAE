@@ -3,6 +3,14 @@ import { useRef } from 'react';
 
 export const ResetPass = () => {
 
+    const queryString = window.location.search;
+    console.log('Datos en url:')
+    console.log(queryString);
+    const urlParams = new URLSearchParams(queryString);
+    console.log(urlParams)
+    const product = urlParams.get('product')
+    console.log(product);
+
     const inputPass = useRef();
     const inputPassConfirm = useRef();
     const alert = useRef();

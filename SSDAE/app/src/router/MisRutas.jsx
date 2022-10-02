@@ -19,12 +19,14 @@ export const MisRutas = () => {
   return (
 
     <BrowserRouter>
-      <Navbar />
+      {login && <Navbar />}
       <Routes>
         <Route path="/" element={login ? <Home /> : <Login />} />
         <Route path="/resetpass" element={<ResetPass />} />
+        <Route path="/*" element={<div>LA PAGINA NO EXISTE</div>} />
       </Routes>
     </BrowserRouter>
+
   )
 }
 
