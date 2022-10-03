@@ -57,11 +57,11 @@ model Profesores {
 }
 
 model Recuperaciones {
-  id_user          BigInt
-  token            BigInt
+  email            String   @db.VarChar
+  token            String   @db.VarChar
   fecha_expiracion DateTime @db.Date
 
-  @@id([id_user, token], map: "id_usertoken")
+  @@id([email, token, fecha_expiracion])
 }
 
 model Revisiones {

@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 
 const userRouter = require('./paths/user');
-const emailRouter = require('./paths/email');
 const alumnoRouter = require('./paths/alumno');
 const resetPassRouter = require('./paths/resetPass');
 
@@ -24,9 +23,6 @@ app.use(express.urlencoded({extended:true})); // form-urlencoded
 
 //Rutas user
 app.use("/user",userRouter); 
-
-//Rutas para email
-app.use("/email",emailRouter); 
 
 //Rutas para alumnos
 app.use("/alumno",alumnoRouter); 
