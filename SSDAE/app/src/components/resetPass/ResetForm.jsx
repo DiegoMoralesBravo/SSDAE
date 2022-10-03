@@ -1,17 +1,30 @@
 import React from 'react'
 import { useRef } from 'react';
-export const ResetForm = () => {
+import { useApi } from '../../hooks/useApi';
+export const ResetForm = ({email}) => {
 
 
     const inputPass = useRef();
     const inputPassConfirm = useRef();
     const alert = useRef();
+    const api = useApi();
 
-    const passReset = e => {
+    const passReset = async (e) => {
         e.preventDefault();
         if (inputPass.current.value == inputPassConfirm.current.value) {
             console.log('Contrasenas iguales')
+
+            let dataForm = {
+                email,
+                password: inputPassConfirm.current.value
+            }
+
+            const url = "http:///localhost:3000/resetPass/passChange";
+            let res = await api.request(url, "POST", dataForm);
+            console.log(res)
+
             console.log('Se cambio wey')
+            window.location.href = "http://localhost:5173/";
         } else {
             console.log('Error no concuerdan contrasenas')
             inputPass.current.className = 'fail';

@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const create = async (req, res) => {
     console.log('Creacion de alumno');
     //Recoger los parametros por post a guardar
-    
+
     let data = req.body;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
     data.contrasena = md5(data.contrasena);
@@ -14,13 +14,13 @@ const create = async (req, res) => {
 
     console.log(data)
 
-        //Insertar los datos en la base
-        try {
-            const insertData = await prisma.alumnos.create({data});
-        } catch (err){
-            console.log('HAY UN ERROR')
-            console.log(err);
-        }
+    //Insertar los datos en la base
+    try {
+        const insertData = await prisma.alumnos.create({ data });
+    } catch (err) {
+        console.log('HAY UN ERROR')
+        console.log(err);
+    }
 
     return res.status(200).json({
         mensaje: 'User created',
@@ -37,19 +37,21 @@ const validation = async (req, res) => {
     //Leer la base de dato
     const student = await prisma.alumnos.findMany({
         where: {
-          correo: data.correo,
-          contrasena: data.contrasena
+            correo: data.correo,
+            contrasena: data.contrasena
         },
     })
-    
-    student[0].id_alumno = Number(student[0].id_alumno)
 
-    if(student.length){
+
+
+    if (student.length) {
+        student[0].id_alumno = Number(student[0].id_alumno)
+
         return res.status(200).json({
             mensaje: 'User found',
             student: student[0]
         })
-    }else{
+    } else {
         return res.status(200).json({
             mensaje: 'User not found'
         });
@@ -57,7 +59,7 @@ const validation = async (req, res) => {
 };
 
 
-module.exports ={
+module.exports = {
     create,
     validation
 }

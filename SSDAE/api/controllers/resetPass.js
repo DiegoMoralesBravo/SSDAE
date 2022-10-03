@@ -30,10 +30,13 @@ const userValidation = async (req, res) => {
         let email = data.correo;
         let url = 'http://localhost:5173/resetpass?key=' + token + '&email=' + email;
 
+        let currentTime = new Date().getTime();
+        let updatedTIme = new Date(currentTime + 2 * 60 * 60 * 1000);
+
         data = {
             email,
             token,
-            fecha_expiracion: new Date(Date.now() + (2 * 60 * 60 * 1000))
+            fecha_expiracion: updatedTIme
         }
 
         //Insertar los datos en la base para cambio de password
@@ -93,7 +96,58 @@ const userValidation = async (req, res) => {
     }
 };
 
+const tokenValidation = async (req, res) => {
+    console.log('Validacion de que existe el token con correo');
+    //Recoger los parametros por post a guardar
+    let data = req.body;
+    console.log(data.email)
+
+    //Leer la base de dato de alumnos
+    const user = await prisma.recuperaciones.findMany({
+        where: {
+            email: data.email,
+            token: data.token
+        },
+    })
+
+    //Falta comprobacion de la fecha de expiracion del token
+
+    if (user.length) {
+        return res.status(200).json({
+            mensaje: 'user found',
+        })
+    } else {
+        return res.status(200).json({
+            mensaje: 'no valid user'
+        });
+    }
+}
+
+const passChange = async (req, res) => {
+    console.log('Cambio de contrasena');
+    //Recoger los parametros por post a guardar
+    let data = req.body;
+
+    data.password = md5(data.password)
+    console.log(data)
+
+    //Leer la base de dato de alumnos
+    const updateUsers = await prisma.alumnos.updateMany({
+        where: {
+            correo: data.email,
+        },
+        data: {
+            contrasena: data.password,
+        },
+    })
+    return res.status(200).json({
+        mensaje: 'Contrasena cambiada',
+    })
+}
+
 
 module.exports = {
     userValidation,
+    tokenValidation,
+    passChange
 }

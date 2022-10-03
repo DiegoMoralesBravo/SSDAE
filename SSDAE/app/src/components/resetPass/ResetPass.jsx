@@ -1,29 +1,40 @@
 import React from 'react'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useApi } from '../../hooks/useApi';
 import { NotFound } from '../NotFound';
 import { ResetForm } from './ResetForm';
 
 export const ResetPass = () => {
 
-    let view;
+    const api = useApi();
+
     const queryString = window.location.search;
-    console.log('Datos en url:')
-    console.log(queryString);
     const urlParams = new URLSearchParams(queryString);
-    console.log(urlParams)
-    const product = urlParams.get('product')
-    console.log(product);
+    const key = urlParams.get('key')
+    const email = urlParams.get('email')
+    const [view, setView] = useState();
 
-    console.log(urlParams.has('key'));
-    console.log(urlParams.has('email'));
+    useEffect(() => {
+        const validationToken = async () => {
+            console.log('entre a la funcion')
+            let dataForm = {
+                token: key,
+                email: email
+            }
+            const url = "http:///localhost:3000/resetPass/tokenvalidation";
+            let res = await api.request(url, "POST", dataForm);
+            console.log(res)
 
+            if (res.mensaje == 'user found') {
+                setView(<ResetForm email={email}/>)
+            } else {
+                setView(<NotFound/>)
+            }
 
-
-
-    if (urlParams.has('key') && urlParams.has('email')) {
-        view = <ResetForm/>
-    } else {
-        view = <NotFound />
-    }
+        }
+        validationToken()
+    }, [])
 
     return (
         view
