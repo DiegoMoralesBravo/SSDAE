@@ -23,6 +23,7 @@ function App() {
 
   return (
     <div className="App">
+
       <loginContext.Provider value={{
         showPassForm,
         setShowPassForm,
@@ -31,8 +32,13 @@ function App() {
         user,
         setUser
       }}>
+
         <MisRutas />
+
+
       </loginContext.Provider>
+
+
     </div>
   )
 }
