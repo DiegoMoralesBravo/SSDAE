@@ -5,46 +5,45 @@ const nodemailer = require('nodemailer');
 
 
 const userValidation = async (req, res) => {
-    console.log('Validacion de que existe un alumno con este correo');
+
+
+
+
+    console.log('Validacion de que existe un usuario con este correo');
     //Recoger los parametros por post a guardar
     let data = req.body;
     console.log(data)
+    console.log(data.correo)
 
     //Leer la base de dato de alumnos
-    const student = await prisma.alumnos.findMany({
-        where: {
-            correo: data.correo,
-        },
-    })
-    console.log('Validacion de que existe un profesor con este correo');
-
-    //Leer la base de dato de profesores
-    const profesor = await prisma.profesores.findMany({
+    const user = await prisma.Usuarios.findMany({
         where: {
             correo: data.correo,
         },
     })
 
-    if (student.length || profesor.length) {
+    console.log(user)
+
+    if (user.length) {
         let token = md5(Math.random().toString());
-        let email = data.correo;
-        let url = 'http://localhost:5173/resetpass?key=' + token + '&email=' + email;
 
         let currentTime = new Date().getTime();
         let updatedTIme = new Date(currentTime + 2 * 60 * 60 * 1000);
-
+        let id = user.user_id;
         data = {
-            email,
+            id_usuario: id,
             token,
             fecha_expiracion: updatedTIme
         }
+
+        let url = 'http://localhost:5173/resetpass?key=' + token;
 
         //Insertar los datos en la base para cambio de password
         try {
             console.log(data)
             await prisma.recuperaciones.create({ data });
         } catch (err) {
-            console.log('HAY UN ERROR')
+            console.log('HAY UN ERROR NO SE PUDO INSERTAR INFORMACION EN TABLA RECUPERACIONES')
             console.log(err);
         }
 
@@ -57,8 +56,7 @@ const userValidation = async (req, res) => {
                 pass: "1508fed290558c"
             }
         });
-
-
+    
         const mailOptions = {
             from: "sender@server.com",
             to: "diegomorales1359@gmail.com",
@@ -79,33 +77,28 @@ const userValidation = async (req, res) => {
             }
         })
 
-    }
-
-    if (student.length) {
         return res.status(200).json({
-            mensaje: 'student found',
+            mensaje: 'user found',
+            correo: url,
         })
-    } else if (profesor.length) {
-        return res.status(200).json({
-            mensaje: 'profesor found',
-        });
+
     } else {
+        console.log("No existe usuario")
         return res.status(200).json({
             mensaje: 'no user with email: ' + data.correo
         });
     }
+
 };
 
 const tokenValidation = async (req, res) => {
     console.log('Validacion de que existe el token con correo');
     //Recoger los parametros por post a guardar
     let data = req.body;
-    console.log(data.email)
 
     //Leer la base de dato de alumnos
     const user = await prisma.recuperaciones.findMany({
         where: {
-            email: data.email,
             token: data.token
         },
     })

@@ -19,17 +19,17 @@ export const LoginForm = () => {
 
         e.preventDefault();
         let dataForm = {
-            corre: inputEmail.current.value.toLowerCase(),
+            correo: inputEmail.current.value.toLowerCase(),
             contrasena: inputPass.current.value
         };
 
-        const url = "http:///localhost:3000/alumno/validation";
+        const url = "http:///localhost:3000/usuario/validation";
         let res = await api.request(url, "POST", dataForm);
 
         if (res.mensaje == 'User found') {
             setLogin(true);
             setUser({
-                id_user: res.student.id_alumno,
+                id_user: res.student.id_usuario,
                 correo: res.student.correo,
                 nombre: res.student.nombre,
                 ap_p: res.student.ap_p

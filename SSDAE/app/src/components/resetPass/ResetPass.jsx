@@ -12,7 +12,6 @@ export const ResetPass = () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const key = urlParams.get('key')
-    const email = urlParams.get('email')
     const [view, setView] = useState();
 
     useEffect(() => {
@@ -20,7 +19,6 @@ export const ResetPass = () => {
             console.log('entre a la funcion')
             let dataForm = {
                 token: key,
-                email: email
             }
             const url = "http:///localhost:3000/resetPass/tokenvalidation";
             let res = await api.request(url, "POST", dataForm);

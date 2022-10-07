@@ -4,52 +4,57 @@ const prisma = new PrismaClient();
 
 
 const create = async (req, res) => {
-    console.log('Creacion de alumno');
+    console.log('Creacion de usuario');
     //Recoger los parametros por post a guardar
 
     let data = req.body;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
     data.contrasena = md5(data.contrasena);
-    data.fecha_ing = new Date(data.fecha_ing);
+
 
     console.log(data)
 
     //Insertar los datos en la base
     try {
-        const insertData = await prisma.alumnos.create({ data });
+        const insertData = await prisma.usuarios.create({ data });
+        return res.status(200).json({
+            mensaje: 'User created',
+        });
+        
     } catch (err) {
         console.log('HAY UN ERROR')
         console.log(err);
+        return res.status(200).json({
+            mensaje: err,
+        });
     }
 
-    return res.status(200).json({
-        mensaje: 'User created',
-    });
+
 };
 
 const validation = async (req, res) => {
-    console.log('Validacion de alumno');
+    console.log('Validacion de usuario');
     //Recoger los parametros por post a guardar
     let data = req.body;
     data.contrasena = md5(data.contrasena)
 
 
     //Leer la base de dato
-    const student = await prisma.alumnos.findMany({
+    const user = await prisma.usuarios.findMany({
         where: {
             correo: data.correo,
             contrasena: data.contrasena
         },
     })
 
+    console.log(user)
 
-
-    if (student.length) {
-        student[0].id_alumno = Number(student[0].id_alumno)
+    if (user.length) {
+        user[0].id_usuario = Number(user[0].id_alumno)
 
         return res.status(200).json({
             mensaje: 'User found',
-            student: student[0]
+            student: user[0]
         })
     } else {
         return res.status(200).json({

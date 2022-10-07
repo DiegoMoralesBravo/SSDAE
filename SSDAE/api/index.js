@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const userRouter = require('./paths/user');
-const alumnoRouter = require('./paths/alumno');
+const usuarioRouter = require('./paths/usuario');
 const resetPassRouter = require('./paths/resetPass');
 
 const puerto = 3000;
@@ -21,18 +20,15 @@ app.use(express.urlencoded({extended:true})); // form-urlencoded
 //Rutas
 
 
-//Rutas user
-app.use("/user",userRouter); 
-
 //Rutas para alumnos
-app.use("/alumno",alumnoRouter); 
+app.use("/usuario",usuarioRouter); 
 
 //Rutas para resetear contrasena
 app.use("/resetPass",resetPassRouter); 
 
 //Crear serivodor y escuchar peticiones
 app.listen(puerto, () => {
-    console.log('Example app listening on port 3000.');
+    console.log('Aplicacion corriendo puerto 3000');
 });
 
 
