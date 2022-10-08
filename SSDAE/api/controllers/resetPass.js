@@ -10,7 +10,6 @@ const userValidation = async (req, res) => {
     //Recoger los parametros por post a guardar
     let data = req.body;
     console.log(data)
-    console.log(data.correo)
 
     //Leer la base de dato de alumnos
     const user = await prisma.Usuarios.findMany({
@@ -26,9 +25,10 @@ const userValidation = async (req, res) => {
 
         let currentTime = new Date().getTime();
         let updatedTIme = new Date(currentTime + 2 * 60 * 60 * 1000);
+        console.log(user.id_usuario)
 
         data = {
-            id_usuario: user.id_usuario,
+            id_usuario: BigInt(user.id_usuario),
             correo: data.correo,
             token,
             fecha_expiracion: updatedTIme
@@ -93,6 +93,8 @@ const tokenValidation = async (req, res) => {
     console.log('Validacion de que existe el token con correo');
     //Recoger los parametros por post a guardar
     let data = req.body;
+
+    console.log(data)
 
     //Leer la base de dato de alumnos
     const user = await prisma.recuperaciones.findMany({

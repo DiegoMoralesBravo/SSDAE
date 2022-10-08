@@ -5,7 +5,7 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS public."Alumnos"
 (
-    id_alumno bigserial NOT NULL,
+    id_alumno serial NOT NULL,
     estatus character varying NOT NULL,
     fecha_ing date NOT NULL,
     CONSTRAINT id_alumno PRIMARY KEY (id_alumno)
@@ -13,37 +13,63 @@ CREATE TABLE IF NOT EXISTS public."Alumnos"
 
 CREATE TABLE IF NOT EXISTS public."Profesores"
 (
-    id_profesor bigserial NOT NULL,
-    interno_externo bigint NOT NULL,
+    id_profesor serial NOT NULL,
+    interno_externo integer NOT NULL,
     CONSTRAINT id_profesor PRIMARY KEY (id_profesor)
-);
-
-CREATE TABLE IF NOT EXISTS public."Recuperaciones"
-(
-    id_usuario bigserial NOT NULL,
-    token character varying NOT NULL,
-    fecha_expiracion date NOT NULL,
-    correo character varying NOT NULL,
-    CONSTRAINT id_usertoken PRIMARY KEY (id_usuario, token)
 );
 
 CREATE TABLE IF NOT EXISTS public."Usuarios"
 (
-    id_usuario bigserial NOT NULL,
+    id_usuario serial NOT NULL,
     correo character varying NOT NULL,
     contrasena character varying NOT NULL,
     tipo_usuario character varying NOT NULL,
     nombre character varying NOT NULL,
     ap_p character varying NOT NULL,
     ap_m character varying NOT NULL,
-    PRIMARY KEY (id_usuario)
+    CONSTRAINT id_usuario PRIMARY KEY (id_usuario),
+    CONSTRAINT correo UNIQUE (correo)
 );
 
-ALTER TABLE IF EXISTS public."Recuperaciones"
-    ADD CONSTRAINT id_usuario FOREIGN KEY (id_usuario)
+CREATE TABLE IF NOT EXISTS public."Recuperaciones"
+(
+    correo character varying NOT NULL,
+    token character varying NOT NULL,
+    fecha_expiracion date NOT NULL,
+    id_recuperacion serial,
+    CONSTRAINT correo_token PRIMARY KEY (id_recuperacion)
+);
+
+ALTER TABLE IF EXISTS public."Alumnos"
+    ADD CONSTRAINT id_alumnos FOREIGN KEY (id_alumno)
     REFERENCES public."Usuarios" (id_usuario) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Profesores"
+    ADD CONSTRAINT id_profesores FOREIGN KEY (id_profesor)
+    REFERENCES public."Usuarios" (id_usuario) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Recuperaciones"
+    ADD CONSTRAINT correo FOREIGN KEY (correo)
+    REFERENCES public."Usuarios" (correo) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+	
+INSERT INTO "Usuarios"
+	VALUES (default,'ivanmedrano@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'alumno', 'ivan', 'medrano', 'rios'),
+			(default,'diegomorales@gmail.com', 'c2ae0b5ba085cb33fbee01aafc391538', 'alumno', 'diego', 'morales', 'bravo'),
+			(default,'ikertoscano@gmail.com', '272b5eb31e1c7ff85a96f076fbea4d17', 'alumno', 'iker', 'toscano', 'santos'),
+			(default,'jose@gmail.com', '783d04a794f9b29425124ce1c075553c', 'alumno', 'jose', 'sanchez', 'soto');
+	
+	
+
 
 END;
