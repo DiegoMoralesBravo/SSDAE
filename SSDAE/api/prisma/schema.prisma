@@ -22,6 +22,7 @@ model Recuperaciones {
   id_usuario       BigInt   @default(autoincrement())
   token            String   @db.VarChar
   fecha_expiracion DateTime @db.Date
+  correo           String   @db.VarChar
   Usuarios         Usuarios @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_usuario")
 
   @@id([id_usuario, token], map: "id_usertoken")

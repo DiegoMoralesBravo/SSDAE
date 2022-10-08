@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS public."Recuperaciones"
     id_usuario bigserial NOT NULL,
     token character varying NOT NULL,
     fecha_expiracion date NOT NULL,
+    correo character varying NOT NULL,
     CONSTRAINT id_usertoken PRIMARY KEY (id_usuario, token)
 );
 

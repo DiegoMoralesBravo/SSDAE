@@ -6,9 +6,6 @@ const nodemailer = require('nodemailer');
 
 const userValidation = async (req, res) => {
 
-
-
-
     console.log('Validacion de que existe un usuario con este correo');
     //Recoger los parametros por post a guardar
     let data = req.body;
@@ -29,14 +26,15 @@ const userValidation = async (req, res) => {
 
         let currentTime = new Date().getTime();
         let updatedTIme = new Date(currentTime + 2 * 60 * 60 * 1000);
-        let id = user.user_id;
+
         data = {
-            id_usuario: id,
+            id_usuario: user.id_usuario,
+            correo: data.correo,
             token,
             fecha_expiracion: updatedTIme
         }
 
-        let url = 'http://localhost:5173/resetpass?key=' + token;
+        let url = 'http://localhost:5173/resetpass?key=' + token + '&correo=' + data.correo ;
 
         //Insertar los datos en la base para cambio de password
         try {
@@ -99,7 +97,8 @@ const tokenValidation = async (req, res) => {
     //Leer la base de dato de alumnos
     const user = await prisma.recuperaciones.findMany({
         where: {
-            token: data.token
+            token: data.token,
+            correo: data.correo
         },
     })
 
@@ -125,7 +124,7 @@ const passChange = async (req, res) => {
     console.log(data)
 
     //Leer la base de dato de alumnos
-    const updateUsers = await prisma.alumnos.updateMany({
+    const updateUsers = await prisma.usuarios.updateMany({
         where: {
             correo: data.email,
         },
