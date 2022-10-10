@@ -22,21 +22,28 @@ export const ResetPass = () => {
 
             console.log(key)
 
-            
-            let dataForm = {
-                token: key,
-                correo: email
-            }
+            if (key && email) {
 
-            const url = "http:///localhost:3000/resetPass/tokenvalidation";
-            let res = await api.request(url, "POST", dataForm);
-            console.log(res)
+                let dataForm = {
+                    token: key,
+                    correo: email
+                }
 
-            if (res.mensaje == 'user found') {
-                setView(<ResetForm email={email}/>)
+                const url = "http:///localhost:3000/resetPass/tokenvalidation";
+                let res = await api.request(url, "POST", dataForm);
+                console.log(res)
+
+                if (res.mensaje == 'user found') {
+                    setView(<ResetForm email={email} />)
+                } else {
+                    setView(<NotFound />)
+                }
             } else {
-                setView(<NotFound/>)
+                setView(<NotFound />)
             }
+
+
+
 
         }
         validationToken()

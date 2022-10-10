@@ -28,7 +28,6 @@ const userValidation = async (req, res) => {
         console.log(user.id_usuario)
 
         data = {
-            id_usuario: BigInt(user.id_usuario),
             correo: data.correo,
             token,
             fecha_expiracion: updatedTIme

@@ -21,10 +21,16 @@ export const ResetForm = ({email}) => {
 
             const url = "http:///localhost:3000/resetPass/passChange";
             let res = await api.request(url, "POST", dataForm);
+
+            //COLOCAR VALIDACION DE QUE SI SE HIZO EL CAMBIO EN BASE DE DATOS
             console.log(res)
 
-            console.log('Se cambio wey')
-            window.location.href = "http://localhost:5173/";
+  
+            alert.current.style.display = 'block';
+            alert.current.style.text = 'block';
+
+
+            //window.location.href = "http://localhost:5173/";
         } else {
             console.log('Error no concuerdan contrasenas')
             inputPass.current.className = 'fail';

@@ -8,33 +8,35 @@ datasource db {
 }
 
 model Alumnos {
-  id_alumno BigInt   @id(map: "id_alumno") @default(autoincrement())
+  id_alumno Int      @id(map: "id_alumno") @default(autoincrement())
   estatus   String   @db.VarChar
   fecha_ing DateTime @db.Date
+  Usuarios  Usuarios @relation(fields: [id_alumno], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_alumnos")
 }
 
 model Profesores {
-  id_profesor     BigInt @id(map: "id_profesor") @default(autoincrement())
-  interno_externo BigInt
+  id_profesor     Int      @id(map: "id_profesor") @default(autoincrement())
+  interno_externo Int
+  Usuarios        Usuarios @relation(fields: [id_profesor], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_profesores")
 }
 
 model Recuperaciones {
-  id_usuario       BigInt   @default(autoincrement())
+  correo           String   @db.VarChar
   token            String   @db.VarChar
   fecha_expiracion DateTime @db.Date
-  correo           String   @db.VarChar
-  Usuarios         Usuarios @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_usuario")
-
-  @@id([id_usuario, token], map: "id_usertoken")
+  id_recuperacion  Int      @id(map: "correo_token") @default(autoincrement())
+  Usuarios         Usuarios @relation(fields: [correo], references: [correo], onDelete: NoAction, onUpdate: NoAction, map: "correo")
 }
 
 model Usuarios {
-  id_usuario     BigInt           @id @default(autoincrement())
-  correo         String           @db.VarChar
+  id_usuario     Int              @id(map: "id_usuario") @default(autoincrement())
+  correo         String           @unique(map: "correo") @db.VarChar
   contrasena     String           @db.VarChar
   tipo_usuario   String           @db.VarChar
   nombre         String           @db.VarChar
   ap_p           String           @db.VarChar
   ap_m           String           @db.VarChar
+  Alumnos        Alumnos?
+  Profesores     Profesores?
   Recuperaciones Recuperaciones[]
 }
