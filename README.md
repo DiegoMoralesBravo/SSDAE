@@ -26,3 +26,6 @@ _Herramientas para desarrollo_
 * [pgAdmin](https://www.pgadmin.org/) - Administrador de base de datos
 
 
+## Modulos listos
+
+* Login
