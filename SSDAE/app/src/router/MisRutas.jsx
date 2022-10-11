@@ -7,6 +7,7 @@ import { Home } from '../components/Home'
 import { Login } from '../components/login/Login'
 import { Navbar } from '../components/Navbar';
 import { NotFound } from '../components/NotFound';
+import { CrearUsuarios } from '../components/usuarios/CrearUsuarios';
 
 
 
@@ -21,6 +22,7 @@ export const MisRutas = () => {
       <Routes>
         <Route path="/" element={login ? <Home /> : <Login />} />
         <Route path="/resetpass" element={<ResetPass />} />
+        <Route path="/CrearUsuario" element={<CrearUsuarios />} />
         <Route path="/*" element={<NotFound/>} />
       </Routes>
     </BrowserRouter>
