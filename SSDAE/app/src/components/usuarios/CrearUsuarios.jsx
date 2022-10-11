@@ -11,10 +11,17 @@ export const CrearUsuarios = () => {
         <div className="login-page">
                 <div className="form">
                     <form className="login-form" >
-                        <label>Correo</label>
+                        
+                        <input type="text" placeholder="Nombre" required />
+                        
+                        <input type="text" placeholder="Apellido paterno" required />
+                        
+                        <input type="text" placeholder="Apellido materno" required />
+                        
                         <input type="email" placeholder="Correo electronico" required />
-                        <input type="password" placeholder="Contraseña" required />
-                        <p style={{ display: 'block' }} >*Usuario y/o contraseña incorrectos</p>
+                        
+                        <input type="text" placeholder="2022-A" required />
+                        <p style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
                         <button>Crear usuario</button>
                     </form>
                 </div>
