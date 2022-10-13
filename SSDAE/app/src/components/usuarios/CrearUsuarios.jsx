@@ -7,18 +7,20 @@ import { loginContext } from '../../context/loginContext';
 
 export const CrearUsuarios = () => {
 
+    const inputEmail = useRef();
+
     return (
         <div className="login-page">
                 <div className="form">
                     <form className="login-form" >
                         
-                        <input type="text" placeholder="Nombre" required />
+                        <input  type="text" placeholder="Nombre" required />
                         
                         <input type="text" placeholder="Apellido paterno" required />
                         
                         <input type="text" placeholder="Apellido materno" required />
                         
-                        <input type="email" placeholder="Correo electronico" required />
+                        <input ref={inputEmail} type="email" placeholder="Correo electronico" required />
                         
                         <input type="text" placeholder="2022-A" required />
                         <p style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
