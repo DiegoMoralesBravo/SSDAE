@@ -1,18 +1,20 @@
 import React from 'react'
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import { loginContext } from '../context/loginContext';
 
 export const Navbar = () => {
 
     const { setShowPassForm, setLogin, setUser, user } = useContext(loginContext);
 
-    let usuario = 'Diego';
-
     const logout = () => {
         setLogin(false);
         setUser('');
     };
 
+    const {nombre, ap_p, tipo_usuario} = user
+
+    console.log(user)
     return (
             <div className="nav-container">
                 <div className="brand">
@@ -21,10 +23,15 @@ export const Navbar = () => {
                 <nav className='navbar'>
                     <ul className="nav-list">
                         <li>
-                            <a href="#!">{usuario}</a>
+                        <NavLink to="/"> {nombre + ' ' + ap_p + ' ('+ tipo_usuario +')'} </NavLink>
                         </li>
                         <li>
-                            <a href="#!"  onClick={logout} >Cerrar sesion</a>
+                        {
+                            tipo_usuario == 'alumno' ?  <NavLink to="/CrearUsuario"> Crear usuario </NavLink> : ''
+                        }
+                        </li>
+                        <li>
+                        <NavLink to="/" onClick={logout} > Cerrar sesion </NavLink> 
                         </li>
                     </ul>
                 </nav>

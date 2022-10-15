@@ -9,7 +9,7 @@ const create = async (req, res) => {
 
     let data = req.body;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
-    data.contrasena = md5(data.contrasena);
+    data.contrasena = md5(data.correo);
 
 
     console.log(data)
@@ -50,11 +50,11 @@ const validation = async (req, res) => {
     console.log(user)
 
     if (user.length) {
-        user[0].id_usuario = user[0].id_alumno
+        user[0].id_usuario = user[0].id_usuario
 
         return res.status(200).json({
             mensaje: 'User found',
-            student: user[0]
+            user: user[0]
         })
     } else {
         return res.status(200).json({

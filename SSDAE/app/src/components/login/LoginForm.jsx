@@ -29,10 +29,11 @@ export const LoginForm = () => {
         if (res.mensaje == 'User found') {
             setLogin(true);
             setUser({
-                id_user: res.student.id_usuario,
-                correo: res.student.correo,
-                nombre: res.student.nombre,
-                ap_p: res.student.ap_p
+                id_user: res.user.id_usuario,
+                correo: res.user.correo,
+                nombre: res.user.nombre,
+                ap_p: res.user.ap_p,
+                tipo_usuario: res.user.tipo_usuario
             })
         }
         else {
