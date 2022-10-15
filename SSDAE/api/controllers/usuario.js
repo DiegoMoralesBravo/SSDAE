@@ -9,7 +9,7 @@ const create = async (req, res) => {
 
     let data = req.body;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
-    data.contrasena = md5(data.contrasena);
+    data.contrasena = md5(data.correo);
 
 
     console.log(data)
