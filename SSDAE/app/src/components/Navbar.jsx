@@ -14,7 +14,6 @@ export const Navbar = () => {
 
     const {nombre, ap_p, tipo_usuario} = user
 
-    console.log(user)
     return (
             <div className="nav-container">
                 <div className="brand">
