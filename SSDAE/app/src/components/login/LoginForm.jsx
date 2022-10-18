@@ -16,7 +16,6 @@ export const LoginForm = () => {
 
     const validationLogin = async (e) => {
 
-
         e.preventDefault();
         let dataForm = {
             correo: inputEmail.current.value.toLowerCase(),
@@ -28,13 +27,16 @@ export const LoginForm = () => {
 
         if (res.mensaje == 'User found') {
             setLogin(true);
-            setUser({
+
+            const userData = {
                 id_user: res.user.id_usuario,
                 correo: res.user.correo,
                 nombre: res.user.nombre,
                 ap_p: res.user.ap_p,
                 tipo_usuario: res.user.tipo_usuario
-            })
+            };
+
+            setUser(userData)
         }
         else {
             inputEmail.current.className = 'fail';
