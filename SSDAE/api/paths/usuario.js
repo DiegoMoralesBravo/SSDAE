@@ -6,5 +6,6 @@ const router = express.Router();
 //Rutas
 router.post("/create", usuarioController.create);
 router.post("/validation", usuarioController.validation);
+router.get("/fillTable", usuarioController.fillTable);
 
 module.exports = router;

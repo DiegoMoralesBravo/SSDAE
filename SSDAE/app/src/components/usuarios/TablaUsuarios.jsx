@@ -1,104 +1,75 @@
 import React from 'react'
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useApi } from '../../hooks/useApi';
 
 export const TablaUsuarios = () => {
-    return (
-        <div id="apptable">
-  <div class="container">
-    <div class="page-header">
-      <div class="title">
-        <h1 id="page-title">Usuarios</h1>
+
+  const [tableInfo, setTableInfo] = useState([]);
+  const api = useApi();
+
+  useEffect(() => {
+    console.log('Al cargar')
+    const req = async () => {
+      console.log('ENTREEE')
+      const url = "http:///localhost:3000/usuario/fillTable";
+      const res = await api.request(url, "GET");
+      console.log(JSON.parse(res))
+      setTableInfo(JSON.parse(res))
+    }
+
+    req();
+  }, [])
+
+
+
+  return (
+    <div className='container-table'>
+
+      <div className='header'>
+        <p>USUARIOS</p>
+        <div className='buttons'>
+
+          <button><NavLink className="boton" to="/CrearUsuario"> Crear usuario </NavLink></button>
+          <input type='text' placeholder='Buscar usuario...'></input>
+
+        </div>
       </div>
 
-      <nav class="menu">
-        
-      </nav>
-
-      <div class="search">
-        <form id="search-product-form" action="#" method="post">
-          <div class="input-group">
-            <input type="text" value="" name="keywords" class="form-control product-search-keywords" placeholder="Buscar usuario..."/>
-
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div id="page-content">
-      <table class="table">
-        <tbody>
+      <table>
+        <tbody className='tabla'>
           <tr>
-            <th>Nombre</th>
-            <th>ID</th>
-            <th>Correo</th>
-            <th>Tipo de usuario</th>
-            <th>Acciones</th>
+            <th><strong>Nombre</strong></th>
+            <th><strong>ID</strong></th>
+            <th><strong>Correo</strong></th>
+            <th><strong>Tipo de usuario</strong></th>
+            <th><strong>Acciones</strong></th>
           </tr>
 
-          <tr>
-            <td>Diego Alejandro Morales Bravo</td>
-            <td>1</td>
-            <td>Diego@gmail.com</td>
-            <td>Alumno</td>
-            <td>
-              <button >Editar</button>
-              <button >Eliminar</button>
-            </td>
-          </tr>
+          {tableInfo.map(user => {
 
-          <tr>
-            <td>Diego Alejandro Morales Bravo</td>
-            <td>1</td>
-            <td>Diego@gmail.com</td>
-            <td>Alumno</td>
-            <td>
-              <button >Editar</button>
-              <button >Eliminar</button>
-            </td>
-          </tr>
+            const nombre = user.nombre +' ' + user.ap_p+ ' ' + user.ap_m 
+            return (
+              
+                <tr key={user.id_usuario} >
+                  <td>{nombre}</td>
+                  <td>{user.id_usuario}</td>
+                  <td>{user.correo}</td>
+                  <td>{user.tipo_usuario}</td>
+                  <td>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                  </td>
+                </tr>
+     
 
-
-          <tr>
-            <td>Diego Alejandro Morales Bravo</td>
-            <td>1</td>
-            <td>Diego@gmail.com</td>
-            <td>Alumno</td>
-            <td>
-              <button >Editar</button>
-              <button >Eliminar</button>
-            </td>
-          </tr>
-
-
-          <tr>
-            <td>Diego Alejandro Morales Bravo</td>
-            <td>1</td>
-            <td>Diego@gmail.com</td>
-            <td>Alumno</td>
-            <td>
-              <button >Editar</button>
-              <button >Eliminar</button>
-            </td>
-          </tr>
-
-
-          <tr>
-            <td>Diego Alejandro Morales Bravo</td>
-            <td>1</td>
-            <td>Diego@gmail.com</td>
-            <td>Alumno</td>
-            <td>
-              <button >Editar</button>
-              <button >Eliminar</button>
-            </td>
-          </tr>
+            );
+          })}
 
         </tbody>
       </table>
 
     </div>
-  </div>
-  <button><NavLink to="/CrearUsuario"> Crear usuario </NavLink> </button>
-</div>
-    )
+  )
 }

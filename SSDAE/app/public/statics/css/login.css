@@ -81,3 +81,10 @@
 body {
     background: whitesmoke;
 }
+
+label {
+    font-family: "Roboto", sans-serif;
+    font-size: small;
+    text-align: left;
+    display: block;
+}

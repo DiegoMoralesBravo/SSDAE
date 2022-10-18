@@ -20,7 +20,7 @@ const create = async (req, res) => {
         return res.status(200).json({
             mensaje: 'User created',
         });
-        
+
     } catch (err) {
         console.log('HAY UN ERROR')
         console.log(err);
@@ -63,8 +63,18 @@ const validation = async (req, res) => {
     }
 };
 
+const fillTable = async (req, res) => {
+    console.log('Se obtendran todos los datos')
+    const users = await prisma.usuarios.findMany()
+    console.log(users)
+    return res.status(200).json(
+        JSON.stringify(users)
+    );
+}
+
 
 module.exports = {
     create,
-    validation
+    validation,
+    fillTable,
 }

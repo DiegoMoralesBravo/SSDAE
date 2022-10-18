@@ -13,16 +13,11 @@ function App() {
 
   useLayoutEffect(() => {
     console.log('SE EJECUTA AL CARGAR');
-    console.log(user)
-
     let storedUser = JSON.parse(localStorage.getItem("usuario"));
-    console.log(storedUser)
     if(storedUser){
       console.log('si hay')
       setUser(storedUser);
       setLogin(true)
-    } else{
-      console.log('no hay nada')
     }
 
 
