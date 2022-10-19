@@ -14,34 +14,46 @@ export const CrearUsuarios = () => {
 
     const alert = useRef();
 
-    
+
 
     //comentario cambiado
     const handleChange = event => {
         setSelected(event.target.value);
     };
 
-    const sendData = async(e) => {
+    const sendData = async (e) => {
         e.preventDefault();
 
         let data = serialize(e.target);
         console.log(data);
 
-        if (data.hasOwnProperty('tipo_usuario') && (data.tipo_usuario == 'maestro' && data.hasOwnProperty('interno_externo') || data.tipo_usuario == 'alumno')) {
-            alert.current.style.display = 'none';
+        let url = "http:///localhost:3000/usuario/emailValidation";
+        let res = await api.request(url, "POST", data);
+        console.log(res)
+        console.log(res.mensaje)
 
-
-            const url = "http:///localhost:3000/usuario/create";
-            let res = await api.request(url, "POST", data);
-            console.log(res)
-
-
-            console.log('se envia a base')
-        } else {
+        if (res.mensaje == 'User found') {
             alert.current.style.display = 'block';
+            alert.current.style.color = 'red';
+            alert.current.innerText = '*Usuario con este correo ya existe'
+        } else {
+            if (data.hasOwnProperty('tipo_usuario') && (data.tipo_usuario == 'maestro' && data.hasOwnProperty('interno_externo') || data.tipo_usuario == 'alumno')) {
+                alert.current.style.display = 'none';
+
+                url = "http:///localhost:3000/usuario/create";
+                res = await api.request(url, "POST", data);
+                console.log(res)
+                if (res.mensaje == 'User created') {
+                    alert.current.style.display = 'block';
+                    alert.current.style.color = 'green';
+                    alert.current.innerText = '*USUARIO CREADO'
+                    document.getElementById("formulario").reset();                }
+            } else {
+                alert.current.style.display = 'block';
+                alert.current.style.color = 'red';
+                alert.current.innerText = '*Llenar todos los campos antes de enviar'
+            }
         }
-
-
         console.log('Salida')
     }
 
@@ -49,7 +61,7 @@ export const CrearUsuarios = () => {
     return (
         <div className="login-page">
             <div className="form">
-                <form className="login-form" onSubmit={sendData} >
+                <form id='formulario' className="login-form" onSubmit={sendData} >
 
                     <input name="nombre" type="text" placeholder="Nombre" required />
 
@@ -70,7 +82,7 @@ export const CrearUsuarios = () => {
                     {selected == 'alumno' && <AlumnoForm />}
                     {selected == 'maestro' && <MaestroForm />}
 
-                    <p ref={alert} style={{ display: 'none' }} >*Llenar todos los campos antes de enviar</p>
+                    <p ref={alert} style={{ display: 'none' }} ></p>
                     <button>Crear usuario</button>
                 </form>
             </div>
