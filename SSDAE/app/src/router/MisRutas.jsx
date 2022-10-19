@@ -9,7 +9,6 @@ import { Navbar } from '../components/Navbar';
 import { NotFound } from '../components/NotFound';
 import { CrearUsuarios } from '../components/usuarios/CrearUsuarios';
 import { TablaUsuarios } from '../components/usuarios/TablaUsuarios';
-import { Tabla } from '../components/usuarios/Tabla';
 
 
 

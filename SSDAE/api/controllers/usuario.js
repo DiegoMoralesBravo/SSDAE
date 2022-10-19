@@ -9,10 +9,17 @@ const create = async (req, res) => {
 
     let data = req.body;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
-    data.contrasena = md5(data.correo);
-
-
     console.log(data)
+
+    data = {
+        correo: data.correo,
+        contrasena: md5(data.correo),
+        tipo_usuario: data.tipo_usuario,
+        nombre: data.nombre,
+        ap_p: data.ap_p,
+        ap_m: data.ap_m
+    }
+
 
     //Insertar los datos en la base
     try {
@@ -22,7 +29,6 @@ const create = async (req, res) => {
         });
 
     } catch (err) {
-        console.log('HAY UN ERROR')
         console.log(err);
         return res.status(200).json({
             mensaje: err,
@@ -63,6 +69,31 @@ const validation = async (req, res) => {
     }
 };
 
+const emailValidation = async (req, res) => {
+    console.log('Validacion de correo');
+    //Recoger los parametros por post a guardar
+    let data = req.body;
+
+    //Leer la base de dato
+    const user = await prisma.usuarios.findUnique({
+        where: {
+            correo: data.correo,
+        },
+    })
+
+    console.log(user)
+
+    if (user) {
+        return res.status(200).json({
+            mensaje: 'User found',
+        })
+    } else {
+        return res.status(200).json({
+            mensaje: 'User not found'
+        });
+    }
+};
+
 const fillTable = async (req, res) => {
     console.log('Se obtendran todos los datos')
     const users = await prisma.usuarios.findMany()
@@ -72,9 +103,27 @@ const fillTable = async (req, res) => {
     );
 }
 
+const deleteUser = async (req, res) => {
+    console.log('Se elimina usuario')
+    console.log(req.body)
+    
+    await prisma.usuarios.delete({
+        where: {
+            id_usuario: req.body.id,
+        },
+    })
+
+    return res.status(200).json({
+        mensaje: 'User deleted'
+    }
+    );
+}
+
 
 module.exports = {
     create,
     validation,
+    emailValidation,
     fillTable,
+    deleteUser,
 }
