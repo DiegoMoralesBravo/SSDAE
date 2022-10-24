@@ -22,7 +22,7 @@ export const ResetForm = ({email}) => {
             const url = "http:///localhost:3000/resetPass/passChange";
             let res = await api.request(url, "POST", dataForm);
 
-            //COLOCAR VALIDACION DE QUE SI SE HIZO EL CAMBIO EN BASE DE DATOS
+            alert('Se cambio contrasena');
             console.log(res)
 
   
@@ -39,6 +39,7 @@ export const ResetForm = ({email}) => {
         }
 
     }
+    
     return (
         <div className="login-page">
             <div className="form">

@@ -58,10 +58,20 @@ const validation = async (req, res) => {
     if (user.length) {
         user[0].id_usuario = user[0].id_usuario
 
-        return res.status(200).json({
-            mensaje: 'User found',
-            user: user[0]
-        })
+        if(md5(data.correo) == data.contrasena){
+            console.log('Contrasena igual al correo')
+            return res.status(200).json({
+                mensaje: 'User found change pass',
+                user: user[0]
+            })
+        }else {
+            return res.status(200).json({
+                mensaje: 'User found',
+                user: user[0]
+            })
+        }
+
+
     } else {
         return res.status(200).json({
             mensaje: 'User not found'
@@ -96,7 +106,12 @@ const emailValidation = async (req, res) => {
 
 const fillTable = async (req, res) => {
     console.log('Se obtendran todos los datos')
-    const users = await prisma.usuarios.findMany()
+    const users = await prisma.usuarios.findMany({
+        where: {
+            tipo_usuario: { not: "root" },
+        },
+    })
+
     console.log(users)
     return res.status(200).json(
         JSON.stringify(users)
@@ -118,6 +133,8 @@ const deleteUser = async (req, res) => {
     }
     );
 }
+
+
 
 
 module.exports = {

@@ -42,9 +42,6 @@ export const ResetPass = () => {
                 setView(<NotFound />)
             }
 
-
-
-
         }
         validationToken()
     }, [])

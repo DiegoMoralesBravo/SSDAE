@@ -3,7 +3,8 @@ import { useRef } from 'react';
 import { useContext } from 'react';
 import { loginContext } from '../../context/loginContext';
 import { useApi } from '../../hooks/useApi';
-
+import { Navigate } from "react-router-dom";
+import { ResetForm } from '../resetPass/ResetForm';
 
 export const LoginForm = () => {
 
@@ -23,6 +24,7 @@ export const LoginForm = () => {
         };
 
         const url = "http:///localhost:3000/usuario/validation";
+
         let res = await api.request(url, "POST", dataForm);
 
         if (res.mensaje == 'User found') {
@@ -37,6 +39,23 @@ export const LoginForm = () => {
             };
 
             setUser(userData)
+        } else if (res.mensaje == 'User found change pass') {
+            console.log('Cambio de contrasena')
+
+            setLogin(true);
+
+            const userData = {
+                id_user: res.user.id_usuario,
+                correo: res.user.correo,
+                nombre: res.user.nombre,
+                ap_p: res.user.ap_p,
+                tipo_usuario: res.user.tipo_usuario
+            };
+
+
+            setUser(userData)
+
+
         }
         else {
             inputEmail.current.className = 'fail';
