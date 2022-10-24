@@ -51,14 +51,14 @@ const deleteTesis = async (req, res) => {
     console.log('Se elimina usuario')
     console.log(req.body)
     
-    await prisma.usuarios.delete({
+    await prisma.tesis.delete({
         where: {
-            id_usuario: req.body.id,
+            id_tesis: req.body.id,
         },
     })
 
     return res.status(200).json({
-        mensaje: 'User deleted'
+        mensaje: 'Tesis deleted'
     }
     );
 }

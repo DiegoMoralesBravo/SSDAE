@@ -59,6 +59,7 @@ export const TablaTesis = () => {
         if (confirm("Desea eliminar la tesis: " + tema)) {
             const url = "http:///localhost:3000/tesis/delete";
             const res = await api.request(url, "POST", { id: id });
+
             reqAll();
 
         } else {
@@ -66,6 +67,10 @@ export const TablaTesis = () => {
         }
 
         console.log(id)
+    }
+
+    const assignTesis = async (id) => {
+        console.log('hola')
     }
 
 
@@ -104,6 +109,7 @@ export const TablaTesis = () => {
                                 <td>{tesis.descripcion}</td>
                                 <td>Sin asignar</td>
                                 <td>
+                                    <button onClick={() => assignTesis(tesis.id_tesis)} >Asignar alumno</button>
                                     <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
                                 </td>
                             </tr>

@@ -27,7 +27,7 @@ export const CrearUsuarios = () => {
         let data = serialize(e.target);
         console.log(data);
 
-        let url = "http:///localhost:3000/tesis/create";
+        let url = "http:///localhost:3000/usuario/emailValidation";
         let res = await api.request(url, "POST", data);
         console.log(res)
         console.log(res.mensaje)
