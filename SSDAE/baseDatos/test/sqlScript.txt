@@ -67,7 +67,7 @@ INSERT INTO "Usuarios"
 	VALUES (default,'ivanmedrano@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'alumno', 'ivan', 'medrano', 'rios'),
 			(default,'diegomorales@gmail.com', 'c2ae0b5ba085cb33fbee01aafc391538', 'alumno', 'diego', 'morales', 'bravo'),
 			(default,'ikertoscano@gmail.com', '272b5eb31e1c7ff85a96f076fbea4d17', 'alumno', 'iker', 'toscano', 'santos'),
-			(default,'jose@gmail.com', '783d04a794f9b29425124ce1c075553c', 'alumno', 'jose', 'sanchez', 'soto');
+			(default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
 	
 	
 

@@ -8,12 +8,23 @@ import { useForm } from '../../hooks/useForm';
 
 export const CrearTesis = () => {
 
+    
+    const serialize = useForm();
     const [selected, setSelected] = useState('');
+    const api = useApi();
 
 
-    const sendData = (e) => {
+    const  sendData = async (e) => {
         e.preventDefault();
         console.log('Se envia el formulario');
+
+        let data = serialize(e.target);
+        console.log(data);
+
+        let url = "http:///localhost:3000/tesis/create";
+        let res = await api.request(url, "POST", data);
+        console.log(res)
+        console.log(res.mensaje)
     }
 
     const handleChange = event => {

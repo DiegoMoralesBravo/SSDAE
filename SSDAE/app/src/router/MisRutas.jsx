@@ -10,6 +10,7 @@ import { NotFound } from '../components/NotFound';
 import { CrearUsuarios } from '../components/usuarios/CrearUsuarios';
 import { TablaUsuarios } from '../components/usuarios/TablaUsuarios';
 import { CrearTesis } from '../components/tesis/CrearTesis';
+import { TablaTesis } from '../components/tesis/TablaTesis';
 
 
 
@@ -27,7 +28,8 @@ export const MisRutas = () => {
         <Route path="/resetpass" element={<ResetPass />} />
         <Route path="/CrearUsuario" element={<CrearUsuarios />} />
         <Route path="/Usuarios" element={<TablaUsuarios/>} />
-        <Route path="/Tesis" element={<CrearTesis/>} />
+        <Route path="/Tesis" element={<TablaTesis/>} />
+        <Route path="/CrearTesis" element={<CrearTesis/>} />
         <Route path="/*" element={<NotFound/>} />
       </Routes>
     </BrowserRouter>

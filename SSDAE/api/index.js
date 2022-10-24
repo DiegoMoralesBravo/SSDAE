@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const usuarioRouter = require('./paths/usuario');
 const resetPassRouter = require('./paths/resetPass');
+const tesisRouter = require('./paths/tesis');
 
 const puerto = 3000;
 const app = express();
@@ -25,6 +26,8 @@ app.use("/usuario",usuarioRouter);
 
 //Rutas para resetear contrasena
 app.use("/resetPass",resetPassRouter); 
+
+app.use("/tesis",tesisRouter);
 
 //Crear serivodor y escuchar peticiones
 app.listen(puerto, () => {
