@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRef } from 'react';
 import { useApi } from '../../hooks/useApi';
+import { useNavigate } from 'react-router-dom';
 export const ResetForm = ({email}) => {
 
 
@@ -8,6 +9,7 @@ export const ResetForm = ({email}) => {
     const inputPassConfirm = useRef();
     const alerta = useRef();
     const api = useApi();
+    const navigate = useNavigate();
 
 
 
@@ -28,7 +30,8 @@ export const ResetForm = ({email}) => {
 
 
             alert('Cambio de contrasena correcto, se redirecciona a inicio');
-            
+            navigate('/')
+
 
         } else {
             console.log('Error no concuerdan contrasenas')
