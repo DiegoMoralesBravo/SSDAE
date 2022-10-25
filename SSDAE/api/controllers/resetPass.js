@@ -133,6 +133,9 @@ const passChange = async (req, res) => {
             contrasena: data.password,
         },
     })
+
+    console.log(updateUsers)
+
     return res.status(200).json({
         mensaje: 'Contrasena cambiada',
     })
