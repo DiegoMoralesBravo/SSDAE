@@ -56,7 +56,7 @@ export const LoginForm = () => {
         } else if (res.mensaje == 'User found change pass') {
             console.log('Cambio de contrasena')
 
-            setView(<ResetForm email={'sofia@gmail.com'} />)
+            setView(<ResetForm email={res.user.correo} />)
 
 
         }
