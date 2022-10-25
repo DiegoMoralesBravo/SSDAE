@@ -27,8 +27,7 @@ CREATE TABLE IF NOT EXISTS public."Usuarios"
     nombre character varying NOT NULL,
     ap_p character varying NOT NULL,
     ap_m character varying NOT NULL,
-    CONSTRAINT id_usuario PRIMARY KEY (id_usuario),
-    CONSTRAINT correo UNIQUE (correo)
+    CONSTRAINT id_usuario PRIMARY KEY (id_usuario)
 );
 
 CREATE TABLE IF NOT EXISTS public."Recuperaciones"
@@ -38,6 +37,15 @@ CREATE TABLE IF NOT EXISTS public."Recuperaciones"
     fecha_expiracion date NOT NULL,
     id_recuperacion serial,
     CONSTRAINT correo_token PRIMARY KEY (id_recuperacion)
+);
+
+CREATE TABLE IF NOT EXISTS public."Tesis"
+(
+    id_tesis serial NOT NULL,
+    tema character varying NOT NULL,
+    id_alumno serial,
+    descripcion character varying NOT NULL,
+    PRIMARY KEY (id_tesis)
 );
 
 ALTER TABLE IF EXISTS public."Alumnos"
@@ -55,21 +63,10 @@ ALTER TABLE IF EXISTS public."Profesores"
     ON DELETE NO ACTION
     NOT VALID;
 
+END;
 
-ALTER TABLE IF EXISTS public."Recuperaciones"
-    ADD CONSTRAINT correo FOREIGN KEY (correo)
-    REFERENCES public."Usuarios" (correo) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-	
 INSERT INTO "Usuarios"
 	VALUES (default,'ivanmedrano@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'alumno', 'ivan', 'medrano', 'rios'),
 			(default,'diegomorales@gmail.com', 'c2ae0b5ba085cb33fbee01aafc391538', 'alumno', 'diego', 'morales', 'bravo'),
 			(default,'ikertoscano@gmail.com', '272b5eb31e1c7ff85a96f076fbea4d17', 'alumno', 'iker', 'toscano', 'santos'),
 			(default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
-	
-	
-
-
-END;
