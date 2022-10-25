@@ -12,6 +12,7 @@ model Alumnos {
   estatus   String   @db.VarChar
   fecha_ing DateTime @db.Date
   Usuarios  Usuarios @relation(fields: [id_alumno], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_alumnos")
+  Tesis     Tesis[]
 }
 
 model Profesores {
@@ -39,4 +40,12 @@ model Usuarios {
   Alumnos        Alumnos?
   Profesores     Profesores?
   Recuperaciones Recuperaciones[]
+}
+
+model Tesis {
+  id_tesis    Int     @id @default(autoincrement())
+  tema        String  @db.VarChar
+  id_alumno   Int     @default(autoincrement())
+  descripcion String  @db.VarChar
+  Alumnos     Alumnos @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction, onUpdate: NoAction, map: "id_alumno")
 }

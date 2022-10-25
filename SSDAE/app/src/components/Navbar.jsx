@@ -26,7 +26,12 @@ export const Navbar = () => {
                         </li>
                         <li>
                         {
-                            tipo_usuario == 'alumno' ?  <NavLink to="/Usuarios"> Usuarios </NavLink> : ''
+                            tipo_usuario == 'root' ?  <NavLink to="/Usuarios"> Usuarios </NavLink> : ''
+                        }
+                        </li>
+                        <li>
+                        {
+                            tipo_usuario == 'root' ?  <NavLink to="/Tesis"> Tesis </NavLink> : ''
                         }
                         </li>
                         <li>

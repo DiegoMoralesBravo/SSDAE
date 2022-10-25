@@ -1,13 +1,17 @@
 import React from 'react'
 import { useRef } from 'react';
 import { useApi } from '../../hooks/useApi';
+import { useNavigate } from 'react-router-dom';
 export const ResetForm = ({email}) => {
 
 
     const inputPass = useRef();
     const inputPassConfirm = useRef();
-    const alert = useRef();
+    const alerta = useRef();
     const api = useApi();
+    const navigate = useNavigate();
+
+
 
     const passReset = async (e) => {
         e.preventDefault();
@@ -22,30 +26,32 @@ export const ResetForm = ({email}) => {
             const url = "http:///localhost:3000/resetPass/passChange";
             let res = await api.request(url, "POST", dataForm);
 
-            //COLOCAR VALIDACION DE QUE SI SE HIZO EL CAMBIO EN BASE DE DATOS
             console.log(res)
 
-  
-            alert.current.style.display = 'block';
-            alert.current.style.text = 'block';
+
+            alert('Cambio de contrasena correcto, se redirecciona a inicio');
+            navigate('/')
 
 
-            //window.location.href = "http://localhost:5173/";
         } else {
             console.log('Error no concuerdan contrasenas')
             inputPass.current.className = 'fail';
             inputPassConfirm.current.className = 'fail';
-            alert.current.style.display = 'block';
+            alerta.current.style.display = 'block';
         }
 
     }
+
+
+
+    
     return (
         <div className="login-page">
             <div className="form">
                 <form className="login-form" onSubmit={passReset} >
                     <input ref={inputPass} type="password" placeholder="Contraseña" required />
                     <input ref={inputPassConfirm} type="password" placeholder="Confirmar contraseña" required />
-                    <p ref={alert} style={{ display: 'none' }} >*Contraseña no concuerdan</p>
+                    <p ref={alerta} style={{ display: 'none' }} >*Contraseña no concuerdan</p>
                     <button>Cambiar contraseña</button>
                 </form>
             </div>

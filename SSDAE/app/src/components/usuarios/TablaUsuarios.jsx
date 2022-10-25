@@ -52,9 +52,6 @@ export const TablaUsuarios = () => {
   }
 
   const deleteUser = async (id, name) => {
-
-
-
     if (confirm("Desea eliminar el usuario: " + name)) {
       const url = "http:///localhost:3000/usuario/delete";
       const res = await api.request(url, "POST", {id: id});
@@ -105,7 +102,6 @@ export const TablaUsuarios = () => {
                 <td>{user.correo}</td>
                 <td>{user.tipo_usuario}</td>
                 <td>
-                  <button>Editar</button>
                   <button onClick={() => deleteUser(user.id_usuario, nombre)} >Eliminar</button>
                 </td>
               </tr>
