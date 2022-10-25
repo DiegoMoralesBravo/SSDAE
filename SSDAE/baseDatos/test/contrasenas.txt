@@ -2,3 +2,5 @@ ivanmedrano@gmail.com 1234
 diegomorales@gmail.com camion
 ikertoscano@gmail.com zapato
 jose@gmail.com 1234carreta
+
+root@gmail.com	1
