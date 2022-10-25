@@ -6,7 +6,7 @@ export const ResetForm = ({email}) => {
 
     const inputPass = useRef();
     const inputPassConfirm = useRef();
-    const alert = useRef();
+    const alerta = useRef();
     const api = useApi();
 
 
@@ -24,18 +24,17 @@ export const ResetForm = ({email}) => {
             const url = "http:///localhost:3000/resetPass/passChange";
             let res = await api.request(url, "POST", dataForm);
 
-            alert('Se cambio contrasena');
             console.log(res)
 
-  
-            alert.current.style.display = 'block';
-            alert.current.style.text = 'block';
+
+            alert('Cambio de contrasena correcto, se redirecciona a inicio');
+            
 
         } else {
             console.log('Error no concuerdan contrasenas')
             inputPass.current.className = 'fail';
             inputPassConfirm.current.className = 'fail';
-            alert.current.style.display = 'block';
+            alerta.current.style.display = 'block';
         }
 
     }
@@ -49,7 +48,7 @@ export const ResetForm = ({email}) => {
                 <form className="login-form" onSubmit={passReset} >
                     <input ref={inputPass} type="password" placeholder="Contraseña" required />
                     <input ref={inputPassConfirm} type="password" placeholder="Confirmar contraseña" required />
-                    <p ref={alert} style={{ display: 'none' }} >*Contraseña no concuerdan</p>
+                    <p ref={alerta} style={{ display: 'none' }} >*Contraseña no concuerdan</p>
                     <button>Cambiar contraseña</button>
                 </form>
             </div>

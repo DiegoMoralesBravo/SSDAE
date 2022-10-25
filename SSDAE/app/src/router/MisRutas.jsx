@@ -27,8 +27,9 @@ export const MisRutas = () => {
       {login && <Navbar />}
       <Routes>
         <Route path="/" element={login ? <Home /> : <Login />} />
+        <Route path="/resetpass" element={<ResetPass />} />
         {login ? <>
-          <Route path="/resetpass" element={<ResetPass />} />
+          
           <Route path="/resetform" element={<ResetForm />} />
           <Route path="/CrearUsuario" element={<CrearUsuarios />} />
           <Route path="/Usuarios" element={<TablaUsuarios />} />
