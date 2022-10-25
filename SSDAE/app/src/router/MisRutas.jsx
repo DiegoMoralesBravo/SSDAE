@@ -1,8 +1,10 @@
 import React from 'react'
 import { useContext } from 'react';
 import { Routes, NavLink, Route, BrowserRouter, } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { loginContext } from '../context/loginContext'
 import { ResetPass } from '../components/resetPass/ResetPass'
+import { ResetForm } from '../components/resetPass/ResetForm'
 import { Home } from '../components/Home'
 import { Login } from '../components/login/Login'
 import { Navbar } from '../components/Navbar';
@@ -25,12 +27,15 @@ export const MisRutas = () => {
       {login && <Navbar />}
       <Routes>
         <Route path="/" element={login ? <Home /> : <Login />} />
-        <Route path="/resetpass" element={<ResetPass />} />
-        <Route path="/CrearUsuario" element={<CrearUsuarios />} />
-        <Route path="/Usuarios" element={<TablaUsuarios/>} />
-        <Route path="/Tesis" element={<TablaTesis/>} />
-        <Route path="/CrearTesis" element={<CrearTesis/>} />
-        <Route path="/*" element={<NotFound/>} />
+        {login ? <>
+          <Route path="/resetpass" element={<ResetPass />} />
+          <Route path="/resetform" element={<ResetForm />} />
+          <Route path="/CrearUsuario" element={<CrearUsuarios />} />
+          <Route path="/Usuarios" element={<TablaUsuarios />} />
+          <Route path="/Tesis" element={<TablaTesis />} />
+          <Route path="/CrearTesis" element={<CrearTesis />} />
+          <Route path="/*" element={<Navigate to='/' />} />
+        </> : <Route path="/*" element={<Navigate to='/' />} />}
       </Routes>
     </BrowserRouter>
 

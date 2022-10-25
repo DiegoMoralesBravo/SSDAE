@@ -9,6 +9,8 @@ export const ResetForm = ({email}) => {
     const alert = useRef();
     const api = useApi();
 
+
+
     const passReset = async (e) => {
         e.preventDefault();
         if (inputPass.current.value == inputPassConfirm.current.value) {
@@ -29,8 +31,6 @@ export const ResetForm = ({email}) => {
             alert.current.style.display = 'block';
             alert.current.style.text = 'block';
 
-
-            //window.location.href = "http://localhost:5173/";
         } else {
             console.log('Error no concuerdan contrasenas')
             inputPass.current.className = 'fail';
@@ -39,6 +39,9 @@ export const ResetForm = ({email}) => {
         }
 
     }
+
+
+
     
     return (
         <div className="login-page">

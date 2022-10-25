@@ -3,8 +3,11 @@ import { useRef } from 'react';
 import { useContext } from 'react';
 import { loginContext } from '../../context/loginContext';
 import { useApi } from '../../hooks/useApi';
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { ResetForm } from '../resetPass/ResetForm';
+import { useState } from 'react';
+
+
 
 export const LoginForm = () => {
 
@@ -14,6 +17,22 @@ export const LoginForm = () => {
     const inputPass = useRef();
     const alert = useRef();
     const api = useApi();
+
+    const vistaLogin = (<div className="login-page">
+        <div className="form">
+            <form className="login-form" onSubmit={validationLogin} >
+                <input ref={inputEmail} type="email" placeholder="Correo electronico" required />
+                <input ref={inputPass} type="password" placeholder="Contraseña" required />
+                <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
+                <button>Iniciar sesion</button>
+                <p className="link"><a href="#" onClick={showForm} >¿Olvidaste tu contraseña?</a></p>
+            </form>
+        </div>
+    </div>)
+
+    const [view, setView] = useState(vistaLogin);
+
+
 
     const validationLogin = async (e) => {
 
@@ -39,21 +58,25 @@ export const LoginForm = () => {
             };
 
             setUser(userData)
+
+            setView(vistaLogin)
+
         } else if (res.mensaje == 'User found change pass') {
             console.log('Cambio de contrasena')
 
-            setLogin(true);
+            //setLogin(true);
 
-            const userData = {
-                id_user: res.user.id_usuario,
-                correo: res.user.correo,
-                nombre: res.user.nombre,
-                ap_p: res.user.ap_p,
-                tipo_usuario: res.user.tipo_usuario
-            };
+            // const userData = {
+            //     id_user: res.user.id_usuario,
+            //     correo: res.user.correo,
+            //     nombre: res.user.nombre,
+            //     ap_p: res.user.ap_p,
+            //     tipo_usuario: res.user.tipo_usuario
+            // };
 
+            // setUser(userData)
 
-            setUser(userData)
+            setView(<ResetForm email={email} />)
 
 
         }
@@ -72,16 +95,6 @@ export const LoginForm = () => {
     }
 
     return (
-        <div className="login-page">
-            <div className="form">
-                <form className="login-form" onSubmit={validationLogin} >
-                    <input ref={inputEmail} type="email" placeholder="Correo electronico" required />
-                    <input ref={inputPass} type="password" placeholder="Contraseña" required />
-                    <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
-                    <button>Iniciar sesion</button>
-                    <p className="link"><a href="#" onClick={showForm} >¿Olvidaste tu contraseña?</a></p>
-                </form>
-            </div>
-        </div>
+        view
     )
 }
