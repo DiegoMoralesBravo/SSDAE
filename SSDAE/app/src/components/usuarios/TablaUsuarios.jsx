@@ -17,7 +17,7 @@ export const TablaUsuarios = () => {
   const [result, setResult] = useState(false);
   const [visibleEditUser, setVisibleEditUser] = useState(false)
   const [visibleCreateUser, setVisibleCreateUser] = useState(false)
-  const [id, setId] = useState();
+  const [userInfo, setUserInfo] = useState();
   const api = useApi();
 
 
@@ -70,12 +70,12 @@ export const TablaUsuarios = () => {
 
     reqAll();
 
-  }, [ ,visibleCreateUser ])
+  }, [ ,visibleCreateUser, visibleEditUser])
 
 
 
-  const editUser = (idClick) => {
-    setId(idClick);
+  const editUser = (userData) => {
+    setUserInfo(userData);
     setVisibleEditUser(true);
   }
 
@@ -117,7 +117,7 @@ export const TablaUsuarios = () => {
                 <td>{user.correo}</td>
                 <td>{user.tipo_usuario}</td>
                 <td>
-                  <button onClick={() => editUser(user.id_usuario)}>Editar</button>
+                  <button onClick={() => editUser(user)}>Editar</button>
                 </td>
                 <td>
                   <button onClick={() => deleteUser(user.id_usuario, nombre)} >Eliminar</button>
@@ -130,7 +130,7 @@ export const TablaUsuarios = () => {
 
         </tbody>
       </table>
-            {visibleEditUser && <Ventana  componente={ <EditarUsuarios id={id} />  } setVisible={setVisibleEditUser} />}
+            {visibleEditUser && <Ventana  componente={ <EditarUsuarios dataUser={userInfo} />  } setVisible={setVisibleEditUser} />}
             {visibleCreateUser && <Ventana  componente={<CrearUsuarios />} setVisible={setVisibleCreateUser} />}
             
     </div>
