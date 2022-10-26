@@ -1,0 +1,38 @@
+.window-notice {
+    font-family: "Roboto", sans-serif;
+    background: rgba(33, 41, 52, .85);
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    position: fixed;
+    z-index: 2;
+}
+
+.window-notice .content {
+    
+
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 600px;
+    min-width: 320px !important;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.exit {
+    background-color: red;
+    color: white;
+    width: 25px;
+    height: 25px;
+    align-self: flex-end;
+    font-size: large;
+}
+.exit:active,
+.exit:hover {
+    background-color: #262626;
+}

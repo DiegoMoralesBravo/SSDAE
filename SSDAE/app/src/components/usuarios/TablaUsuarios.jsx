@@ -1,25 +1,26 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useRef } from 'react'
 import { NavLink } from 'react-router-dom';
 import { useApi } from '../../hooks/useApi';
+import { Ventana } from '../Ventana';
+import { CrearUsuarios } from './CrearUsuarios';
+import { EditarUsuarios } from './EditarUsuarios';
 
+ 
 export const TablaUsuarios = () => {
 
   const [tableInfo, setTableInfo] = useState([]);
   const [search, setSearch] = useState('');
   const [result, setResult] = useState(false);
+  const [visibleEditUser, setVisibleEditUser] = useState(false)
+  const [visibleCreateUser, setVisibleCreateUser] = useState(false)
+  const [id, setId] = useState();
   const api = useApi();
 
 
-
-
-  useEffect(() => {
-    console.log('Al cargar')
-
-    reqAll();
-  }, [])
 
   const searchUser = (e) => {
 
@@ -54,7 +55,7 @@ export const TablaUsuarios = () => {
   const deleteUser = async (id, name) => {
     if (confirm("Desea eliminar el usuario: " + name)) {
       const url = "http:///localhost:3000/usuario/delete";
-      const res = await api.request(url, "POST", {id: id});
+      const res = await api.request(url, "POST", { id: id });
       reqAll();
 
     } else {
@@ -62,6 +63,20 @@ export const TablaUsuarios = () => {
     }
 
     console.log(id)
+  }
+
+  useEffect(() => {
+    console.log('Al cargar')
+
+    reqAll();
+
+  }, [ ,visibleCreateUser ])
+
+
+
+  const editUser = (idClick) => {
+    setId(idClick);
+    setVisibleEditUser(true);
   }
 
 
@@ -72,14 +87,14 @@ export const TablaUsuarios = () => {
         <p>USUARIOS</p>
         <div className='buttons'>
 
-          <button><NavLink className="boton" to="/CrearUsuario"> Crear usuario </NavLink></button>
+          <button onClick={() => setVisibleCreateUser(true)} >Crear Usuario</button>
           <input type='text' placeholder='Buscar usuario...' onChange={searchUser} value={search} ></input>
 
 
         </div>
       </div>
 
-      {(result == true && search.length > 2) && <p>No se encontro ningun usuario: <strong style={{color: "red"}}>{search}</strong></p>}
+      {(result == true && search.length > 2) && <p>No se encontro ningun usuario: <strong style={{ color: "red" }}>{search}</strong></p>}
 
       <table>
         <tbody className='tabla'>
@@ -102,6 +117,9 @@ export const TablaUsuarios = () => {
                 <td>{user.correo}</td>
                 <td>{user.tipo_usuario}</td>
                 <td>
+                  <button onClick={() => editUser(user.id_usuario)}>Editar</button>
+                </td>
+                <td>
                   <button onClick={() => deleteUser(user.id_usuario, nombre)} >Eliminar</button>
                 </td>
               </tr>
@@ -112,7 +130,11 @@ export const TablaUsuarios = () => {
 
         </tbody>
       </table>
-
+            {visibleEditUser && <Ventana  componente={ <EditarUsuarios id={id} />  } setVisible={setVisibleEditUser} />}
+            {visibleCreateUser && <Ventana  componente={<CrearUsuarios />} setVisible={setVisibleCreateUser} />}
+            
     </div>
+
+
   )
 }
