@@ -30,7 +30,7 @@ export const ResetForm = ({email}) => {
 
 
             alert('Cambio de contrasena correcto, se redirecciona a inicio');
-            navigate('/')
+            navigate('/ ')
 
 
         } else {

@@ -134,6 +134,34 @@ const deleteUser = async (req, res) => {
     );
 }
 
+const editUser = async (req, res) => {
+    console.log('Cambio de usuario');
+    //Recoger los parametros por post a guardar
+    let data = req.body;
+
+    console.log(data)
+    console.log(data.id_usuario)
+
+    //Leer la base de dato de alumnos
+    const updateUsers = await prisma.usuarios.updateMany({
+        where: {
+            id_usuario: data.id_usuario,
+        },
+        data: {
+            correo: data.correo,
+            nombre: data.nombre,
+            ap_p: data.ap_p,
+            ap_m: data.ap_m
+        },
+    })
+
+    console.log(updateUsers)
+
+    return res.status(200).json({
+        mensaje: 'Usuario cambiado',
+    })
+}
+
 
 
 
@@ -143,4 +171,5 @@ module.exports = {
     emailValidation,
     fillTable,
     deleteUser,
+    editUser
 }
