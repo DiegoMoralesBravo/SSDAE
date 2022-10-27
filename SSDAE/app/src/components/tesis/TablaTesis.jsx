@@ -78,7 +78,7 @@ export const TablaTesis = () => {
         <div className='container-table'>
 
             <div className='header'>
-                <p>USUARIOS</p>
+                <p>TESIS</p>
                 <div className='buttons'>
 
                     <button><NavLink className="boton" to="/CrearTesis"> Crear tesis </NavLink></button>
@@ -88,13 +88,13 @@ export const TablaTesis = () => {
                 </div>
             </div>
 
-            {(result == true && search.length > 2) && <p>No se encontro ningun usuario: <strong style={{ color: "red" }}>{search}</strong></p>}
+            {(result == true && search.length > 2) && <p>No se encontro ninguna tesis: <strong style={{ color: "red" }}>{search}</strong></p>}
 
             <table>
                 <tbody className='tabla'>
                     <tr>
                         <th><strong>ID</strong></th>
-                        <th><strong>Nombre</strong></th>
+                        <th><strong>Tema</strong></th>
                         <th><strong>Descripcion</strong></th>
                         <th><strong>Alumno</strong></th>
                         <th><strong>Acciones</strong></th>
