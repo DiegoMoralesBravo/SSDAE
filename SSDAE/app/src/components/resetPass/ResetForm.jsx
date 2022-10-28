@@ -30,7 +30,7 @@ export const ResetForm = ({email}) => {
 
 
             alert('Cambio de contrasena correcto, se redirecciona a inicio');
-            navigate('/ ')
+            navigate('/*')
 
 
         } else {
@@ -49,8 +49,8 @@ export const ResetForm = ({email}) => {
         <div className="login-page">
             <div className="form">
                 <form className="login-form" onSubmit={passReset} >
-                    <input ref={inputPass} type="password" placeholder="Contraseña" required />
-                    <input ref={inputPassConfirm} type="password" placeholder="Confirmar contraseña" required />
+                    <input ref={inputPass} type="password" placeholder="Contraseña" autoComplete="off" required />
+                    <input ref={inputPassConfirm} type="password" placeholder="Confirmar contraseña" autoComplete="off" required />
                     <p ref={alerta} style={{ display: 'none' }} >*Contraseña no concuerdan</p>
                     <button>Cambiar contraseña</button>
                 </form>

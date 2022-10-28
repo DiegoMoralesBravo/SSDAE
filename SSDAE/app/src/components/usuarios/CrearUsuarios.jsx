@@ -63,13 +63,13 @@ export const CrearUsuarios = () => {
             <div className="form">
                 <form id='formulario' className="login-form" onSubmit={sendData} >
 
-                    <input name="nombre" type="text" placeholder="Nombre" required />
+                    <input name="nombre" type="text" placeholder="Nombre" autoComplete="off" required />
 
-                    <input name="ap_p" type="text" placeholder="Apellido paterno" required />
+                    <input name="ap_p" type="text" placeholder="Apellido paterno" autoComplete="off" required />
 
-                    <input name="ap_m" type="text" placeholder="Apellido materno" required />
+                    <input name="ap_m" type="text" placeholder="Apellido materno" autoComplete="off" required />
 
-                    <input name="correo" type="email" placeholder="Correo electronico" required />
+                    <input name="correo" type="email" placeholder="Correo electronico" autoComplete="off" required />
 
                     <select name="tipo_usuario" value={selected} onChange={handleChange}>
                         <option disabled={true} value="">

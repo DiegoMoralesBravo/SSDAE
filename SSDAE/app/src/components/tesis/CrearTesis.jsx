@@ -50,9 +50,9 @@ export const CrearTesis = () => {
             <div className="form">
                 <form id='formulario' className="login-form" onSubmit={sendData} >
 
-                    <input name="tema" type="text" placeholder="Tema" required />
+                    <input name="tema" type="text" placeholder="Tema" autoComplete="off" required />
 
-                    <input name="descripcion" type="text" placeholder="Descripcion del tema de tesis" required />
+                    <input name="descripcion" type="text" placeholder="Descripcion del tema de tesis" autoComplete="off" required />
 
                     <p ref={alert} style={{ display: 'none' }} ></p>
                     <button>Crear tesis</button>
