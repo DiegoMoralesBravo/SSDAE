@@ -84,9 +84,7 @@ const asignStudent = async (req, res) => {
 
 const asignStudentName = async (req, res) => {
     data = req.body;
-    console.log(data)
-
-    const user = await prisma.usuario.findUnique({
+    const user = await prisma.usuarios.findUnique({
         where: {
           id_usuario: data.id_usuario,
         },
