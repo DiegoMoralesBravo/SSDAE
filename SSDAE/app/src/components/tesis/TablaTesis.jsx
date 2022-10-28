@@ -1,10 +1,10 @@
 import React from 'react'
-
+import { Ventana } from '../Ventana';
+import { AsignarAlumno } from './AsignarAlumno';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useRef } from 'react'
-import { NavLink } from 'react-router-dom';
 import { useApi } from '../../hooks/useApi';
+import { CrearTesis } from './CrearTesis';
 
 export const TablaTesis = () => {
 
@@ -12,16 +12,16 @@ export const TablaTesis = () => {
     const [tableInfo, setTableInfo] = useState([]);
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(false);
+    const [visibleCreateTesis, setVisibleCreateTesis] = useState(false);
+    const [visibleAsignStudent, setVisibleAsignStudent] = useState(false);
+    const [idTesis, setIdTesis] = useState();
     const api = useApi();
-
-
-
 
     useEffect(() => {
         console.log('Al cargar')
 
         reqAll();
-    }, [])
+    }, [, visibleCreateTesis])
 
     const searchTesis = (e) => {
 
@@ -41,11 +41,7 @@ export const TablaTesis = () => {
             setResult(false);
             console.log(tesisFound)
         }
-
-
-
     }
-
 
     const reqAll = async () => {
         console.log('ENTREEE')
@@ -59,7 +55,6 @@ export const TablaTesis = () => {
         if (confirm("Desea eliminar la tesis: " + tema)) {
             const url = "http:///localhost:3000/tesis/delete";
             const res = await api.request(url, "POST", { id: id });
-
             reqAll();
 
         } else {
@@ -70,7 +65,8 @@ export const TablaTesis = () => {
     }
 
     const assignTesis = async (id) => {
-        console.log('hola')
+        setIdTesis(id);
+        setVisibleAsignStudent(true);
     }
 
 
@@ -81,7 +77,7 @@ export const TablaTesis = () => {
                 <p>TESIS</p>
                 <div className='buttons'>
 
-                    <button><NavLink className="boton" to="/CrearTesis"> Crear tesis </NavLink></button>
+                    <button className="boton" onClick={() => setVisibleCreateTesis(true)} > Crear tesis </button>
                     <input type='text' placeholder='Buscar tesis...' onChange={searchTesis} value={search} ></input>
 
 
@@ -120,6 +116,10 @@ export const TablaTesis = () => {
 
                 </tbody>
             </table>
+
+            {visibleCreateTesis && <Ventana  componente={ <CrearTesis/> } setVisible={setVisibleCreateTesis} />}
+            {visibleAsignStudent && <Ventana  componente={ <AsignarAlumno idTesis={idTesis} /> } setVisible={setVisibleAsignStudent} />}
+
 
         </div>
     )

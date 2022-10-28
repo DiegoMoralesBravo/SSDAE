@@ -1,15 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useLayoutEffect } from 'react';
-import { useRef } from 'react'
-import { NavLink } from 'react-router-dom';
 import { useApi } from '../../hooks/useApi';
 import { Ventana } from '../Ventana';
 import { CrearUsuarios } from './CrearUsuarios';
 import { EditarUsuarios } from './EditarUsuarios';
 
- 
+
 export const TablaUsuarios = () => {
 
   const [tableInfo, setTableInfo] = useState([]);
@@ -70,7 +67,7 @@ export const TablaUsuarios = () => {
 
     reqAll();
 
-  }, [ ,visibleCreateUser, visibleEditUser])
+  }, [, visibleCreateUser, visibleEditUser])
 
 
 
@@ -130,9 +127,9 @@ export const TablaUsuarios = () => {
 
         </tbody>
       </table>
-            {visibleEditUser && <Ventana  componente={ <EditarUsuarios dataUser={userInfo} />  } setVisible={setVisibleEditUser} />}
-            {visibleCreateUser && <Ventana  componente={<CrearUsuarios />} setVisible={setVisibleCreateUser} />}
-            
+      {visibleEditUser && <Ventana componente={<EditarUsuarios dataUser={userInfo} />} setVisible={setVisibleEditUser} />}
+      {visibleCreateUser && <Ventana componente={<CrearUsuarios />} setVisible={setVisibleCreateUser} />}
+
     </div>
 
 
