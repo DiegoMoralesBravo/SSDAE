@@ -21,10 +21,17 @@ export const TablaTesis = () => {
 
 
     useLayoutEffect(() => {
-        console.log('Al cargar')
+        console.log('Al cargar pagina')
 
         reqAll();
     }, [, visibleCreateTesis])
+
+    useEffect(() => {
+        console.log('SE CARGA LA TABLA')
+        console.log(tableInfo)
+
+    }, [tableInfo])
+
 
     const searchTesis = (e) => {
 
@@ -40,6 +47,7 @@ export const TablaTesis = () => {
             setResult(true);
         }
         else {
+    
             setTableInfo(tesisFound);
             setResult(false);
             console.log(tesisFound)
@@ -47,28 +55,40 @@ export const TablaTesis = () => {
     }
 
     const reqAll = async () => {
-        console.log('ENTREEE')
+
         const url = "http:///localhost:3000/tesis/fillTable";
         const res = await api.request(url, "GET");
         console.log(res)
         const resJson = JSON.parse(res);
-       
+
+
+        console.log('Informacion a revisar antes')
+        console.log(resJson)
+
         resJson.map(async usuario => {
             setTableInfoName(reqName(usuario.id_alumno))
             usuario.nombreCompleto = tableInfoName;
         })
-        console.log('Informacion a revisar')
+
+
+        console.log('Informacion a revisar despues')
         console.log(resJson)
-        setTableInfo(resJson)
+
+        if (resJson[0].hasOwnProperty('nombreCompleto') && resJson[0].nombreCompleto.length) {
+            console.log('si')
+            console.log(resJson[0].nombreCompleto)
+
+            setTableInfo(resJson)
+
+        } else {
+            console.log('No')
+        }
     }
 
     const reqName = async (id_alumno) => {
-        console.log('Prueba')
         const url = "http:///localhost:3000/tesis/asignStudentName";
         const res = await api.request(url, "POST", { id_usuario: id_alumno });
-        console.log(res)
-        const nombreCompleto = res.user.nombre + ' ' +res.user.ap_p + ' ' +res.user.ap_m;
-        console.log(nombreCompleto)
+        const nombreCompleto = res.user.nombre + ' ' + res.user.ap_p + ' ' + res.user.ap_m;
         return nombreCompleto
     }
 
@@ -118,8 +138,7 @@ export const TablaTesis = () => {
                     </tr>
 
                     {tableInfo.map(tesis => {
-                        console.log('Nombre completo')
-                        console.log(tesis.nombreCompleto)
+
                         return (
 
                             <tr key={tesis.id_tesis} >
