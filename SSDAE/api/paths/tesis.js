@@ -7,6 +7,8 @@ const router = express.Router();
 router.post("/create", tesis.create);
 router.post("/delete", tesis.deleteTesis);
 router.get("/fillTable", tesis.fillTable);
+router.post("/asignStudent", tesis.asignStudent);
+router.post("/asignStudentName", tesis.asignStudentName);
 
 
 module.exports = router;

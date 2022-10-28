@@ -63,11 +63,51 @@ const deleteTesis = async (req, res) => {
     );
 }
 
+const asignStudent = async (req, res) => {
+    console.log('Se asignara estudiante')
+    data = req.body;
+    console.log(data)
+    const updateStudent = await prisma.tesis.update({
+        where: {
+            id_tesis: data.id_tesis,
+        },
+        data: {
+            id_alumno: data.id_alumno
+        },
+    })
+    console.log(updateStudent)
+    return res.status(200).json({
+        mensaje: 'Student asigned'
+    }
+    );
+}
+
+const asignStudentName = async (req, res) => {
+    data = req.body;
+    const user = await prisma.usuarios.findUnique({
+        where: {
+          id_usuario: data.id_usuario,
+        },
+        select: {
+          nombre: true,
+          ap_p: true,
+          ap_m: true,
+        },
+      })
+
+    return res.status(200).json({
+        mensaje: 'Student consult',
+        user: user,
+    }
+    );
+}
+
 
 module.exports = {
     create,
     fillTable,
     deleteTesis,
-
+    asignStudent,
+    asignStudentName,
 
 }
