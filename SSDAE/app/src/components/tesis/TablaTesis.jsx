@@ -1,6 +1,7 @@
 import React from 'react'
 import { Ventana } from '../Ventana';
 import { AsignarAlumno } from './AsignarAlumno';
+import { AsignarProfesor } from './AsignarProfesor';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
@@ -15,6 +16,7 @@ export const TablaTesis = () => {
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(false);
     const [visibleCreateTesis, setVisibleCreateTesis] = useState(false);
+    const [visibleAsignProfesor, setVisibleAsignProfesor] = useState(false);
     const [visibleAsignStudent, setVisibleAsignStudent] = useState(false);
     const [idTesis, setIdTesis] = useState();
     const api = useApi();
@@ -24,7 +26,7 @@ export const TablaTesis = () => {
         console.log('Al cargar pagina')
 
         reqAll();
-    }, [, visibleCreateTesis])
+    }, [, visibleCreateTesis, visibleAsignStudent, visibleAsignProfesor])
 
     useEffect(() => {
         console.log('SE CARGA LA TABLA')
@@ -74,15 +76,9 @@ export const TablaTesis = () => {
         console.log('Informacion a revisar despues')
         console.log(resJson)
 
-        if (resJson[0].hasOwnProperty('nombreCompleto') && resJson[0].nombreCompleto.length) {
-            console.log('si')
-            console.log(resJson[0].nombreCompleto)
 
-            setTableInfo(resJson)
-
-        } else {
-            console.log('No')
-        }
+        setTableInfo(resJson)
+    
     }
 
     const reqName = async (id_alumno) => {
@@ -105,9 +101,15 @@ export const TablaTesis = () => {
         console.log(id)
     }
 
-    const assignTesis = async (id) => {
+    const assignTesisStudent = async (id) => {
         setIdTesis(id);
         setVisibleAsignStudent(true);
+    }
+
+
+    const assignTesisProfesor = async (id) => {
+        setIdTesis(id);
+        setVisibleAsignProfesor(true);
     }
 
 
@@ -145,9 +147,10 @@ export const TablaTesis = () => {
                                 <td>{tesis.id_tesis}</td>
                                 <td>{tesis.tema}</td>
                                 <td>{tesis.descripcion}</td>
-                                <td>{tesis.id_alumno != 1 ? tesis.nombreCompleto : 'Sin asignar'}</td>
+                                <td>{tesis.id_alumno != 1 ? tesis.id_alumno : 'Sin asignar'}</td>
                                 <td>
-                                    <button onClick={() => assignTesis(tesis.id_tesis)} >Asignar alumno</button>
+                                    <button onClick={() => assignTesisStudent(tesis.id_tesis)} >Asignar alumno</button>
+                                    <button onClick={() => assignTesisProfesor(tesis.id_tesis)} >Asignar profesor</button>
                                     <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
                                 </td>
                             </tr>
@@ -161,6 +164,8 @@ export const TablaTesis = () => {
 
             {visibleCreateTesis && <Ventana componente={<CrearTesis />} setVisible={setVisibleCreateTesis} />}
             {visibleAsignStudent && <Ventana componente={<AsignarAlumno idTesis={idTesis} />} setVisible={setVisibleAsignStudent} />}
+            {visibleAsignProfesor && <Ventana componente={<AsignarProfesor idTesis={idTesis} />} setVisible={setVisibleAsignProfesor} />}
+
 
 
         </div>

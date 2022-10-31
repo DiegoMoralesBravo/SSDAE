@@ -37,7 +37,31 @@ const create = async (req, res) => {
 
 }
 
+const fillTableStudent = async (req, res) => {
+    console.log('Se obtendran todos los datos')
+    const tesis = await prisma.usuarios.findMany({
+        where: {
+            tipo_usuario: "alumno"
+        }
+    });
+
+    console.log(tesis)
+    return res.status(200).json(
+        JSON.stringify(tesis)
+    );
+}
+
 const fillTable = async (req, res) => {
+    console.log('Se obtendran todos los datos')
+    const tesis = await prisma.tesis.findMany();
+
+    console.log(tesis)
+    return res.status(200).json(
+        JSON.stringify(tesis)
+    );
+}
+
+const fillTableTeacher = async (req, res) => {
     console.log('Se obtendran todos los datos')
     const tesis = await prisma.tesis.findMany();
 
@@ -105,6 +129,8 @@ const asignStudentName = async (req, res) => {
 
 module.exports = {
     create,
+    fillTableStudent,
+    fillTableTeacher,
     fillTable,
     deleteTesis,
     asignStudent,
