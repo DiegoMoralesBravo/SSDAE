@@ -56,7 +56,7 @@ export const TablaUsuarios = () => {
       reqAll();
 
     } else {
-      console.log('no')
+      console.log('si')
     }
 
     console.log(id)
@@ -83,7 +83,7 @@ export const TablaUsuarios = () => {
       <div className='header'>
         <p>USUARIOS</p>
         <div className='buttons'>
-
+    
           <button onClick={() => setVisibleCreateUser(true)} >Crear Usuario</button>
           <input type='text' placeholder='Buscar usuario...' onChange={searchUser} value={search} ></input>
 
