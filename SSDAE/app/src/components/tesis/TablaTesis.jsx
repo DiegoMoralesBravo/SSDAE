@@ -8,6 +8,8 @@ import { useApi } from '../../hooks/useApi';
 import { CrearTesis } from './CrearTesis';
 import { useLayoutEffect } from 'react';
 import { Detalles } from './detalles/Detalles';
+import { useId } from 'react';
+import {Fragment} from 'react';
 
 export const TablaTesis = () => {
 
@@ -24,20 +26,11 @@ export const TablaTesis = () => {
 
 
     useLayoutEffect(() => {
-        console.log('Al cargar pagina')
-
         reqAll();
     }, [, visibleCreateTesis, visibleAsignStudent, visibleAsignProfesor])
 
-    useEffect(() => {
-        console.log('SE CARGA LA TABLA')
-        console.log(tableInfo)
-
-    }, [tableInfo])
-
 
     const searchTesis = (e) => {
-
         setSearch(e.target.value);
         let tesisFound = tableInfo.filter(tesis => {
             const nombre = tesis.nombre + ' ' + tesis.descripcion;
@@ -45,41 +38,24 @@ export const TablaTesis = () => {
         })
 
         if (search.length <= 1 || tesisFound <= 0) {
-            console.log('Pido todo')
             reqAll();
             setResult(true);
         }
         else {
-
             setTableInfo(tesisFound);
             setResult(false);
-            console.log(tesisFound)
         }
     }
 
     const reqAll = async () => {
-
         const url = "http:///localhost:3000/tesis/fillTable";
         const res = await api.request(url, "GET");
-        console.log(res)
         const resJson = JSON.parse(res);
-
-
-        console.log('Informacion a revisar antes')
-        console.log(resJson)
-
         resJson.map(async usuario => {
             setTableInfoName(reqName(usuario.id_alumno))
             usuario.nombreCompleto = tableInfoName;
         })
-
-
-        console.log('Informacion a revisar despues')
-        console.log(resJson)
-
-
         setTableInfo(resJson)
-
     }
 
     const reqName = async (id_alumno) => {
@@ -95,11 +71,7 @@ export const TablaTesis = () => {
             const res = await api.request(url, "POST", { id: id });
             reqAll();
 
-        } else {
-            console.log('no')
         }
-
-        console.log(id)
     }
 
     const assignTesisStudent = async (id) => {
@@ -113,8 +85,9 @@ export const TablaTesis = () => {
         setVisibleAsignProfesor(true);
     }
 
-    const desplegar = () => {
-        console.log('hola')
+    const setIdTesisFuncion = (id) => {
+        setIdTesis(id)
+        console.log(id)
     }
 
 
@@ -124,11 +97,8 @@ export const TablaTesis = () => {
             <div className='header'>
                 <p>TESIS</p>
                 <div className='buttons'>
-
                     <button className="boton" onClick={() => setVisibleCreateTesis(true)} > Crear tesis </button>
                     <input type='text' placeholder='Buscar tesis...' onChange={searchTesis} value={search} ></input>
-
-
                 </div>
             </div>
 
@@ -137,34 +107,27 @@ export const TablaTesis = () => {
             <table>
                 <tbody className='tabla'>
                     <tr>
-                        <th><strong>ID</strong></th>
                         <th><strong>Tema</strong></th>
-                        <th><strong>Descripcion</strong></th>
                         <th><strong>Alumno</strong></th>
+                        <th><strong>Director</strong></th>
                         <th><strong>Acciones</strong></th>
                     </tr>
 
                     {tableInfo.map(tesis => {
-
-                        return (<>
-
-                            <tr key={tesis.id_tesis} onClick={desplegar} _>
-                                <td>{tesis.id_tesis}</td>
-                                <td>{tesis.tema}</td>
-                                <td>{tesis.descripcion}</td>
-                                <td>{tesis.id_alumno != 1 ? tesis.id_alumno : 'Sin asignar'}</td>
-                                <td>
-                                    <button onClick={() => assignTesisStudent(tesis.id_tesis)} >Asignar alumno</button>
-                                    <button onClick={() => assignTesisProfesor(tesis.id_tesis)} >Asignar profesor</button>
-                                    <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
-                                </td>
-                            </tr>
-                    {<Detalles />}
-
-                        </>
-
-                        );
-
+                        return (
+                            <Fragment key={tesis.id_tesis}>
+                                <tr >
+                                    <td>{tesis.tema}</td>
+                                    <td>{tesis.id_alumno != 1 ? tesis.id_alumno : 'Sin asignar'}</td>
+                                    <td>{tesis.id_alumno}</td>
+                                    <td>
+                                        <button onClick={() => setIdTesisFuncion(tesis.id_tesis)}>Detalles</button>
+                                        <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
+                                    </td>
+                                </tr>
+                                <tr  className='contenedor'><td >{idTesis == tesis.id_tesis ? <Detalles /> : false}</td></tr>
+                                </Fragment>
+                        )
                     })}
 
                 </tbody>
@@ -173,8 +136,6 @@ export const TablaTesis = () => {
             {visibleCreateTesis && <Ventana componente={<CrearTesis />} setVisible={setVisibleCreateTesis} />}
             {visibleAsignStudent && <Ventana componente={<AsignarAlumno idTesis={idTesis} />} setVisible={setVisibleAsignStudent} />}
             {visibleAsignProfesor && <Ventana componente={<AsignarProfesor idTesis={idTesis} />} setVisible={setVisibleAsignProfesor} />}
-
-
 
         </div>
     )
