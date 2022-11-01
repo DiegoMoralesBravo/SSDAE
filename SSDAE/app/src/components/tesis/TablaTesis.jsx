@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { CrearTesis } from './CrearTesis';
 import { useLayoutEffect } from 'react';
+import { Detalles } from './detalles/Detalles';
 
 export const TablaTesis = () => {
 
@@ -49,7 +50,7 @@ export const TablaTesis = () => {
             setResult(true);
         }
         else {
-    
+
             setTableInfo(tesisFound);
             setResult(false);
             console.log(tesisFound)
@@ -78,7 +79,7 @@ export const TablaTesis = () => {
 
 
         setTableInfo(resJson)
-    
+
     }
 
     const reqName = async (id_alumno) => {
@@ -112,6 +113,10 @@ export const TablaTesis = () => {
         setVisibleAsignProfesor(true);
     }
 
+    const desplegar = () => {
+        console.log('hola')
+    }
+
 
     return (
         <div className='container-table'>
@@ -141,9 +146,9 @@ export const TablaTesis = () => {
 
                     {tableInfo.map(tesis => {
 
-                        return (
+                        return (<>
 
-                            <tr key={tesis.id_tesis} >
+                            <tr key={tesis.id_tesis} onClick={desplegar} _>
                                 <td>{tesis.id_tesis}</td>
                                 <td>{tesis.tema}</td>
                                 <td>{tesis.descripcion}</td>
@@ -154,9 +159,12 @@ export const TablaTesis = () => {
                                     <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
                                 </td>
                             </tr>
+                    {<Detalles />}
 
+                        </>
 
                         );
+
                     })}
 
                 </tbody>
