@@ -4,7 +4,7 @@ import { VistaDetalles } from './VistaDetalles'
 
 export const Detalles = () => {
   return (
-    <div >
+    <div className="contenedor" >
       <Navbar />
       <div>
         <VistaDetalles />

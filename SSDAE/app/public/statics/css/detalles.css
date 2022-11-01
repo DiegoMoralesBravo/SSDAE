@@ -1,8 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.contenedor {
-    display: block;
-    background-color: red;
-    color: red;
+.detallesTD {
+    background-color: whitesmoke;
+    width: 100%;
 }
 
+.contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

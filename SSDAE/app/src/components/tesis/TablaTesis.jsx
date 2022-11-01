@@ -125,8 +125,12 @@ export const TablaTesis = () => {
                                         <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
                                     </td>
                                 </tr>
-                                <tr  className='contenedor'><td >{idTesis == tesis.id_tesis ? <Detalles /> : false}</td></tr>
-                                </Fragment>
+                                <tr>
+                                    <td colSpan="4" className='detallesTD' >
+                                        {idTesis == tesis.id_tesis ? <Detalles /> : false}
+                                    </td>
+                                </tr>
+                            </Fragment>
                         )
                     })}
 
