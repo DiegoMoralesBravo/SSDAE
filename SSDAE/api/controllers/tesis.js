@@ -96,7 +96,7 @@ const asignStudent = async (req, res) => {
             id_tesis: data.id_tesis,
         },
         data: {
-            id_alumno: data.id_alumno
+            id_alumno: data.id_usuario
         },
     })
     console.log(updateStudent)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useApi } from '../../hooks/useApi';
+import { useApi } from '../../../../hooks/useApi';
 
 
 export const AsignarAlumno = ({ idTesis }) => {
@@ -51,11 +51,11 @@ export const AsignarAlumno = ({ idTesis }) => {
     }
 
     return (
-        <div className='container-table'>
+        <div >
             <div className='header'>
-                <p>USUARIOS</p>
+                <p>ALUMNOS</p>
                 <div className='buttons'>
-                    <input type='text' placeholder='Buscar usuario...' onChange={searchUser} value={search} ></input>
+                    <input type='text' placeholder='Buscar alumno...' onChange={searchUser} value={search} ></input>
                 </div>
             </div>
             {(result == true && search.length > 2) && <p>No se encontro ningun usuario: <strong style={{ color: "red" }}>{search}</strong></p>}

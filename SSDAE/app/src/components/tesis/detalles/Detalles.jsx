@@ -1,15 +1,32 @@
 import React from 'react'
-import { Navbar } from './Navbar'
+import { useState } from 'react'
 import { VistaDetalles } from './VistaDetalles'
 
-export const Detalles = () => {
+export const Detalles = ({ dataTesis }) => {
+
+  const [vista, setVista] = useState('descripcion')
+
   return (
-    <div className="contenedor" >
-      <Navbar />
-      <div>
-        <VistaDetalles />
+
+    <div>
+      <div className='contenedor-titulo'>
+        <strong><p>{'TEMA: ' + dataTesis.tema.toUpperCase()}</p></strong>
+      </div>
+      <div className="contenedor-contenido" >
+        <div className="nav-detalles">
+          <nav>
+            <ul className="nav-list-detalles">
+              <li onClick={() => { setVista('descripcion') }} ><a>Descripcion</a></li>
+              <li onClick={() => { setVista('alumno') }} ><a>Alumno</a></li>
+              <li onClick={() => { setVista('maestros') }} ><a>Maestros</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div className='contenedor-detalles'>
+          <VistaDetalles dataTesis={dataTesis} vista={vista} />
+        </div>
+
       </div>
     </div>
-
   )
 }

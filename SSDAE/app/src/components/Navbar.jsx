@@ -17,7 +17,7 @@ export const Navbar = () => {
     return (
             <div className="nav-container">
                 <div className="brand">
-                    <a href="#!">SSDAE</a>
+                    <a href="#!">Sistema de Seguimiento para Desempeño Académico</a>
                 </div>
                 <nav className='navbar'>
                     <ul className="nav-list">

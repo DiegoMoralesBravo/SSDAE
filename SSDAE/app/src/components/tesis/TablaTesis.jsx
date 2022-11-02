@@ -1,6 +1,6 @@
 import React from 'react'
 import { Ventana } from '../Ventana';
-import { AsignarAlumno } from './AsignarAlumno';
+import { AsignarAlumno } from './detalles/alumno/AsignarAlumno';
 import { AsignarProfesor } from './AsignarProfesor';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -8,26 +8,24 @@ import { useApi } from '../../hooks/useApi';
 import { CrearTesis } from './CrearTesis';
 import { useLayoutEffect } from 'react';
 import { Detalles } from './detalles/Detalles';
-import { useId } from 'react';
-import {Fragment} from 'react';
+
 
 export const TablaTesis = () => {
 
 
     const [tableInfo, setTableInfo] = useState([]);
     const [tableInfoName, setTableInfoName] = useState([]);
+    const [dataTesis, setDataTesis] = useState({})
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(false);
     const [visibleCreateTesis, setVisibleCreateTesis] = useState(false);
-    const [visibleAsignProfesor, setVisibleAsignProfesor] = useState(false);
-    const [visibleAsignStudent, setVisibleAsignStudent] = useState(false);
-    const [idTesis, setIdTesis] = useState();
+    const [visibleDetails, setVisibleDetails] = useState(false);
     const api = useApi();
 
 
     useLayoutEffect(() => {
         reqAll();
-    }, [, visibleCreateTesis, visibleAsignStudent, visibleAsignProfesor])
+    }, [, visibleCreateTesis, visibleDetails])
 
 
     const searchTesis = (e) => {
@@ -74,20 +72,14 @@ export const TablaTesis = () => {
         }
     }
 
-    const assignTesisStudent = async (id) => {
-        setIdTesis(id);
-        setVisibleAsignStudent(true);
-    }
-
-
-    const assignTesisProfesor = async (id) => {
-        setIdTesis(id);
-        setVisibleAsignProfesor(true);
-    }
-
-    const setIdTesisFuncion = (id) => {
-        setIdTesis(id)
-        console.log(id)
+    const setDataTesisFunction = (tesis) => {
+        setDataTesis({
+            id: tesis.id_tesis,
+            tema: tesis.tema,
+            descripcion: tesis.descripcion,
+            id_alumno: tesis.id_alumno
+        })
+        setVisibleDetails(true);
     }
 
 
@@ -115,22 +107,16 @@ export const TablaTesis = () => {
 
                     {tableInfo.map(tesis => {
                         return (
-                            <Fragment key={tesis.id_tesis}>
-                                <tr >
+                            
+                                <tr key={tesis.id_tesis}>
                                     <td>{tesis.tema}</td>
                                     <td>{tesis.id_alumno != 1 ? tesis.id_alumno : 'Sin asignar'}</td>
                                     <td>{tesis.id_alumno}</td>
                                     <td>
-                                        <button onClick={() => setIdTesisFuncion(tesis.id_tesis)}>Detalles</button>
+                                        <button onClick={() => setDataTesisFunction(tesis)}>Detalles</button>
                                         <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan="4" className='detallesTD' >
-                                        {idTesis == tesis.id_tesis ? <Detalles /> : false}
-                                    </td>
-                                </tr>
-                            </Fragment>
+                                </tr>                           
                         )
                     })}
 
@@ -138,8 +124,7 @@ export const TablaTesis = () => {
             </table>
 
             {visibleCreateTesis && <Ventana componente={<CrearTesis />} setVisible={setVisibleCreateTesis} />}
-            {visibleAsignStudent && <Ventana componente={<AsignarAlumno idTesis={idTesis} />} setVisible={setVisibleAsignStudent} />}
-            {visibleAsignProfesor && <Ventana componente={<AsignarProfesor idTesis={idTesis} />} setVisible={setVisibleAsignProfesor} />}
+            {visibleDetails && <Ventana componente={<Detalles dataTesis={dataTesis} />} setVisible={setVisibleDetails} />}
 
         </div>
     )
