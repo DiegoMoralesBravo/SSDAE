@@ -28,11 +28,11 @@ export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsign
 
             alumnoAsignado == 1 ? 
 
-            <AsignarAlumno idTesis={dataTesis.id} setAlumnoAsignado={setAlumnoAsignado} />
+            <AsignarAlumno idTesis={dataTesis.id} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
 
             : 
 
-            <Asignado dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} />
+            <Asignado dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
             
           }
           </div>)

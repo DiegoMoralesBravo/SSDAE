@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useApi } from '../../../../hooks/useApi';
 
 
-export const AsignarAlumno = ({ idTesis, setAlumnoAsignado }) => {
+export const AsignarAlumno = ({ idTesis, setAlumnoAsignado, alumnoAsignado }) => {
 
     const [tableInfo, setTableInfo] = useState([]);
     const [search, setSearch] = useState('');
@@ -41,10 +41,7 @@ export const AsignarAlumno = ({ idTesis, setAlumnoAsignado }) => {
     }, [])
 
     const asignarStudent = async (studentId, name) => {
-        console.log('ID TESIS')
-        console.log(idTesis)
-        console.log('ID usuario')
-        console.log(studentId)
+
         if (confirm("¿Desea asignar el estudiante: " + name)) {
             const url = "http:///localhost:3000/tesis/asignStudent";
             const res = await api.request(url, "POST", {id_usuario: studentId, id_tesis: idTesis});
