@@ -1,7 +1,7 @@
 import React from 'react'
 import { useApi } from '../../../../hooks/useApi'
 
-export const Asignado = ({dataTesis}) => {
+export const Asignado = ({dataTesis, setAlumnoAsignado}) => {
 
     const api = useApi();
     console.log(dataTesis)
@@ -11,7 +11,7 @@ export const Asignado = ({dataTesis}) => {
 
         const url = "http:///localhost:3000/tesis/asignStudent";
         const res = await api.request(url, "POST", { id_tesis: dataTesis.id , id_usuario: 1 });
-
+        setAlumnoAsignado(1)
         console.log(res)
     }
 

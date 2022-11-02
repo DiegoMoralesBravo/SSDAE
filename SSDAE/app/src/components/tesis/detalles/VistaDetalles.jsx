@@ -2,14 +2,21 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Asignado } from './alumno/Asignado';
-import { NoAsignado } from './alumno/NoAsignado';
+import { AsignarAlumno } from './alumno/AsignarAlumno';
+import { useApi } from './../../../hooks/useApi'
 
-export const VistaDetalles = ({ vista, dataTesis }) => {
+export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsignado }) => {
 
   const [vistaVentana, setVistaVentana] = useState()
 
+  const api = useApi();
+
+
+
   useEffect(() => {
-    console.log(dataTesis)
+    console.log('Cambio')
+
+  
 
     switch (vista) {
       case 'descripcion':
@@ -18,13 +25,15 @@ export const VistaDetalles = ({ vista, dataTesis }) => {
 
       case 'alumno':
         setVistaVentana(<div>{
-            dataTesis.id_alumno == 1 ? 
 
-            <NoAsignado dataTesis={dataTesis} />
+            alumnoAsignado == 1 ? 
+
+            <AsignarAlumno idTesis={dataTesis.id} setAlumnoAsignado={setAlumnoAsignado} />
 
             : 
 
-            <Asignado dataTesis={dataTesis} />
+            <Asignado dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} />
+            
           }
           </div>)
         break;
@@ -38,7 +47,19 @@ export const VistaDetalles = ({ vista, dataTesis }) => {
         break;
     }
 
-  }, [, vista])
+  }, [, vista, alumnoAsignado])
+
+
+
+  const idCheck = async () => {
+    console.log('desasignar')
+
+    const url = "http:///localhost:3000/tesis/validation";
+    const res = await api.request(url, "POST", { id_tesis: dataTesis.id });
+    setIdAlumno(res.id)
+
+    console.log(res.id)
+}
 
 
 

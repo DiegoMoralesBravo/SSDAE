@@ -11,6 +11,7 @@ router.get("/fillTableStudent", tesis.fillTableStudent);
 router.get("/fillTableTeacher", tesis.fillTableTeacher);
 router.post("/asignStudent", tesis.asignStudent);
 router.post("/asignStudentName", tesis.asignStudentName);
+router.post("/validation", tesis.validation);
 
 
 
