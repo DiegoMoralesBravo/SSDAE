@@ -96,7 +96,7 @@ const asignStudent = async (req, res) => {
             id_tesis: data.id_tesis,
         },
         data: {
-            id_alumno: data.id_alumno
+            id_alumno: data.id_usuario
         },
     })
     console.log(updateStudent)
@@ -126,6 +126,26 @@ const asignStudentName = async (req, res) => {
     );
 }
 
+const validation = async (req, res) => {
+    console.log('Validacion de usuario');
+    //Recoger los parametros por post a guardar
+    let data = req.body;
+ 
+    //Leer la base de dato
+    const user = await prisma.tesis.findUnique({
+        where: {
+            id_tesis: data.id_tesis,
+        },
+    })
+
+    return res.status(200).json({
+        mensaje: 'User found',
+        user: user
+
+    });
+    
+};
+
 
 module.exports = {
     create,
@@ -135,5 +155,6 @@ module.exports = {
     deleteTesis,
     asignStudent,
     asignStudentName,
+    validation
 
 }

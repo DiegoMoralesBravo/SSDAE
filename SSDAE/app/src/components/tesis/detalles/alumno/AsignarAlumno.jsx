@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useApi } from '../../hooks/useApi';
+import { useApi } from '../../../../hooks/useApi';
 
 
-export const AsignarAlumno = ({ idTesis }) => {
+export const AsignarAlumno = ({ idTesis, setAlumnoAsignado, alumnoAsignado }) => {
 
     const [tableInfo, setTableInfo] = useState([]);
     const [search, setSearch] = useState('');
@@ -41,21 +41,21 @@ export const AsignarAlumno = ({ idTesis }) => {
     }, [])
 
     const asignarStudent = async (studentId, name) => {
-        console.log(studentId)
+
         if (confirm("¿Desea asignar el estudiante: " + name)) {
             const url = "http:///localhost:3000/tesis/asignStudent";
-            const res = await api.request(url, "POST", {id_alumno: studentId, id_tesis: idTesis});
+            const res = await api.request(url, "POST", {id_usuario: studentId, id_tesis: idTesis});
             reqAll();
-      
+            setAlumnoAsignado(studentId)
           }
     }
 
     return (
-        <div className='container-table'>
+        <div >
             <div className='header'>
-                <p>USUARIOS</p>
+                <p>ALUMNOS</p>
                 <div className='buttons'>
-                    <input type='text' placeholder='Buscar usuario...' onChange={searchUser} value={search} ></input>
+                    <input type='text' placeholder='Buscar alumno...' onChange={searchUser} value={search} ></input>
                 </div>
             </div>
             {(result == true && search.length > 2) && <p>No se encontro ningun usuario: <strong style={{ color: "red" }}>{search}</strong></p>}

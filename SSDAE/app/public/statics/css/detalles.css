@@ -1,0 +1,53 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+
+
+
+.contenedor-detalles {
+    background-color: white;
+}
+
+.contenedor-titulo {
+    font-size:large;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    background-color: #262626;
+    
+}
+
+.contenedor-contenido {
+    display: flex;
+    margin: auto;
+    background-color: white;
+    color: #262626;
+
+}
+
+.nav-detalles {
+    background-color: #262626;
+    color: white;
+}
+
+.nav-list-detalles{
+    
+}
+
+
+.nav-list-detalles li{
+    list-style-type: none;
+    width: 120px;
+    font-size: large;
+    padding: 5px;
+}
+
+.nav-list-detalles li:hover {
+    background-color: rgb(0, 114, 180);
+    cursor: pointer;
+  }
+
+ 
+
+
+ 
