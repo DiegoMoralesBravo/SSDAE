@@ -10,11 +10,11 @@ const create = async (req, res) => {
     let dataPost = req.body;
     console.log(dataPost)
 
-    
+
 
     let data = {
         tema: dataPost.tema,
-        descripcion: dataPost.descripcion,   
+        descripcion: dataPost.descripcion,
         id_alumno: 1,
     }
 
@@ -54,10 +54,23 @@ const fillTableStudent = async (req, res) => {
 const fillTable = async (req, res) => {
     console.log('Se obtendran todos los datos')
     const tesis = await prisma.tesis.findMany();
+    const alumnos = await prisma.usuarios.findMany({
+        where: {
+            tipo_usuario: 'alumno',
+        },
+        select: {
+            nombre: true,
+            ap_p: true,
+            ap_m: true,
+            id_usuario: true
+        },
+    });
 
     console.log(tesis)
-    return res.status(200).json(
-        JSON.stringify(tesis)
+    return res.status(200).json({
+        tesis: tesis,
+        alumnos: alumnos
+    }
     );
 }
 
@@ -74,7 +87,7 @@ const fillTableTeacher = async (req, res) => {
 const deleteTesis = async (req, res) => {
     console.log('Se elimina usuario')
     console.log(req.body)
-    
+
     await prisma.tesis.delete({
         where: {
             id_tesis: req.body.id,
@@ -110,14 +123,14 @@ const asignStudentName = async (req, res) => {
     data = req.body;
     const user = await prisma.usuarios.findUnique({
         where: {
-          id_usuario: data.id_usuario,
+            id_usuario: data.id_usuario,
         },
         select: {
-          nombre: true,
-          ap_p: true,
-          ap_m: true,
+            nombre: true,
+            ap_p: true,
+            ap_m: true,
         },
-      })
+    })
 
     return res.status(200).json({
         mensaje: 'Student consult',
@@ -130,7 +143,7 @@ const validation = async (req, res) => {
     console.log('Validacion de usuario');
     //Recoger los parametros por post a guardar
     let data = req.body;
- 
+
     //Leer la base de dato
     const user = await prisma.tesis.findUnique({
         where: {
@@ -143,7 +156,7 @@ const validation = async (req, res) => {
         user: user
 
     });
-    
+
 };
 
 

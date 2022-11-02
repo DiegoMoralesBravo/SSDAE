@@ -48,20 +48,14 @@ export const TablaTesis = () => {
     const reqAll = async () => {
         const url = "http:///localhost:3000/tesis/fillTable";
         const res = await api.request(url, "GET");
-        const resJson = JSON.parse(res);
-        resJson.map(async usuario => {
-            setTableInfoName(reqName(usuario.id_alumno))
-            usuario.nombreCompleto = tableInfoName;
-        })
-        setTableInfo(resJson)
+
+        console.log(res)
+
+        setTableInfo(res.tesis)
+        setTableInfoName(res.alumnos)
     }
 
-    const reqName = async (id_alumno) => {
-        const url = "http:///localhost:3000/tesis/asignStudentName";
-        const res = await api.request(url, "POST", { id_usuario: id_alumno });
-        const nombreCompleto = res.user.nombre + ' ' + res.user.ap_p + ' ' + res.user.ap_m;
-        return nombreCompleto
-    }
+
 
     const deleteTesis = async (id, tema) => {
         if (confirm("Desea eliminar la tesis: " + tema)) {
@@ -110,7 +104,11 @@ export const TablaTesis = () => {
                             
                                 <tr key={tesis.id_tesis}>
                                     <td>{tesis.tema}</td>
-                                    <td>{tesis.id_alumno != 1 ? tesis.id_alumno : 'Sin asignar'}</td>
+                                    <td>{tableInfoName.map(alumno => {
+                                        return(
+                                        alumno.id_usuario == tesis.id_alumno ? alumno.nombre + ' ' + alumno.ap_p + ' ' + alumno.ap_m : ''
+                                        )})}
+                                        </td>
                                     <td>{tesis.id_alumno}</td>
                                     <td>
                                         <button onClick={() => setDataTesisFunction(tesis)}>Detalles</button>
