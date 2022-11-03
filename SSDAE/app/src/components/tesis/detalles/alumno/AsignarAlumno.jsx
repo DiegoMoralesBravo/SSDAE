@@ -30,7 +30,6 @@ export const AsignarAlumno = ({ idTesis, setAlumnoAsignado, alumnoAsignado }) =>
     }
 
     const reqAll = async () => {
-        console.log('hola')
         const url = "http:///localhost:3000/tesis/fillTableStudent";
         const res = await api.request(url, "GET");
         setTableInfo(JSON.parse(res))

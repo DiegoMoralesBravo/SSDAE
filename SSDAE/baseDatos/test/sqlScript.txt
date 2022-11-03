@@ -83,10 +83,10 @@ ALTER TABLE IF EXISTS public."Tesis"
 	
 		 
 INSERT INTO "Usuarios"
-	VALUES (default,'ivanmedrano@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'alumno', 'ivan', 'medrano', 'rios'),
+	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto'),
 			(default,'diegomorales@gmail.com', 'c2ae0b5ba085cb33fbee01aafc391538', 'alumno', 'diego', 'morales', 'bravo'),
-			(default,'ikertoscano@gmail.com', '272b5eb31e1c7ff85a96f076fbea4d17', 'alumno', 'iker', 'toscano', 'santos'),
-			(default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
+			(default,'ikertoscano@gmail.com', '272b5eb31e1c7ff85a96f076fbea4d17', 'alumno', 'iker', 'toscano', 'santos');
+			
 	
 
 END;

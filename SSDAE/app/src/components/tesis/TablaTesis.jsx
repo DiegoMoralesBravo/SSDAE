@@ -1,26 +1,25 @@
 import React from 'react'
 import { Ventana } from '../Ventana';
-import { AsignarAlumno } from './detalles/alumno/AsignarAlumno';
-import { AsignarProfesor } from './AsignarProfesor';
 import { useState } from 'react';
-import { useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { CrearTesis } from './CrearTesis';
 import { useLayoutEffect } from 'react';
 import { Detalles } from './detalles/Detalles';
 
 
-export const TablaTesis = () => {
 
+export const TablaTesis = () => {
+    
 
     const [tableInfo, setTableInfo] = useState([]);
-    const [tableInfoName, setTableInfoName] = useState([]);
+    // const [tableInfoName, setTableInfoName] = useState([]);
     const [dataTesis, setDataTesis] = useState({})
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(false);
     const [visibleCreateTesis, setVisibleCreateTesis] = useState(false);
     const [visibleDetails, setVisibleDetails] = useState(false);
     const api = useApi();
+
 
 
     useLayoutEffect(() => {
@@ -48,20 +47,10 @@ export const TablaTesis = () => {
     const reqAll = async () => {
         const url = "http:///localhost:3000/tesis/fillTable";
         const res = await api.request(url, "GET");
-        const resJson = JSON.parse(res);
-        resJson.map(async usuario => {
-            setTableInfoName(reqName(usuario.id_alumno))
-            usuario.nombreCompleto = tableInfoName;
-        })
-        setTableInfo(resJson)
+        setTableInfo(res.tesis)
     }
 
-    const reqName = async (id_alumno) => {
-        const url = "http:///localhost:3000/tesis/asignStudentName";
-        const res = await api.request(url, "POST", { id_usuario: id_alumno });
-        const nombreCompleto = res.user.nombre + ' ' + res.user.ap_p + ' ' + res.user.ap_m;
-        return nombreCompleto
-    }
+
 
     const deleteTesis = async (id, tema) => {
         if (confirm("Desea eliminar la tesis: " + tema)) {
@@ -81,6 +70,7 @@ export const TablaTesis = () => {
         })
         setVisibleDetails(true);
     }
+
 
 
     return (
@@ -110,7 +100,7 @@ export const TablaTesis = () => {
                             
                                 <tr key={tesis.id_tesis}>
                                     <td>{tesis.tema}</td>
-                                    <td>{tesis.id_alumno != 1 ? tesis.id_alumno : 'Sin asignar'}</td>
+                                    <td>{tesis.nombre}</td>
                                     <td>{tesis.id_alumno}</td>
                                     <td>
                                         <button onClick={() => setDataTesisFunction(tesis)}>Detalles</button>
