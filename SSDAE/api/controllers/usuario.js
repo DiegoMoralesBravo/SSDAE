@@ -20,20 +20,26 @@ const create = async (req, res) => {
         ap_m: data.ap_m
     }
 
-
     //Insertar los datos en la base
-    try {
-        const insertData = await prisma.usuarios.create({ data });
-        return res.status(200).json({
-            mensaje: 'User created',
+
+    const insertData = await prisma.usuarios.create({ data });
+
+    if (data.tipo_usuario == 'alumno') {
+        console.log('Alumno')
+        const insertData = await prisma.alumnos.create({ 
+            id_alumno: data
+
         });
 
-    } catch (err) {
-        console.log(err);
-        return res.status(200).json({
-            mensaje: err,
-        });
+    }else {
+        console.log('Maestro')
     }
+
+
+    return res.status(200).json({
+        mensaje: 'User created',
+    });
+
 
 
 };
@@ -58,13 +64,13 @@ const validation = async (req, res) => {
     if (user.length) {
         user[0].id_usuario = user[0].id_usuario
 
-        if(md5(data.correo) == data.contrasena){
+        if (md5(data.correo) == data.contrasena) {
             console.log('Contrasena igual al correo')
             return res.status(200).json({
                 mensaje: 'User found change pass',
                 user: user[0]
             })
-        }else {
+        } else {
             return res.status(200).json({
                 mensaje: 'User found',
                 user: user[0]
@@ -121,7 +127,7 @@ const fillTable = async (req, res) => {
 const deleteUser = async (req, res) => {
     console.log('Se elimina usuario')
     console.log(req.body)
-    
+
     await prisma.usuarios.delete({
         where: {
             id_usuario: req.body.id,

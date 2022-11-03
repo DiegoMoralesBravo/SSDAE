@@ -7,6 +7,7 @@ export const Detalles = ({ dataTesis }) => {
   const [vista, setVista] = useState('descripcion')
 
   const [alumnoAsignado, setAlumnoAsignado] = useState(dataTesis.id_alumno);
+  // const [maestroAsignado, setMaestroAsignado] = useState(dataTesis.id_alumno);
 
   return (
 

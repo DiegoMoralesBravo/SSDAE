@@ -1,9 +1,12 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Asignado } from './alumno/Asignado';
+import { AsignadoAlumno } from './alumno/AsignadoAlumno';
 import { AsignarAlumno } from './alumno/AsignarAlumno';
 import { useApi } from './../../../hooks/useApi'
+import { AsignarMaestro } from './maestros/AsignarMaestro';
+import { AsignadoMaestro } from './maestros/AsignadoMaestro';
+
 
 export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsignado }) => {
 
@@ -32,14 +35,25 @@ export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsign
 
             : 
 
-            <Asignado dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
+            <AsignadoAlumno dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
             
           }
           </div>)
         break;
 
       case 'maestros':
-        setVistaVentana(<p>Maestros</p>)
+        setVistaVentana(<div>{
+
+          alumnoAsignado == 1 ? 
+
+          <AsignarMaestro idTesis={dataTesis.id} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
+
+          : 
+
+          <AsignadoMaestro dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
+          
+        }
+        </div>)
         break;
 
       default:
