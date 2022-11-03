@@ -1,26 +1,25 @@
 import React from 'react'
 import { Ventana } from '../Ventana';
-import { AsignarAlumno } from './detalles/alumno/AsignarAlumno';
-import { AsignarProfesor } from './AsignarProfesor';
 import { useState } from 'react';
-import { useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { CrearTesis } from './CrearTesis';
 import { useLayoutEffect } from 'react';
 import { Detalles } from './detalles/Detalles';
 
 
-export const TablaTesis = () => {
 
+export const TablaTesis = () => {
+    
 
     const [tableInfo, setTableInfo] = useState([]);
-    const [tableInfoName, setTableInfoName] = useState([]);
+    // const [tableInfoName, setTableInfoName] = useState([]);
     const [dataTesis, setDataTesis] = useState({})
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(false);
     const [visibleCreateTesis, setVisibleCreateTesis] = useState(false);
     const [visibleDetails, setVisibleDetails] = useState(false);
     const api = useApi();
+
 
 
     useLayoutEffect(() => {
@@ -48,11 +47,7 @@ export const TablaTesis = () => {
     const reqAll = async () => {
         const url = "http:///localhost:3000/tesis/fillTable";
         const res = await api.request(url, "GET");
-
-        console.log(res)
-
         setTableInfo(res.tesis)
-        setTableInfoName(res.alumnos)
     }
 
 
@@ -75,6 +70,7 @@ export const TablaTesis = () => {
         })
         setVisibleDetails(true);
     }
+
 
 
     return (
@@ -104,11 +100,7 @@ export const TablaTesis = () => {
                             
                                 <tr key={tesis.id_tesis}>
                                     <td>{tesis.tema}</td>
-                                    <td>{tableInfoName.map(alumno => {
-                                        return(
-                                        alumno.id_usuario == tesis.id_alumno ? alumno.nombre + ' ' + alumno.ap_p + ' ' + alumno.ap_m : ''
-                                        )})}
-                                        </td>
+                                    <td>{tesis.nombre}</td>
                                     <td>{tesis.id_alumno}</td>
                                     <td>
                                         <button onClick={() => setDataTesisFunction(tesis)}>Detalles</button>

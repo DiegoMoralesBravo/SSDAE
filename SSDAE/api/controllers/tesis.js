@@ -38,20 +38,46 @@ const create = async (req, res) => {
 }
 
 const fillTableStudent = async (req, res) => {
-    console.log('Se obtendran todos los datos')
-    const tesis = await prisma.usuarios.findMany({
+    console.log('Se obtendran todos los datos tabla alumnos no asignados')
+    const alumnos = await prisma.usuarios.findMany({
         where: {
             tipo_usuario: "alumno"
         }
     });
 
+    const tesis = await prisma.tesis.findMany();
+
+    console.log('Alumnos')
+    console.log(alumnos)
+    console.log('tesis')
     console.log(tesis)
+
+    newUsuarios = [];
+
+    for(i = 0; i < alumnos.length; i++){
+        flag = 0;
+
+        for(j = 0; j < tesis.length; j++){
+
+            if(alumnos[i].id_usuario == tesis[j].id_alumno){
+                console.log('Este cumple')
+                console.log(alumnos[i])
+                flag = 1;
+            } 
+
+        }
+        if(!flag) {
+            newUsuarios.push(alumnos[i]); 
+        } 
+
+    }
     return res.status(200).json(
-        JSON.stringify(tesis)
+        JSON.stringify(newUsuarios)
     );
 }
 
 const fillTable = async (req, res) => {
+
     console.log('Se obtendran todos los datos')
     const tesis = await prisma.tesis.findMany();
     const alumnos = await prisma.usuarios.findMany({
@@ -66,10 +92,23 @@ const fillTable = async (req, res) => {
         },
     });
 
-    console.log(tesis)
+        for(i = 0; i < tesis.length; i++){
+            for(j = 0; j < alumnos.length; j++){
+                if(tesis[i].id_alumno == alumnos[j].id_usuario){
+                    tesis[i].nombre = alumnos[j].nombre + ' ' + alumnos[j].ap_p +  ' ' + alumnos[j].ap_m
+                }
+            }
+        }
+    
+        for(i = 0; i < tesis.length; i++){
+            if(tesis[i].nombre == undefined){
+                tesis[i].nombre = 'Sin definir'
+            }
+        }
+   
+   
     return res.status(200).json({
-        tesis: tesis,
-        alumnos: alumnos
+        tesis: tesis
     }
     );
 }
