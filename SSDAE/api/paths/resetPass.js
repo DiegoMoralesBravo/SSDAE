@@ -8,4 +8,6 @@ router.post("/userValidation", resetPass.userValidation);
 router.post("/tokenValidation", resetPass.tokenValidation);
 router.post("/passChange", resetPass.passChange);
 
-module.exports = router;
+module.exports = router; 
+
+

@@ -44,10 +44,13 @@ const create = async (req, res) => {
 
 };
 
+
+
 const validation = async (req, res) => {
     console.log('Validacion de usuario');
     //Recoger los parametros por post a guardar
     let data = req.body;
+    
     data.contrasena = md5(data.contrasena)
 
 
@@ -84,6 +87,9 @@ const validation = async (req, res) => {
         });
     }
 };
+
+
+
 
 const emailValidation = async (req, res) => {
     console.log('Validacion de correo');

@@ -29,6 +29,8 @@ app.use("/resetPass",resetPassRouter);
 
 app.use("/tesis",tesisRouter);
 
+app.use("/tesis",tesisRouter);
+
 //Crear serivodor y escuchar peticiones
 app.listen(puerto, () => {
     console.log('Aplicacion corriendo puerto 3000');
