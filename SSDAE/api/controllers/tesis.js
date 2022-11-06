@@ -102,7 +102,7 @@ const fillTable = async (req, res) => {
     
         for(i = 0; i < tesis.length; i++){
             if(tesis[i].nombre == undefined){
-                tesis[i].nombre = 'Sin definir'
+                tesis[i].nombre = 'Sin asignar'
             }
         }
    

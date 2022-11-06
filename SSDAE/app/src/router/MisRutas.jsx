@@ -25,21 +25,31 @@ export const MisRutas = () => {
   return (
 
     <BrowserRouter>
+
+
       {login && <Navbar />}
+
+
       <Routes>
+
         <Route path="/" element={login ? <Home /> : <Login />} />
+
         <Route path="/resetpass" element={<ResetPass />} />
+        
         {login ? <>
 
           <Route path="/resetform" element={<ResetForm />} />
-          
           <Route path="/Usuarios" element={<TablaUsuarios />} />
           <Route path="/Tesis" element={<TablaTesis />} />
 
         </> : '' }
 
         <Route path="/*" element={<Navigate to='/' />} />
+        
       </Routes>
+
+
+
     </BrowserRouter>
 
   )

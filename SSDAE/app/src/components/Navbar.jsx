@@ -12,33 +12,34 @@ export const Navbar = () => {
         setUser('');
     };
 
-    const {nombre, ap_p, tipo_usuario} = user
+    const { nombre, ap_p, tipo_usuario } = user
 
     return (
-            <div className="nav-container">
-                <div className="brand">
-                    <a href="#!">Sistema de Seguimiento para Desempeño Académico</a>
-                </div>
-                <nav className='navbar'>
-                    <ul className="nav-list">
-                        <li>
-                        <NavLink to="/"> {nombre + ' ' + ap_p + ' ('+ tipo_usuario +')'} </NavLink>
-                        </li>
-                        <li>
-                        {
-                            tipo_usuario == 'root' ?  <NavLink to="/Usuarios"> Usuarios </NavLink> : ''
-                        }
-                        </li>
-                        <li>
-                        {
-                            tipo_usuario == 'root' ?  <NavLink to="/Tesis"> Tesis </NavLink> : ''
-                        }
-                        </li>
-                        <li>
-                        <NavLink to="/" onClick={logout} > Cerrar sesion </NavLink> 
-                        </li>
-                    </ul>
-                </nav>
+        <div className="nav-container">
+            <div className="brand">
+                <a href="#!">Sistema de Seguimiento para Desempeño Académico</a>
             </div>
+            <nav className='navbar'>
+                <ul className="nav-list">
+                    <li>
+                        <NavLink to="/"> {nombre + ' ' + ap_p + ' (' + tipo_usuario + ')'} </NavLink>
+                    </li>
+                    <li>
+                        {
+                            tipo_usuario == 'root' ? <NavLink to="/Usuarios"> Usuarios </NavLink> : ''
+                        }
+                    </li>
+                    <li>
+                        {
+                            tipo_usuario == 'root' ? <NavLink to="/Tesis"> Tesis </NavLink> : ''
+                        }
+                    </li>
+                    
+                    <li>
+                        <NavLink to="/" onClick={logout} > Cerrar sesion </NavLink>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     )
 }

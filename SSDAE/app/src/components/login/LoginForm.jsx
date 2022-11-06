@@ -31,15 +31,21 @@ export const LoginForm = () => {
     const validationLogin = async (e) => {
 
         e.preventDefault();
+
         let dataForm = {
             correo: inputEmail.current.value.toLowerCase(),
+
             contrasena: inputPass.current.value
+
         };
 
         const url = "http:///localhost:3000/usuario/validation";
 
         let res = await api.request(url, "POST", dataForm);
 
+
+
+        res.error = ''
         if (res.mensaje == 'User found') {
             setLogin(true);
 
