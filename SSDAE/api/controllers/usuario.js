@@ -21,27 +21,22 @@ const create = async (req, res) => {
     }
 
     //Insertar los datos en la base
-
     const insertData = await prisma.usuarios.create({ data });
 
-    if (data.tipo_usuario == 'alumno') {
-        console.log('Alumno')
-        const insertData = await prisma.alumnos.create({ 
-            id_alumno: data
+    // if (data.tipo_usuario == 'alumno') {
+    //     console.log('Alumno')
+    //     const insertData = await prisma.alumnos.create({ 
+    //         id_alumno: data
 
-        });
+    //     });
 
-    }else {
-        console.log('Maestro')
-    }
-
+    // }else {
+    //     console.log('Maestro')
+    // }
 
     return res.status(200).json({
         mensaje: 'User created',
     });
-
-
-
 };
 
 

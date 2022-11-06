@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useApi } from '../../../../hooks/useApi'
 
-export const Asignado = ({ dataTesis, setAlumnoAsignado, alumnoAsignado }) => {
+export const AsignadoAlumno = ({ dataTesis, setAlumnoAsignado, alumnoAsignado }) => {
 
   const api = useApi();
   const [name, setName] = useState()

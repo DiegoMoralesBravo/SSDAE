@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Asignado = () => {
+export const AsignadoMaestro = () => {
   return (
     <div>Asignado</div>
   )

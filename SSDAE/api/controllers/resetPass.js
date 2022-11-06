@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+
 const md5 = require('md5');
 const nodemailer = require('nodemailer');
 
@@ -12,7 +13,7 @@ const userValidation = async (req, res) => {
     console.log(data)
 
     //Leer la base de dato de alumnos
-    const user = await prisma.Usuarios.findMany({
+    const user = await prisma.usuarios.findMany({
         where: {
             correo: data.correo,
         },
@@ -44,18 +45,20 @@ const userValidation = async (req, res) => {
             console.log(err);
         }
 
-        var transporter = nodemailer.createTransport({
-            name: 'diego',
-            host: "smtp.mailtrap.io",
-            port: 2525,
+        var transporter = nodemailer.createTransport({   
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
-                user: "30825ea6c0b648",
-                pass: "1508fed290558c"
+                user: "diego.morales2887@alumnos.udg.mx",
+                pass: "sjvwcaqsfxnvmklw"
             }
         });
     
+
+
         const mailOptions = {
-            from: "sender@server.com",
+            from: "diego.morales2887@alumnos.udg.mx",
             to: "diegomorales1359@gmail.com",
             subject: "Message title",
             text: "Plaintext version of the message",

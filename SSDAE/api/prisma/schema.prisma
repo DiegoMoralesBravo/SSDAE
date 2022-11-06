@@ -4,48 +4,48 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:popohq14@localhost:5432/test"
+  url      = "postgresql://postgres:popohq14@localhost:5432/postgres"
 }
 
-model Alumnos {
-  id_alumno Int      @id(map: "id_alumno") @default(autoincrement())
+model alumnos {
+  id_alumno Int      @id @default(autoincrement())
   estatus   String   @db.VarChar
   fecha_ing DateTime @db.Date
-  Usuarios  Usuarios @relation(fields: [id_alumno], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_alumnos")
-  Tesis     Tesis[]
+  usuarios  usuarios @relation(fields: [id_alumno], references: [id_usuario], onDelete: Cascade)
+  tesis     tesis[]
 }
 
-model Profesores {
-  id_profesor     Int      @id(map: "id_profesor") @default(autoincrement())
+model profesores {
+  id_profesor     Int      @id @default(autoincrement())
   interno_externo Int
-  Usuarios        Usuarios @relation(fields: [id_profesor], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "id_profesores")
+  usuarios        usuarios @relation(fields: [id_profesor], references: [id_usuario], onDelete: Cascade)
 }
 
-model Recuperaciones {
-  correo           String   @db.VarChar
-  token            String   @db.VarChar
-  fecha_expiracion DateTime @db.Date
-  id_recuperacion  Int      @id(map: "correo_token") @default(autoincrement())
-  Usuarios         Usuarios @relation(fields: [correo], references: [correo], onDelete: NoAction, onUpdate: NoAction, map: "correo")
-}
-
-model Usuarios {
-  id_usuario     Int              @id(map: "id_usuario") @default(autoincrement())
-  correo         String           @unique(map: "correo") @db.VarChar
+model usuarios {
+  id_usuario     Int              @id @default(autoincrement())
+  correo         String           @unique @db.VarChar
   contrasena     String           @db.VarChar
   tipo_usuario   String           @db.VarChar
   nombre         String           @db.VarChar
   ap_p           String           @db.VarChar
   ap_m           String           @db.VarChar
-  Alumnos        Alumnos?
-  Profesores     Profesores?
-  Recuperaciones Recuperaciones[]
+  alumnos        alumnos?
+  profesores     profesores?
+  recuperaciones recuperaciones[]
 }
 
-model Tesis {
+model recuperaciones {
+  id_recuperacion  Int       @id @default(autoincrement())
+  correo           String?   @db.VarChar
+  token            String    @db.VarChar
+  fecha_expiracion DateTime  @db.Date
+  usuarios         usuarios? @relation(fields: [correo], references: [correo], onDelete: Cascade)
+}
+
+model tesis {
   id_tesis    Int     @id @default(autoincrement())
   tema        String  @db.VarChar
   id_alumno   Int     @default(autoincrement())
   descripcion String  @db.VarChar
-  Alumnos     Alumnos @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction, onUpdate: NoAction, map: "id_alumno")
+  alumnos     alumnos @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction)
 }
