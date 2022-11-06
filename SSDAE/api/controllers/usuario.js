@@ -7,32 +7,46 @@ const create = async (req, res) => {
     console.log('Creacion de usuario');
     //Recoger los parametros por post a guardar
 
-    let data = req.body;
+    let dataBody = req.body;
+    let data;
     //Recibo el parametro como string y lo convierto a entero, posiblemente sea por el middleware que estoy usando 
-    console.log(data)
+    console.log(dataBody)
 
     data = {
-        correo: data.correo,
-        contrasena: md5(data.correo),
-        tipo_usuario: data.tipo_usuario,
-        nombre: data.nombre,
-        ap_p: data.ap_p,
-        ap_m: data.ap_m
+        correo: dataBody.correo,
+        contrasena: md5(dataBody.correo),
+        tipo_usuario: dataBody.tipo_usuario,
+        nombre: dataBody.nombre,
+        ap_p: dataBody.ap_p,
+        ap_m: dataBody.ap_m
     }
 
     //Insertar los datos en la base
-    const insertData = await prisma.usuarios.create({ data });
+    const user = await prisma.usuarios.create({ data });
 
-    // if (data.tipo_usuario == 'alumno') {
-    //     console.log('Alumno')
-    //     const insertData = await prisma.alumnos.create({ 
-    //         id_alumno: data
+    if (data.tipo_usuario == 'alumno') {
+        console.log('Alumno')
 
-    //     });
+        data = {
+            id_alumno: user.id_usuario,
+            estatus: 'Insertar estatus',
+            fecha_ing: new Date(dataBody.fecha_ingreso)
+        }
 
-    // }else {
-    //     console.log('Maestro')
-    // }
+        const insertData = await prisma.alumnos.create({ data });
+
+
+    }else {
+        console.log('Maestro')
+
+        data = {
+            id_profesor: user.id_usuario,
+            interno_externo: dataBody.interno_externo,
+        }
+
+        const insertData = await prisma.profesores.create({ data });
+
+    }
 
     return res.status(200).json({
         mensaje: 'User created',

@@ -59,8 +59,8 @@ const userValidation = async (req, res) => {
 
         const mailOptions = {
             from: "diego.morales2887@alumnos.udg.mx",
-            to: "diegomorales1359@gmail.com",
-            subject: "Message title",
+            to: data.correo,
+            subject: "Recuperacion contrasena",
             text: "Plaintext version of the message",
             html: "<p>Link para reset de contrasena, solo se cuenta con 1 hora para el cambio: </p> <a href=" + url + ">Cambiar contrasena</a>"
         };

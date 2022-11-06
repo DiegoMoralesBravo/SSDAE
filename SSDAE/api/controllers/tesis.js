@@ -11,7 +11,6 @@ const create = async (req, res) => {
     console.log(dataPost)
 
 
-
     let data = {
         tema: dataPost.tema,
         descripcion: dataPost.descripcion,
