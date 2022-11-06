@@ -17,7 +17,7 @@ model alumnos {
 
 model profesores {
   id_profesor     Int      @id @default(autoincrement())
-  interno_externo Int
+  interno_externo String   @db.VarChar
   usuarios        usuarios @relation(fields: [id_profesor], references: [id_usuario], onDelete: Cascade)
 }
 

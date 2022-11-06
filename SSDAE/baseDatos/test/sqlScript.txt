@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Alumnos
 CREATE TABLE IF NOT EXISTS Profesores
 (
     id_profesor serial PRIMARY KEY REFERENCES Usuarios ON UPDATE CASCADE ON DELETE CASCADE,
-    interno_externo integer NOT NULL
+    interno_externo character varying NOT NULL
 );
 
 
@@ -45,11 +45,11 @@ CREATE TABLE IF NOT EXISTS Tesis
 
 		 
 INSERT INTO Usuarios
-	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto'),
-			(default,'diegomorales@gmail.com', 'c2ae0b5ba085cb33fbee01aafc391538', 'alumno', 'diego', 'morales', 'bravo'),
-			(default,'ikertoscano@gmail.com', '272b5eb31e1c7ff85a96f076fbea4d17', 'alumno', 'iker', 'toscano', 'santos');
-			
-
+	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
+	
+INSERT INTO Alumnos
+	VALUES (default,'root', '10/10/10');
+	
 
 END;
 
