@@ -5,7 +5,6 @@ import { AsignadoAlumno } from './alumno/AsignadoAlumno';
 import { AsignarAlumno } from './alumno/AsignarAlumno';
 import { useApi } from './../../../hooks/useApi'
 import { AsignarMaestro } from './maestros/AsignarMaestro';
-import { AsignadoMaestro } from './maestros/AsignadoMaestro';
 
 
 export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsignado }) => {
@@ -14,44 +13,30 @@ export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsign
 
   const api = useApi();
 
-
-
   useEffect(() => {
     console.log('Cambio')
 
-  
-
     switch (vista) {
       case 'descripcion':
-        setVistaVentana(<div><p><strong>Descripcion:</strong></p> <p>{dataTesis.descripcion}</p></div> )
+        setVistaVentana(<div><p><strong>Descripcion:</strong></p> <p>{dataTesis.descripcion}</p></div>)
         break;
 
       case 'alumno':
         setVistaVentana(<div>{
-
-            alumnoAsignado == 1 ? 
-
+          alumnoAsignado == 1 ?
             <AsignarAlumno idTesis={dataTesis.id} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
-
-            : 
-
+            :
             <AsignadoAlumno dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
-            
-          }
-          </div>)
+
+        }
+        </div>)
         break;
 
       case 'maestros':
         setVistaVentana(<div>{
-
-          alumnoAsignado == 1 ? 
-
-          <AsignarMaestro idTesis={dataTesis.id} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
-
-          : 
-
-          <AsignadoMaestro dataTesis={dataTesis} setAlumnoAsignado={setAlumnoAsignado} alumnoAsignado={alumnoAsignado} />
+          <AsignarMaestro idTesis={dataTesis.id} />
           
+
         }
         </div>)
         break;
@@ -73,7 +58,7 @@ export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsign
     setIdAlumno(res.id)
 
     console.log(res.id)
-}
+  }
 
 
 

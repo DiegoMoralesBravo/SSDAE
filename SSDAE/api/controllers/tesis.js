@@ -53,21 +53,21 @@ const fillTableStudent = async (req, res) => {
 
     newUsuarios = [];
 
-    for(i = 0; i < alumnos.length; i++){
+    for (i = 0; i < alumnos.length; i++) {
         flag = 0;
 
-        for(j = 0; j < tesis.length; j++){
+        for (j = 0; j < tesis.length; j++) {
 
-            if(alumnos[i].id_usuario == tesis[j].id_alumno){
+            if (alumnos[i].id_usuario == tesis[j].id_alumno) {
                 console.log('Este cumple')
                 console.log(alumnos[i])
                 flag = 1;
-            } 
+            }
 
         }
-        if(!flag) {
-            newUsuarios.push(alumnos[i]); 
-        } 
+        if (!flag) {
+            newUsuarios.push(alumnos[i]);
+        }
 
     }
     return res.status(200).json(
@@ -91,21 +91,21 @@ const fillTable = async (req, res) => {
         },
     });
 
-        for(i = 0; i < tesis.length; i++){
-            for(j = 0; j < alumnos.length; j++){
-                if(tesis[i].id_alumno == alumnos[j].id_usuario){
-                    tesis[i].nombre = alumnos[j].nombre + ' ' + alumnos[j].ap_p +  ' ' + alumnos[j].ap_m
-                }
+    for (i = 0; i < tesis.length; i++) {
+        for (j = 0; j < alumnos.length; j++) {
+            if (tesis[i].id_alumno == alumnos[j].id_usuario) {
+                tesis[i].nombre = alumnos[j].nombre + ' ' + alumnos[j].ap_p + ' ' + alumnos[j].ap_m
             }
         }
-    
-        for(i = 0; i < tesis.length; i++){
-            if(tesis[i].nombre == undefined){
-                tesis[i].nombre = 'Sin asignar'
-            }
+    }
+
+    for (i = 0; i < tesis.length; i++) {
+        if (tesis[i].nombre == undefined) {
+            tesis[i].nombre = 'Sin asignar'
         }
-   
-   
+    }
+
+
     return res.status(200).json({
         tesis: tesis
     }
@@ -114,11 +114,14 @@ const fillTable = async (req, res) => {
 
 const fillTableTeacher = async (req, res) => {
     console.log('Se obtendran todos los datos')
-    const tesis = await prisma.tesis.findMany();
+    const profesores = await prisma.usuarios.findMany({
+        where: {
+            tipo_usuario: 'maestro',
+        }
+    });
 
-    console.log(tesis)
     return res.status(200).json(
-        JSON.stringify(tesis)
+        JSON.stringify(profesores)
     );
 }
 
@@ -197,6 +200,28 @@ const validation = async (req, res) => {
 
 };
 
+const asignTeacher = async (req, res) => {
+    console.log('Se asignara maestro')
+
+    dataPost = req.body;
+
+    let data = {
+        id_profesor: dataPost.id_usuario,
+        id_tesis: dataPost.id_tesis,
+        rol: 'Sin rol',
+    }
+
+    //Insertar los datos en la base
+    const prof_tesis = await prisma.prof_tesis.create({ data });
+
+    console.log(prof_tesis)
+
+    return res.status(200).json({
+        mensaje: 'Teacher asigned'
+    }
+    );
+}
+
 
 module.exports = {
     create,
@@ -206,6 +231,7 @@ module.exports = {
     deleteTesis,
     asignStudent,
     asignStudentName,
+    asignTeacher,
     validation
 
 }
