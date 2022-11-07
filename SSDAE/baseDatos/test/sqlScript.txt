@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Tesis
 (
     id_tesis serial PRIMARY KEY,
     tema character varying NOT NULL,
-    id_alumno serial REFERENCES Alumnos ON UPDATE CASCADE ON DELETE NO ACTION,
+    id_alumno serial REFERENCES Alumnos ON UPDATE CASCADE ON DELETE CASCADE,
     descripcion character varying NOT NULL
 );
 

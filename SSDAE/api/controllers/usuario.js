@@ -26,11 +26,15 @@ const create = async (req, res) => {
 
     if (data.tipo_usuario == 'alumno') {
         console.log('Alumno')
+        let mes = 1;
+        if(dataBody.ciclo == 'b'){
+            mes = 6
+        }
 
         data = {
             id_alumno: user.id_usuario,
             estatus: 'Insertar estatus',
-            fecha_ing: new Date(dataBody.fecha_ingreso)
+            fecha_ing: new Date(dataBody.ano_ingreso, mes - 1, 13)
         }
 
         const insertData = await prisma.alumnos.create({ data });

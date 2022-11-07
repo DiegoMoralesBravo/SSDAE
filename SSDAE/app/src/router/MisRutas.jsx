@@ -14,13 +14,16 @@ import { EditarUsuarios } from '../components/usuarios/EditarUsuarios';
 import { TablaUsuarios } from '../components/usuarios/TablaUsuarios';
 import { CrearTesis } from '../components/tesis/CrearTesis';
 import { TablaTesis } from '../components/tesis/TablaTesis';
+import { Revision } from '../components/revision/Revision';
 
 
 
 
 export const MisRutas = () => {
 
-  const { login } = useContext(loginContext);
+  const { login, user } = useContext(loginContext);
+  console.log('USER')
+  console.log(user)
 
   return (
 
@@ -35,17 +38,21 @@ export const MisRutas = () => {
         <Route path="/" element={login ? <Home /> : <Login />} />
 
         <Route path="/resetpass" element={<ResetPass />} />
-        
+
         {login ? <>
 
           <Route path="/resetform" element={<ResetForm />} />
           <Route path="/Usuarios" element={<TablaUsuarios />} />
           <Route path="/Tesis" element={<TablaTesis />} />
 
-        </> : '' }
+        </> : ''}
 
+        {user.tipo_usuario == 'root' ? <>
+          <Route path="/revision" element={<Revision />} />'
+        </> : ''}
+       
         <Route path="/*" element={<Navigate to='/' />} />
-        
+
       </Routes>
 
 
