@@ -113,15 +113,35 @@ const fillTable = async (req, res) => {
 }
 
 const fillTableTeacher = async (req, res) => {
-    console.log('Se obtendran todos los datos')
-    const profesores = await prisma.usuarios.findMany({
+    console.log('Se obtendran todos los datos de maestros que no esten asignados a esta tesis')
+
+    console.log(req.body);
+
+    let dataPost = req.body;
+
+    const profesores = await prisma.profesores.findMany({
         where: {
-            tipo_usuario: 'maestro',
+            prof_tesis: {
+                none: {
+                    id_tesis: dataPost.id_tesis
+                }
+            }
+        },
+        include: {
+            usuarios: true
         }
     });
 
-    return res.status(200).json(
-        JSON.stringify(profesores)
+
+
+
+    console.log(profesores)
+    console.log('Se presentaron')
+    
+
+    return res.status(200).json({
+        profesores: profesores
+    }
     );
 }
 
@@ -203,21 +223,46 @@ const validation = async (req, res) => {
 const asignTeacher = async (req, res) => {
     console.log('Se asignara maestro')
 
-    dataPost = req.body;
+    let dataPost = req.body;
+    console.log(dataPost)
 
     let data = {
         id_profesor: dataPost.id_usuario,
         id_tesis: dataPost.id_tesis,
-        rol: 'Sin rol',
+        rol: 'Sin rol'
     }
 
     //Insertar los datos en la base
     const prof_tesis = await prisma.prof_tesis.create({ data });
 
-    console.log(prof_tesis)
-
     return res.status(200).json({
         mensaje: 'Teacher asigned'
+    }
+    );
+}
+
+const fillTableProf_tesis = async (req, res) => {
+    console.log('Se mostraran maestros relacionados a la tesis')
+
+    dataPost = req.body;
+
+    //Insertar los datos en la base
+     const prof_tesis = await prisma.prof_tesis.findMany({
+        where: {
+            id_tesis: dataPost.id_tesis 
+        },
+        include: {
+            profesores: {
+                include: {
+                    usuarios: true
+                }
+            },
+        }
+    });
+
+    return res.status(200).json({
+        mensaje: 'Maestros mostrados',
+        prof_tesis: prof_tesis
     }
     );
 }
@@ -232,6 +277,7 @@ module.exports = {
     asignStudent,
     asignStudentName,
     asignTeacher,
-    validation
+    validation,
+    fillTableProf_tesis
 
 }
