@@ -137,7 +137,7 @@ const fillTableTeacher = async (req, res) => {
 
     console.log(profesores)
     console.log('Se presentaron')
-    
+
 
     return res.status(200).json({
         profesores: profesores
@@ -247,9 +247,9 @@ const fillTableProf_tesis = async (req, res) => {
     dataPost = req.body;
 
     //Insertar los datos en la base
-     const prof_tesis = await prisma.prof_tesis.findMany({
+    const prof_tesis = await prisma.prof_tesis.findMany({
         where: {
-            id_tesis: dataPost.id_tesis 
+            id_tesis: dataPost.id_tesis
         },
         include: {
             profesores: {
@@ -267,6 +267,51 @@ const fillTableProf_tesis = async (req, res) => {
     );
 }
 
+const unsignTeacher = async (req, res) => {
+    console.log('Desasignar maestro de tema de tesis');
+
+    dataPost = req.body;
+    console.log(dataPost)
+
+    await prisma.prof_tesis.deleteMany({
+        where: {
+            id_profesor: dataPost.id_profesor,
+            id_tesis: dataPost.id_tesis
+        }
+    })
+
+    return res.status(200).json({
+        mensaje: 'Maestro eliminado'
+    }
+    );
+}
+
+const rolTeacher = async (req, res) => {
+    console.log('Se asignara rol')
+    //Recoger los parametros por post a guardar
+    let dataPost = req.body;
+
+    console.log(dataPost)
+
+    //Leer la base de dato de alumnos
+    const updateUsers = await prisma.prof_tesis.updateMany({
+        where: {
+            id_profesor: dataPost.id_profesor,
+        },
+        data: {
+            rol: dataPost.rol
+        },
+    })
+
+    
+
+
+    return res.status(200).json({
+        mensaje: 'Rol modificado'
+    }
+    );
+}
+
 
 module.exports = {
     create,
@@ -278,6 +323,8 @@ module.exports = {
     asignStudentName,
     asignTeacher,
     validation,
-    fillTableProf_tesis
+    fillTableProf_tesis,
+    unsignTeacher,
+    rolTeacher
 
 }

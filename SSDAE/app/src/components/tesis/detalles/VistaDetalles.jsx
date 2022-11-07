@@ -7,9 +7,10 @@ import { useApi } from './../../../hooks/useApi'
 import { AsignarMaestro } from './maestros/AsignarMaestro';
 
 
-export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsignado }) => {
+export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsignado, flagCambio, setFlagCambio }) => {
 
   const [vistaVentana, setVistaVentana] = useState()
+ 
 
   const api = useApi();
 
@@ -34,9 +35,8 @@ export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsign
 
       case 'maestros':
         setVistaVentana(<div>{
-          <AsignarMaestro idTesis={dataTesis.id} />
+          <AsignarMaestro idTesis={dataTesis.id} flagCambio={flagCambio} setFlagCambio={setFlagCambio} />
           
-
         }
         </div>)
         break;
@@ -46,7 +46,7 @@ export const VistaDetalles = ({ vista, dataTesis, alumnoAsignado, setAlumnoAsign
         break;
     }
 
-  }, [, vista, alumnoAsignado])
+  }, [, vista, alumnoAsignado, flagCambio])
 
 
 

@@ -14,7 +14,8 @@ router.post("/asignStudentName", tesis.asignStudentName);
 router.post("/validation", tesis.validation);
 router.post("/asignTeacher", tesis.asignTeacher);
 router.post("/fillTableProf_tesis", tesis.fillTableProf_tesis);
-
+router.post("/unsignTeacher", tesis.unsignTeacher);
+router.post("/rolTeacher", tesis.rolTeacher);
 
 
 module.exports = router;

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useApi } from '../../../../hooks/useApi';
 import { AsignadoMaestro } from './AsignadoMaestro';
 
-export const AsignarMaestro = ({ idTesis }) => {
+export const AsignarMaestro = ({ idTesis, setFlagCambio, flagCambio }) => {
 
   const [tableInfo, setTableInfo] = useState([]);
   const [search, setSearch] = useState('');
@@ -30,25 +30,30 @@ export const AsignarMaestro = ({ idTesis }) => {
 
   const reqAll = async () => {
     const url = "http:///localhost:3000/tesis/fillTableTeacher";
-    const res = await api.request(url, "POST", {id_tesis: idTesis});
-    console.log(res)
+    const res = await api.request(url, "POST", { id_tesis: idTesis });
+
     setTableInfo(res.profesores)
   }
 
   useEffect(() => {
     reqAll();
-  }, [])
+  }, [, flagCambio])
 
 
   const asignarMaestro = async (profesorId, name) => {
 
     if (confirm("¿Desea asignar el profesor: " + name)) {
-        const url = "http:///localhost:3000/tesis/asignTeacher";
-        const res = await api.request(url, "POST", {id_usuario: profesorId, id_tesis: idTesis});
-        console.log(res)
-        reqAll();
-      }
-}
+      const url = "http:///localhost:3000/tesis/asignTeacher";
+      const res = await api.request(url, "POST", { id_usuario: profesorId, id_tesis: idTesis });
+
+      reqAll();
+
+      setFlagCambio(flagCambio + 1)
+
+    }
+
+
+  }
 
 
   return (
@@ -70,13 +75,13 @@ export const AsignarMaestro = ({ idTesis }) => {
 
           {tableInfo.map(user => {
             const nombre = user.usuarios.nombre + ' ' + user.usuarios.ap_p + ' ' + user.usuarios.ap_m;
-            console.log(user)
+
             return (
               <tr key={user.id_profesor} >
                 <td>{nombre}</td>
                 <td>{user.usuarios.correo}</td>
                 <td>
-                  <button onClick={() => asignarMaestro(user.id_profesor, nombre) } >Anadir</button>
+                  <button onClick={() => asignarMaestro(user.id_profesor, nombre)} >Anadir</button>
                 </td>
               </tr>
             );
@@ -86,7 +91,7 @@ export const AsignarMaestro = ({ idTesis }) => {
         </tbody>
       </table>
 
-      <AsignadoMaestro idTesis={idTesis} />
+      <AsignadoMaestro idTesis={idTesis} flagCambio={flagCambio} setFlagCambio={setFlagCambio} />
     </div>
   )
 }

@@ -25,12 +25,7 @@ export const AsignadoAlumno = ({ dataTesis, setAlumnoAsignado, alumnoAsignado })
       console.log(res)
       setName(res.user.nombre +' '+res.user.ap_p + ' ' + res.user.ap_m)
     }
-
     reqName()
-    
-
-
-
   }, [])
 
   return (
