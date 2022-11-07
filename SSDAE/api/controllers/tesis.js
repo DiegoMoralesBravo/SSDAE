@@ -76,40 +76,34 @@ const fillTableStudent = async (req, res) => {
 }
 
 const fillTable = async (req, res) => {
+    console.log('Se obtendran todos los datos para LA TABLA')
 
-    console.log('Se obtendran todos los datos')
-    const tesis = await prisma.tesis.findMany();
-    const alumnos = await prisma.usuarios.findMany({
-        where: {
-            tipo_usuario: 'alumno',
-        },
-        select: {
-            nombre: true,
-            ap_p: true,
-            ap_m: true,
-            id_usuario: true
-        },
-    });
 
-    for (i = 0; i < tesis.length; i++) {
-        for (j = 0; j < alumnos.length; j++) {
-            if (tesis[i].id_alumno == alumnos[j].id_usuario) {
-                tesis[i].nombre = alumnos[j].nombre + ' ' + alumnos[j].ap_p + ' ' + alumnos[j].ap_m
+    //Insertar los datos en la base
+    const tabla = await prisma.tesis.findMany({
+        include: {
+            prof_tesis: {
+                include: {
+                    profesores: {
+                        include:{
+                            usuarios: true
+                    }
+                }
+                }
+            },
+            alumnos: {
+                include: {
+                    usuarios: true
+                }
             }
         }
-    }
-
-    for (i = 0; i < tesis.length; i++) {
-        if (tesis[i].nombre == undefined) {
-            tesis[i].nombre = 'Sin asignar'
-        }
-    }
-
+    });
 
     return res.status(200).json({
-        tesis: tesis
+        tabla: tabla
     }
     );
+
 }
 
 const fillTableTeacher = async (req, res) => {
@@ -190,6 +184,7 @@ const asignStudentName = async (req, res) => {
             nombre: true,
             ap_p: true,
             ap_m: true,
+            correo: true
         },
     })
 

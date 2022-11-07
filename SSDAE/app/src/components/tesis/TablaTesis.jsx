@@ -47,7 +47,7 @@ export const TablaTesis = () => {
     const reqAll = async () => {
         const url = "http:///localhost:3000/tesis/fillTable";
         const res = await api.request(url, "GET");
-        setTableInfo(res.tesis)
+        setTableInfo(res.tabla)
     }
 
 
@@ -70,8 +70,6 @@ export const TablaTesis = () => {
         })
         setVisibleDetails(true);
     }
-
-
 
     return (
         <div className='container-table'>
@@ -96,12 +94,27 @@ export const TablaTesis = () => {
                     </tr>
 
                     {tableInfo.map(tesis => {
+                        console.log(tesis)
+                        const nombre = tesis.alumnos.usuarios.nombre + ' ' + tesis.alumnos.usuarios.ap_p + ' ' + tesis.alumnos.usuarios.ap_m
+                        let directorAsignado = 'Sin asignar'
+                        if(tesis.prof_tesis.length == 0){
+
+                        }else {
+                            tesis.prof_tesis.forEach(element => {
+                                console.log('Elemento: ')
+                                console.log(element)
+                                if(element.rol == 'Director'){
+                                    directorAsignado = element.profesores.usuarios.nombre + ' ' + element.profesores.usuarios.ap_p + ' ' +element.profesores.usuarios.ap_m
+                                }
+                            });
+                        }
+
                         return (
                             
                                 <tr key={tesis.id_tesis}>
                                     <td>{tesis.tema}</td>
-                                    <td>{tesis.nombre}</td>
-                                    <td>{tesis.id_alumno}</td>
+                                    <td>{tesis.alumnos.id_alumno == 1 ? 'Sin asignar' : nombre}</td>
+                                    <td>{directorAsignado}</td>
                                     <td>
                                         <button onClick={() => setDataTesisFunction(tesis)}>Detalles</button>
                                         <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)} >Eliminar</button>
