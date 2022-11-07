@@ -43,6 +43,14 @@ CREATE TABLE IF NOT EXISTS Tesis
 );
 
 
+CREATE TABLE IF NOT EXISTS Prof_Tesis
+(
+    id_profesor serial REFERENCES Profesores ON UPDATE CASCADE ON DELETE CASCADE,
+    id_tesis serial REFERENCES Tesis ON UPDATE CASCADE ON DELETE CASCADE,
+    rol character varying NOT NULL,
+    CONSTRAINT Prof_Tesis_primarykey PRIMARY KEY (id_profesor, id_tesis)
+);
+
 		 
 INSERT INTO Usuarios
 	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');

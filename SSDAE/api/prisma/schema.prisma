@@ -16,9 +16,10 @@ model alumnos {
 }
 
 model profesores {
-  id_profesor     Int      @id @default(autoincrement())
-  interno_externo String   @db.VarChar
-  usuarios        usuarios @relation(fields: [id_profesor], references: [id_usuario], onDelete: Cascade)
+  id_profesor     Int          @id @default(autoincrement())
+  interno_externo String       @db.VarChar
+  usuarios        usuarios     @relation(fields: [id_profesor], references: [id_usuario], onDelete: Cascade)
+  prof_tesis      prof_tesis[]
 }
 
 model usuarios {
@@ -43,9 +44,20 @@ model recuperaciones {
 }
 
 model tesis {
-  id_tesis    Int     @id @default(autoincrement())
-  tema        String  @db.VarChar
-  id_alumno   Int     @default(autoincrement())
-  descripcion String  @db.VarChar
-  alumnos     alumnos @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction)
+  id_tesis    Int          @id @default(autoincrement())
+  tema        String       @db.VarChar
+  id_alumno   Int          @default(autoincrement())
+  descripcion String       @db.VarChar
+  alumnos     alumnos      @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction)
+  prof_tesis  prof_tesis[]
+}
+
+model prof_tesis {
+  id_profesor Int        @default(autoincrement())
+  id_tesis    Int        @default(autoincrement())
+  rol         String     @db.VarChar
+  profesores  profesores @relation(fields: [id_profesor], references: [id_profesor], onDelete: Cascade)
+  tesis       tesis      @relation(fields: [id_tesis], references: [id_tesis], onDelete: Cascade)
+
+  @@id([id_profesor, id_tesis], map: "prof_tesis_primarykey")
 }

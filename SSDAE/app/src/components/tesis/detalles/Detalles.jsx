@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { useState } from 'react'
 import { VistaDetalles } from './VistaDetalles'
 
@@ -7,7 +8,7 @@ export const Detalles = ({ dataTesis }) => {
   const [vista, setVista] = useState('descripcion')
 
   const [alumnoAsignado, setAlumnoAsignado] = useState(dataTesis.id_alumno);
-  // const [maestroAsignado, setMaestroAsignado] = useState(dataTesis.id_alumno);
+  const [flagCambio, setFlagCambio] = useState(0);
 
   return (
 
@@ -25,9 +26,10 @@ export const Detalles = ({ dataTesis }) => {
             </ul>
           </nav>
         </div>
-        
-          <VistaDetalles dataTesis={dataTesis} vista={vista} alumnoAsignado={alumnoAsignado} setAlumnoAsignado={setAlumnoAsignado}/>
-    
+        <div className="detalles-detalles" >
+          <VistaDetalles flagCambio={flagCambio} setFlagCambio={setFlagCambio} dataTesis={dataTesis} vista={vista} alumnoAsignado={alumnoAsignado} setAlumnoAsignado={setAlumnoAsignado} />
+
+        </div>
 
       </div>
     </div>
