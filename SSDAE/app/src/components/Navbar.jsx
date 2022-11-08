@@ -44,13 +44,13 @@ export const Navbar = () => {
                         <NavLink to="/Tesis"> Tesis </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/revision"> Revision </NavLink>
+                            <NavLink to="/Avances"> Avances </NavLink>
                         </li>
                     </> : ''}
 
                     {tipo_usuario == 'alumno' ? <>
                         <li>
-                            <NavLink to="/revision"> Revision </NavLink>
+                            <NavLink to="/Avances"> Avances </NavLink>
                         </li>
                     </> : ''}
 

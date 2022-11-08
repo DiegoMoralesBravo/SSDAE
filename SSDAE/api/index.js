@@ -4,6 +4,7 @@ const cors = require('cors');
 const usuarioRouter = require('./paths/usuario');
 const resetPassRouter = require('./paths/resetPass');
 const tesisRouter = require('./paths/tesis');
+const avancesRouter = require('./paths/avances')
 
 const puerto = 3000;
 const app = express();
@@ -19,8 +20,6 @@ app.use(express.json()); //Recibir datos con content-type app/json
 app.use(express.urlencoded({extended:true})); // form-urlencoded
 
 //Rutas
-
-
 //Rutas para alumnos
 app.use("/usuario",usuarioRouter); 
 
@@ -29,7 +28,7 @@ app.use("/resetPass",resetPassRouter);
 
 app.use("/tesis",tesisRouter);
 
-app.use("/tesis",tesisRouter);
+app.use("/avances",avancesRouter);
 
 //Crear serivodor y escuchar peticiones
 app.listen(puerto, () => {

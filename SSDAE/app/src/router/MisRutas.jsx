@@ -14,7 +14,7 @@ import { EditarUsuarios } from '../components/usuarios/EditarUsuarios';
 import { TablaUsuarios } from '../components/usuarios/TablaUsuarios';
 import { CrearTesis } from '../components/tesis/CrearTesis';
 import { TablaTesis } from '../components/tesis/TablaTesis';
-import { Revision } from '../components/revision/Revision';
+import { Avances } from '../components/avances/Avances';
 
 
 
@@ -48,7 +48,7 @@ export const MisRutas = () => {
         </> : ''}
 
         {user.tipo_usuario == 'root' ? <>
-          <Route path="/revision" element={<Revision />} />'
+          <Route path="/Avances" element={<Avances />} />'
         </> : ''}
        
         <Route path="/*" element={<Navigate to='/' />} />
