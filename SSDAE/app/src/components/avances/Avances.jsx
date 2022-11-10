@@ -18,6 +18,7 @@ export const Avances = () => {
     console.log('Enviare el archivo')
     console.log(file[0])
     let url = "http:///localhost:3000/avances/saveFile";
+    
     let res = await api.request(url, "POST", file[0]);
 
     console.log(res)
