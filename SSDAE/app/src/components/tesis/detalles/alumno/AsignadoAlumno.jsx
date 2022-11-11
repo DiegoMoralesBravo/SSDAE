@@ -7,6 +7,8 @@ export const AsignadoAlumno = ({ dataTesis, setAlumnoAsignado, alumnoAsignado })
 
   const api = useApi();
   const [name, setName] = useState()
+  const [correo, setCorreo] = useState()
+
 
 
   const desasignar = async () => {
@@ -22,8 +24,10 @@ export const AsignadoAlumno = ({ dataTesis, setAlumnoAsignado, alumnoAsignado })
     const reqName = async() => {
       const url = "http:///localhost:3000/tesis/asignStudentName";
       const res = await api.request(url, "POST", { id_usuario: alumnoAsignado });
+      console.log('Datos que recibo')
       console.log(res)
       setName(res.user.nombre +' '+res.user.ap_p + ' ' + res.user.ap_m)
+      setCorreo(res.user.correo)
     }
     reqName()
   }, [])
@@ -32,6 +36,8 @@ export const AsignadoAlumno = ({ dataTesis, setAlumnoAsignado, alumnoAsignado })
     <div>
       <p><strong>Alumno asignado:</strong></p>
       <p>{name}</p><br></br>
+      <p><strong>Correo:</strong></p>
+      <p>{correo}</p><br></br>
 
       <button onClick={desasignar}>Desasignar</button>
     </div>

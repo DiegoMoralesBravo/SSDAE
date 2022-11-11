@@ -124,7 +124,7 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
                     </select> : user.rol}
                 </td>
                 <td>
-                  <button onClick={() => desasignarMaestro(user.id_profesor, nombre)} >Quitar</button>
+                  {!rol && <button onClick={() => desasignarMaestro(user.id_profesor, nombre)} >Quitar</button>}
                 </td>
               </tr>
             );
