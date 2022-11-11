@@ -2,9 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useApi } from '../../hooks/useApi'
 
-const multer = require('multer');
 
-const upload = multer();
 
 export const Avances = () => {
   const api = useApi();
@@ -12,25 +10,25 @@ export const Avances = () => {
   const [file, setFile] = useState(null);
 
   const saveFile = (e) => {
-    e.preventDefault();
-    setFile(e.target.files);
-    console.log(e.target.files)
+    setFile(e.target.files[0]);
+    console.log(e.target.files[0])
   }
 
   const sendFile = async (e) => {
     e.preventDefault();
     console.log('Enviare el archivo')
 
-
     var formData = new FormData();
 
-    formData.append("userfile", file[0]);
-
+    formData.append("file", file);
 
     console.log(formData)
+    console.log('Impresion de .file')
+    console.log(formData.file)
+
     let url = "http:///localhost:3000/avances/saveFile";
 
-    let res = await api.request(url, "POST", formData);
+    let res = await api.request(url, "POST", formData, true);
 
     console.log(res)
     console.log('Archivo enviado');
@@ -41,7 +39,7 @@ export const Avances = () => {
       <div className="form">
         <form className="login-form" onSubmit={sendFile} >
 
-          <input type="file" placeholder="Correo electronico" onChange={saveFile} required />
+          <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
 
           <p style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
 

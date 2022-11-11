@@ -22,8 +22,6 @@ import { Avances } from '../components/avances/Avances';
 export const MisRutas = () => {
 
   const { login, user } = useContext(loginContext);
-  console.log('USER')
-  console.log(user)
 
   return (
 
