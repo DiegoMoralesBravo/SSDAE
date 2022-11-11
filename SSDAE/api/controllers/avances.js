@@ -4,7 +4,9 @@ const prisma = new PrismaClient();
 const saveFile = (req, res) => {
     console.log('Test')
 
-    console.log(req.body)
+    console.log(req.file)
+
+    
 
     return res.status(200).json({
         mensaje: 'Archivo guardado'

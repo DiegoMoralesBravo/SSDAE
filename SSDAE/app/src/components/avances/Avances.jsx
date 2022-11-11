@@ -2,6 +2,10 @@ import React from 'react'
 import { useState } from 'react';
 import { useApi } from '../../hooks/useApi'
 
+const multer = require('multer');
+
+const upload = multer();
+
 export const Avances = () => {
   const api = useApi();
 
@@ -16,10 +20,17 @@ export const Avances = () => {
   const sendFile = async (e) => {
     e.preventDefault();
     console.log('Enviare el archivo')
-    console.log(file[0])
+
+
+    var formData = new FormData();
+
+    formData.append("userfile", file[0]);
+
+
+    console.log(formData)
     let url = "http:///localhost:3000/avances/saveFile";
-    
-    let res = await api.request(url, "POST", file[0]);
+
+    let res = await api.request(url, "POST", formData);
 
     console.log(res)
     console.log('Archivo enviado');
