@@ -30,7 +30,6 @@ export const Avances = () => {
       console.log('Archivo guardado')
     } else {
       alert.current.style.display = 'block';
-      alert.current.style.color = 'red';
       alert.current.innerText = '*Solo archivos comprimidos'
     }
 
@@ -39,18 +38,25 @@ export const Avances = () => {
 
 
 
-return (
-  <div className="login-page">
-    <div className="form">
-      <form className="login-form"  ref={formulario} onSubmit={sendFile} >
+  return (
+    <div className="login-page">
 
-        <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
+      <div className="form">
+        <div className='encabezado-avances'>
+          <p>Buzon para subir avances</p>
+          <p>Estatus: ACTIVO</p>
+        </div>
 
-        <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
 
-        <button>Subir archivo</button>
-      </form>
+        <form className="login-form" ref={formulario} onSubmit={sendFile} >
+
+          <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
+
+          <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
+
+          <button>Subir archivo</button>
+        </form>
+      </div>
     </div>
-  </div>
-)
+  )
 }
