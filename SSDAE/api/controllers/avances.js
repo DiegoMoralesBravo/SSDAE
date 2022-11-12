@@ -1,17 +1,25 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const fs = require('fs');
 
 const saveFile = (req, res) => {
-    console.log('Test')
 
-    console.log(req.file)
+    const extension = req.file.originalname.split('.')[1];
 
-    
-
-    return res.status(200).json({
-        mensaje: 'Archivo guardado'
+    if (extension == 'zip' || extension == 'rar') {
+        return res.status(200).json({
+            mensaje: 'Archivo guardado'
+        }
+        );
     }
-    );
+    else {
+        fs.unlink(req.file.path, e => {
+            return res.status(400).json({
+                mensaje: 'Archivo no guardado'
+            }
+            );
+        });
+    }
 }
 
 module.exports = {

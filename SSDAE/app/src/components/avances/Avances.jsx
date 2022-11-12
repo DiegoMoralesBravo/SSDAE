@@ -1,49 +1,58 @@
 import React from 'react'
+import { useRef } from 'react';
 import { useState } from 'react';
 import { useApi } from '../../hooks/useApi'
 
-const multer = require('multer');
-
-const upload = multer();
-
 export const Avances = () => {
   const api = useApi();
+  const alert = useRef();
+  const formulario = useRef();
 
   const [file, setFile] = useState(null);
 
   const saveFile = (e) => {
-    e.preventDefault();
-    setFile(e.target.files);
-    console.log(e.target.files)
+    setFile(e.target.files[0]);
   }
 
   const sendFile = async (e) => {
     e.preventDefault();
     console.log('Enviare el archivo')
 
-
     var formData = new FormData();
 
-    formData.append("userfile", file[0]);
+    formData.append("file", file);
 
-
-    console.log(formData)
     let url = "http:///localhost:3000/avances/saveFile";
 
-    let res = await api.request(url, "POST", formData);
+    let res = await api.request(url, "POST", formData, true);
 
-    console.log(res)
-    console.log('Archivo enviado');
+    if (res.mensaje == 'Archivo guardado') {
+      console.log('Archivo guardado')
+    } else {
+      alert.current.style.display = 'block';
+      alert.current.innerText = '*Solo archivos comprimidos'
+    }
+
+    formulario.current.reset();
   }
+
+
 
   return (
     <div className="login-page">
+
       <div className="form">
-        <form className="login-form" onSubmit={sendFile} >
+        <div className='encabezado-avances'>
+          <p>Buzon para subir avances</p>
+          <p>Estatus: ACTIVO</p>
+        </div>
 
-          <input type="file" placeholder="Correo electronico" onChange={saveFile} required />
 
-          <p style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
+        <form className="login-form" ref={formulario} onSubmit={sendFile} >
+
+          <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
+
+          <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
 
           <button>Subir archivo</button>
         </form>
