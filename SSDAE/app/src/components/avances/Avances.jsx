@@ -31,7 +31,7 @@ export const Avances = () => {
     } else {
       alert.current.style.display = 'block';
       alert.current.innerText = '*Solo archivos comprimidos'
-    }
+    }x``
 
     formulario.current.reset();
   }
