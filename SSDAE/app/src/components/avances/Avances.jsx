@@ -21,6 +21,7 @@ export const Avances = () => {
     var formData = new FormData();
 
     formData.append("file", file);
+    formData.append("mensaje", "OJALA LO PUEDAS LEER");
 
     let url = "http:///localhost:3000/avances/saveFile";
 
