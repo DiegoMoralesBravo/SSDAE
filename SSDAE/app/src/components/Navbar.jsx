@@ -41,9 +41,7 @@ export const Navbar = () => {
                             tipo_usuario == 'root' ? <NavLink to="/historial"> Historial </NavLink> : ''
                         }
                     </li>
-                    
-
-                    </li>
+                
 
                     {tipo_usuario == 'root' ? <>
                         <li>
