@@ -49,6 +49,7 @@ model tesis {
   id_alumno   Int          @default(autoincrement())
   descripcion String       @db.VarChar
   alumnos     alumnos      @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction)
+  avances     avances[]
   prof_tesis  prof_tesis[]
 }
 
@@ -60,4 +61,14 @@ model prof_tesis {
   tesis       tesis      @relation(fields: [id_tesis], references: [id_tesis], onDelete: Cascade)
 
   @@id([id_profesor, id_tesis], map: "prof_tesis_primarykey")
+}
+
+model avances {
+  numero_avance Int    @default(autoincrement())
+  id_tesis      Int    @default(autoincrement())
+  doc           String @db.VarChar
+  revisado      String @db.VarChar
+  tesis         tesis  @relation(fields: [id_tesis], references: [id_tesis], onDelete: Cascade)
+
+  @@id([numero_avance, id_tesis], map: "numero_avance_id_tesis")
 }

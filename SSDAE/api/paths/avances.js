@@ -16,5 +16,7 @@ const subidas = multer({ storage: almacenamiento })
 
 //Rutas
 router.post("/saveFile", [subidas.single('file')], avances.saveFile);
+router.post("/checkTesis", avances.checkTesis);
+
 
 module.exports = router; 

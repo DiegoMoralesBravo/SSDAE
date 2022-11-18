@@ -1,5 +1,6 @@
 import React from 'react'
 import { useContext } from 'react';
+import { useEffect } from 'react';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { loginContext } from '../../context/loginContext';
@@ -9,11 +10,32 @@ export const Avances = () => {
   const api = useApi();
   const alert = useRef();
   const formulario = useRef();
+  const { user } = useContext(loginContext);
 
-  const {user} = useContext(loginContext);
-  
 
   const [file, setFile] = useState(null);
+  const [tesis, setTesis] = useState(false);
+  const [data, setData] = useState({})
+
+
+  useEffect(() => {
+
+    const checkAvances = async () => {
+      let url = "http:///localhost:3000/avances/checkTesis";
+      let res = await api.request(url, "POST", user);
+
+      if (res.mensaje == 'No hay tesis asignada') {
+        setTesis(false);
+      } else {
+        setTesis(true);
+        console.log(res)
+        setData(res)
+      }
+
+    }
+    checkAvances()
+  }, []);
+
 
   const saveFile = (e) => {
     setFile(e.target.files[0]);
@@ -29,6 +51,7 @@ export const Avances = () => {
 
     formData.append("file", file);
     formData.append("user", JSON.stringify(user));
+    formData.append("numeroAvance", data.avance.length + 1);
 
 
     let url = "http:///localhost:3000/avances/saveFile";
@@ -51,20 +74,28 @@ export const Avances = () => {
     <div className="login-page">
 
       <div className="form">
-        <div className='encabezado-avances'>
-          <p>Buzon para subir avances</p>
-          <p>Estatus: ACTIVO</p>
-        </div>
+
+        {tesis ? <div>
+          <div className='encabezado-avances'>
+            <p>Buzon para subir avances</p>
+            <p>Estatus: ACTIVO</p>
+            <p>Tema: {data.tesis[0].tema}</p>
+            <p>Avance: {data.avance.length + 1 +'/' + '4'}</p>
+          </div>
 
 
-        <form className="login-form" ref={formulario} onSubmit={sendFile} >
+          <form className="login-form" ref={formulario} onSubmit={sendFile} >
+            <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
+            <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
+            <button>Subir archivo</button>
+          </form>
 
-          <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
 
-          <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
+        </div> : <div className='encabezado-avances'>
+          <p>No se tiene asignado ningun tema de tesis</p>
+        </div>}
 
-          <button>Subir archivo</button>
-        </form>
+
       </div>
     </div>
   )
