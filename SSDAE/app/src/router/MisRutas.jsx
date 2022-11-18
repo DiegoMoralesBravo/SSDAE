@@ -57,7 +57,7 @@ export const MisRutas = () => {
 
         </> : ''}
 
-        {user.tipo_usuario == 'root' ? <>
+        {user.tipo_usuario == 'alumno' || user.tipo_usuario == 'root' ? <>
           <Route path="/Avances" element={<Avances />} />'
         </> : ''}
        

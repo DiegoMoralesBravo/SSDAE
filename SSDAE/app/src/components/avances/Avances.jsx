@@ -1,12 +1,17 @@
 import React from 'react'
+import { useContext } from 'react';
 import { useRef } from 'react';
 import { useState } from 'react';
+import { loginContext } from '../../context/loginContext';
 import { useApi } from '../../hooks/useApi'
 
 export const Avances = () => {
   const api = useApi();
   const alert = useRef();
   const formulario = useRef();
+
+  const {user} = useContext(loginContext);
+  
 
   const [file, setFile] = useState(null);
 
@@ -20,8 +25,11 @@ export const Avances = () => {
 
     var formData = new FormData();
 
+    console.log(user)
+
     formData.append("file", file);
-    formData.append("mensaje", "OJALA LO PUEDAS LEER");
+    formData.append("user", JSON.stringify(user));
+
 
     let url = "http:///localhost:3000/avances/saveFile";
 
@@ -32,7 +40,7 @@ export const Avances = () => {
     } else {
       alert.current.style.display = 'block';
       alert.current.innerText = '*Solo archivos comprimidos'
-    }x``
+    }
 
     formulario.current.reset();
   }

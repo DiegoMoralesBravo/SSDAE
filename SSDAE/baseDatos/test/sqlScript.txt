@@ -51,6 +51,13 @@ CREATE TABLE IF NOT EXISTS Prof_Tesis
     CONSTRAINT Prof_Tesis_primarykey PRIMARY KEY (id_profesor, id_tesis)
 );
 
+CREATE TABLE IF NOT EXISTS Avances
+(
+    numero_avance serial,
+    id_tesis serial REFERENCES Tesis ON UPDATE CASCADE ON DELETE CASCADE,
+    doc character varying NOT NULL,
+    CONSTRAINT numero_avance_id_tesis PRIMARY KEY (numero_avance, id_tesis)
+);
 		 
 INSERT INTO Usuarios
 	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
