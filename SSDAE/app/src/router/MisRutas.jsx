@@ -15,9 +15,7 @@ import { TablaUsuarios } from "../components/usuarios/TablaUsuarios";
 import { CrearTesis } from "../components/tesis/CrearTesis";
 import { TablaTesis } from "../components/tesis/TablaTesis";
 import { Historial } from "../components/historial/Historial";
-
-export const MisRutas = () => {
-  const { login } = useContext(loginContext);
+import { Avances } from "../components/avances/Avances";
 
 
 export const MisRutas = () => {
