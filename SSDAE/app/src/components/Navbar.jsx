@@ -25,7 +25,7 @@ export const Navbar = () => {
                         <NavLink to="/"> {nombre + ' ' + ap_p + ' (' + tipo_usuario + ')'} </NavLink>
                     </li>
 
-                    {/* <li>
+                    <li>
                         {
                             tipo_usuario == 'root' ? <NavLink to="/Usuarios"> Usuarios </NavLink> : ''
                         }
@@ -42,9 +42,8 @@ export const Navbar = () => {
                         }
                     </li>
                     
-                    
 
-                    </li> */}
+                    </li>
 
                     {tipo_usuario == 'root' ? <>
                         <li>
