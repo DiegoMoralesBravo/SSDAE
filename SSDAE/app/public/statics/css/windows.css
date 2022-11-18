@@ -27,10 +27,11 @@
 .exit {
     background-color: red;
     color: white;
-    width: 25px;
-    height: 25px;
+    width: 42px;
+    height: 42px;
     align-self: flex-end;
     font-size: large;
+    border-radius: 50%;
 }
 .exit:active,
 .exit:hover {

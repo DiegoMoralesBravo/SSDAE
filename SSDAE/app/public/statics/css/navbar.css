@@ -20,6 +20,7 @@
 
 .nav-list li {
   list-style-type: none;
+  transition: all 300ms;
 }
 
 .brand a {
@@ -40,6 +41,7 @@
   color: white;
   display: block;
   padding: 20px;
+ 
 }
 
 .nav-list li:hover {

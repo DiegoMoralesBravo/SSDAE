@@ -86,6 +86,9 @@ export const LoginForm = () => {
 
         const vistaLogin = (<div className="login-page">
         <div className="form">
+            <div className='logo-login'>
+                <img src=".\public\statics\images\SSDAE.svg" alt="imagen" />
+            </div>
             <form className="login-form" onSubmit={validationLogin} >
                 <input ref={inputEmail} type="email" placeholder="Correo electronico" required />
                 <input ref={inputPass} type="password" placeholder="Contraseña" required />

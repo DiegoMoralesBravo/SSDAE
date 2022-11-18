@@ -34,6 +34,16 @@ export const Navbar = () => {
                         {
                             tipo_usuario == 'root' ? <NavLink to="/Tesis"> Tesis </NavLink> : ''
                         }
+
+                    </li>
+                    <li>
+                        {
+                            tipo_usuario == 'root' ? <NavLink to="/historial"> Historial </NavLink> : ''
+                        }
+                    </li>
+                    
+                    
+
                     </li> */}
 
                     {tipo_usuario == 'root' ? <>
@@ -53,6 +63,7 @@ export const Navbar = () => {
                             <NavLink to="/Avances"> Avances </NavLink>
                         </li>
                     </> : ''}
+
 
                     <li>
                         <NavLink to="/" onClick={logout} > Cerrar sesion </NavLink>
