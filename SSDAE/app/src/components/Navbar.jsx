@@ -24,7 +24,8 @@ export const Navbar = () => {
                     <li>
                         <NavLink to="/"> {nombre + ' ' + ap_p + ' (' + tipo_usuario + ')'} </NavLink>
                     </li>
-                    <li>
+
+                    {/* <li>
                         {
                             tipo_usuario == 'root' ? <NavLink to="/Usuarios"> Usuarios </NavLink> : ''
                         }
@@ -33,6 +34,7 @@ export const Navbar = () => {
                         {
                             tipo_usuario == 'root' ? <NavLink to="/Tesis"> Tesis </NavLink> : ''
                         }
+
                     </li>
                     <li>
                         {
@@ -41,6 +43,28 @@ export const Navbar = () => {
                     </li>
                     
                     
+
+                    </li> */}
+
+                    {tipo_usuario == 'root' ? <>
+                        <li>
+                            <NavLink to="/Usuarios"> Usuarios </NavLink>
+                        </li>
+                        <li>
+                        <NavLink to="/Tesis"> Tesis </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/Avances"> Avances </NavLink>
+                        </li>
+                    </> : ''}
+
+                    {tipo_usuario == 'alumno' ? <>
+                        <li>
+                            <NavLink to="/Avances"> Avances </NavLink>
+                        </li>
+                    </> : ''}
+
+
                     <li>
                         <NavLink to="/" onClick={logout} > Cerrar sesion </NavLink>
                     </li>

@@ -12,20 +12,15 @@ function App() {
   const [user, setUser] = useState('')
 
   useLayoutEffect(() => {
-    console.log('SE EJECUTA AL CARGAR');
     let storedUser = JSON.parse(localStorage.getItem("usuario"));
     if(storedUser){
-      console.log('si hay')
       setUser(storedUser);
       setLogin(true)
     }
-
-
   }, [])
 
   useEffect(() => {
-    console.log('SE EJECUTA AL modificar el usuario');
-    console.log(user)
+
     localStorage.setItem("usuario", JSON.stringify(user));
 
   }, [user])

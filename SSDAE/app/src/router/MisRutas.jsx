@@ -19,6 +19,12 @@ import { Historial } from "../components/historial/Historial";
 export const MisRutas = () => {
   const { login } = useContext(loginContext);
 
+
+export const MisRutas = () => {
+
+  const { login, user } = useContext(loginContext);
+
+
   return (
     <BrowserRouter>
       {login && <Navbar />}
@@ -27,6 +33,7 @@ export const MisRutas = () => {
         <Route path="/" element={login ? <Home /> : <Login />} />
 
         <Route path="/resetpass" element={<ResetPass />} />
+
 
         {login ? (
           <>
@@ -42,6 +49,22 @@ export const MisRutas = () => {
         )}
 
         <Route path="/*" element={<Navigate to="/" />} />
+
+
+        {login ? <>
+
+          <Route path="/resetform" element={<ResetForm />} />
+          <Route path="/Usuarios" element={<TablaUsuarios />} />
+          <Route path="/Tesis" element={<TablaTesis />} />
+
+        </> : ''}
+
+        {user.tipo_usuario == 'root' ? <>
+          <Route path="/Avances" element={<Avances />} />'
+        </> : ''}
+       
+        <Route path="/*" element={<Navigate to='/' />} />
+
       </Routes>
     </BrowserRouter>
   );
