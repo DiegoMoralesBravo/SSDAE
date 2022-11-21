@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
 
-const saveFile = async (req, res) => {
+const saveFile = async (req, res) => {  
 
     const extension = req.file.originalname.split('.')[1];
 
@@ -55,12 +55,16 @@ const checkTesis = async (req, res) => {
             id_alumno: req.body.id_user
         }
     });
+
+
     if (tesis.length > 0) {
+
         const avances = await prisma.avances.findMany({
             where: {
                 id_tesis: tesis[0].id_tesis
             }
         });
+
         return res.status(200).json({
             mensaje: 'Si hay tesis',
             tesis: tesis,

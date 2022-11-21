@@ -11,11 +11,11 @@ export const Avances = () => {
   const alert = useRef();
   const formulario = useRef();
   const { user } = useContext(loginContext);
-
-
   const [file, setFile] = useState(null);
   const [tesis, setTesis] = useState(false);
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
+  const [avance, setAvance] = useState({});
+  const [editar, setEditar] = useState(false);
 
 
   useEffect(() => {
@@ -28,9 +28,18 @@ export const Avances = () => {
         setTesis(false);
       } else {
         setTesis(true);
-        console.log(res)
         setData(res)
       }
+      console.log('Entras aqui?')
+
+      res.avance.forEach(element => {
+        console.log(element)
+        if (element.revisado == 'sin revisar') {
+          setEditar(true);
+          setTesis(element);
+
+        }
+      });
 
     }
     checkAvances()
@@ -80,15 +89,29 @@ export const Avances = () => {
             <p>Buzon para subir avances</p>
             <p>Estatus: ACTIVO</p>
             <p>Tema: {data.tesis[0].tema}</p>
-            <p>Avance: {data.avance.length + 1 +'/' + '4'}</p>
+            <p>Avance: {data.avance.length + 1 + '/' + '4'}</p>
           </div>
 
 
-          <form className="login-form" ref={formulario} onSubmit={sendFile} >
-            <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
-            <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
-            <button>Subir archivo</button>
-          </form>
+          {editar ?
+            <div>
+              <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Custom Upload
+              </label>
+              <input id="file-upload" type="file" />
+              <button>Descargar archivo</button>
+            </div>
+
+            :
+
+            <form className="login-form" ref={formulario} onSubmit={sendFile} >
+              <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
+              <p ref={alert} style={{ display: 'none' }} ></p>
+              <button>Subir archivo</button>
+            </form>}
+
+
+
 
 
         </div> : <div className='encabezado-avances'>
