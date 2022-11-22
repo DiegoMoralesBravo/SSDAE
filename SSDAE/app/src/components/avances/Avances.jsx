@@ -14,7 +14,6 @@ export const Avances = () => {
   const [file, setFile] = useState(null);
   const [tesis, setTesis] = useState(false);
   const [data, setData] = useState({});
-  const [avance, setAvance] = useState({});
   const [editar, setEditar] = useState(false);
 
 
@@ -30,7 +29,8 @@ export const Avances = () => {
         setTesis(true);
         setData(res)
       }
-      console.log('Entras aqui?')
+
+      console.log(res)
 
       res.avance.forEach(element => {
         console.log(element)
@@ -43,7 +43,7 @@ export const Avances = () => {
 
     }
     checkAvances()
-  }, []);
+  }, [,]);
 
 
   const saveFile = (e) => {
@@ -86,31 +86,37 @@ export const Avances = () => {
 
         {tesis ? <div>
           <div className='encabezado-avances'>
-            <p>Buzon para subir avances</p>
+            <p className='centrar'>Buzon para subir avances</p>
             <p>Estatus: ACTIVO</p>
+
             <p>Tema: {data.tesis[0].tema}</p>
-            <p>Avance: {data.avance.length + 1 + '/' + '4'}</p>
+
+
           </div>
 
 
           {editar ?
+            
             <div>
-              <label for="file-upload" class="custom-file-upload">
-                <i class="fa fa-cloud-upload"></i> Custom Upload
+
+              <h3 className='alerta-avance'>Archivo: OK!</h3>
+              <label htmlFor="file-upload" className="custom-file-upload">
+                 Cambiar archivo
               </label>
+
               <input id="file-upload" type="file" />
+
               <button>Descargar archivo</button>
             </div>
 
             :
-
+            
             <form className="login-form" ref={formulario} onSubmit={sendFile} >
+              <p>Archivo: Sin archivo</p>
               <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
               <p ref={alert} style={{ display: 'none' }} ></p>
               <button>Subir archivo</button>
             </form>}
-
-
 
 
 

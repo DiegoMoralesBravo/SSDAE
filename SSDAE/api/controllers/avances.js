@@ -68,8 +68,10 @@ const checkTesis = async (req, res) => {
         return res.status(200).json({
             mensaje: 'Si hay tesis',
             tesis: tesis,
-            avance: avances
+            avance: avances,
+            
         })
+
     } else {
         return res.status(200).json({
             mensaje: 'No hay tesis asignada'
