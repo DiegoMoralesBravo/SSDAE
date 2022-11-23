@@ -22,7 +22,7 @@ const saveFile = async (req, res) => {
         data = {
             numero_avance: parseInt(req.body.numeroAvance),
             id_tesis: tesis[0].id_tesis,
-            doc: req.file.path,
+            doc: req.file.filename,
             revisado: 'sin revisar'
         }
 

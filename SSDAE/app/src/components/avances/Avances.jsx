@@ -15,6 +15,7 @@ export const Avances = () => {
   const [tesis, setTesis] = useState(false);
   const [data, setData] = useState({});
   const [editar, setEditar] = useState(false);
+  const [downloadFile, setDowloadFile] = useState()
 
 
   useEffect(() => {
@@ -38,12 +39,14 @@ export const Avances = () => {
           setEditar(true);
           setTesis(element);
 
+          setDowloadFile("/public/avances/" + element.doc);
+
         }
       });
 
     }
     checkAvances()
-  }, [,]);
+  }, []);
 
 
   const saveFile = (e) => {
@@ -96,21 +99,21 @@ export const Avances = () => {
 
 
           {editar ?
-            
+
             <div>
 
               <h3 className='alerta-avance'>Archivo: OK!</h3>
               <label htmlFor="file-upload" className="custom-file-upload">
-                 Cambiar archivo
+                Cambiar archivo
               </label>
 
               <input id="file-upload" type="file" />
 
-              <button>Descargar archivo</button>
+              <a href={downloadFile} download><button>Descargar archivo</button></a> 
             </div>
 
             :
-            
+
             <form className="login-form" ref={formulario} onSubmit={sendFile} >
               <p>Archivo: Sin archivo</p>
               <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
