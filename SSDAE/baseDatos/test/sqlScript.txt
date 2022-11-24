@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS Alumnos
 (
     id_alumno serial PRIMARY KEY REFERENCES Usuarios ON UPDATE CASCADE ON DELETE CASCADE,
     estatus character varying NOT NULL,
-    fecha_ing date NOT NULL
+    ano_ingreso serial NOT NULL,
+    ciclo character varying NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Profesores

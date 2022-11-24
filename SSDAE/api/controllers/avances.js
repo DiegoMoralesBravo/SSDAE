@@ -103,9 +103,68 @@ const changeFile = async (req, res) => {
 
 }
 
+const avancesControl = async(req, res) => {
+
+    function containsObject(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i] === obj) {
+                return true;
+            }
+        }
+    
+        return false;
+    }
+
+    const alumnos = await prisma.alumnos.findMany()
+    console.log(alumnos)
+
+    if(alumnos.length == 0){
+        return res.status(200).json({
+            mensaje: 'No hay alumnos'
+        });
+    }
+
+    let arrayPanel = [];
+
+    alumnos.forEach(alumno =>{
+
+        let obj= {ano: alumno.ano_ingreso, ciclo: alumno.ciclo};
+
+        if(containsObject(obj,arrayPanel)){
+            console.log('Si esta')
+        }else{
+            console.log('No esta')
+            arrayPanel.push(obj);
+
+        }
+
+    })
+
+    arrayPanel.sort(function (a, b) {
+        if (a.ano > b.ano) {
+          return 1;
+        }
+        if (a.ano < b.ano) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+
+    console.log(arrayPanel)
+
+    return res.status(200).json({
+        mensaje: 'Ok',
+        arrayPanel
+    });
+
+}
+
 module.exports = {
     saveFile,
     checkTesis,
-    changeFile
+    changeFile,
+    avancesControl
 
 }

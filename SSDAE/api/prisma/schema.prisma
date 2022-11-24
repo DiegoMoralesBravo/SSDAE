@@ -8,11 +8,12 @@ datasource db {
 }
 
 model alumnos {
-  id_alumno Int      @id @default(autoincrement())
-  estatus   String   @db.VarChar
-  fecha_ing DateTime @db.Date
-  usuarios  usuarios @relation(fields: [id_alumno], references: [id_usuario], onDelete: Cascade)
-  tesis     tesis[]
+  id_alumno   Int      @id @default(autoincrement())
+  estatus     String   @db.VarChar
+  ano_ingreso Int      @default(autoincrement())
+  ciclo       String   @db.VarChar
+  usuarios    usuarios @relation(fields: [id_alumno], references: [id_usuario], onDelete: Cascade)
+  tesis       tesis[]
 }
 
 model profesores {
@@ -48,7 +49,7 @@ model tesis {
   tema        String       @db.VarChar
   id_alumno   Int          @default(autoincrement())
   descripcion String       @db.VarChar
-  alumnos     alumnos      @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction)
+  alumnos     alumnos      @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade)
   avances     avances[]
   prof_tesis  prof_tesis[]
 }
