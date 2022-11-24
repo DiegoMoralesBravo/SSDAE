@@ -1,154 +1,88 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Ventana } from "../Ventana";
 import { ListaHistorial } from "./ListaHistorial";
+import { useContext } from "react";
+import { loginContext } from "../../context/loginContext";
+import { useApi } from "../../hooks/useApi";
 
 export const Historial = () => {
+  const [cargando, setCargando] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const { user } = useContext(loginContext);
+  const api = useApi();
+  const [tesisState, setTesis] = useState([]);
 
+  useEffect(() => {
+    getData();
+  }, []);
 
-  const [visible,setVisible] = useState(false);
+  useEffect(() => {
+    console.log(tesisState);
+  }, [tesisState]);
 
-  const historialRevision = [
-    {
-      tema: "nanoparticulas",
-      alumno: "Diego morales",
-      maestro: [
-        {
-          rol: "Director",
-          nombre: "Miguel",
-        },
-        {
-          rol: "Asesor",
-          nombre: "Kevin",
-        },
-      ],
-    },
-  ];
+  const getData = async () => {
+    console.log(user);
 
-  const avances = {
-    documento: "http://diego-es-homosexual.com",
-  };
+    let url = "http:///localhost:3000/historial/alumnos";
+    let res = await api.request(url, "POST", user);
 
-  const revision = {
-    nombreRevisor: "Juan perez",
+    console.log(res);
 
-    estructuraClara: 10,
+    if (res.mensaje == "succes") {
+      console.log("entro al if");
+      setTesis(res.tesis);
+    }
 
-    actualidad: 10,
-
-    gradodeAvance: 10,
-
-    asertividad: 10,
-
-    nivelDePropuesta: 10,
-
-    apresiacion: 8,
-
-    promedio: 10,
-
-    fecha: "10/10/2022",
-
-    observaciones:
-      " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis maiores ullam vel hic similique quos porro deleniti minima voluptas perferendis atque officia libero provident, ipsum sequi in sunt neque? Dolorem",
-
-    documento: "direcion/documentos/diego",
+    setCargando(false);
   };
 
   return (
-    <div className="historial-container">
-      <article className="articulo-item">
-        <section className="header-card">
-          <div className="datos-alumno">
-            <h2>Tema: Las nanoparticulas</h2>
-            <h2>Alumno: Diego Morales</h2>
-            <h2>Director: Miguel Angel Torres</h2>
-          </div>
-        </section>
+    <>
+      {cargando ? (
+        "Cargando informacion..."
+      ) : tesisState.length >= 1 ? (
+        <div className="historial-container">
+          <article className="articulo-item">
+            <section className="header-card">
+              <div className="datos-alumno">
+                <h2>{tesisState[0].tema}</h2>
+                <h2>Alumno: Diego Morales</h2>
+                <h2>Director: Miguel Angel Torres</h2>
+              </div>
+            </section>
 
-        <section className="revisiones">
-          <div className="revision-bar">
-            <div className="links-bar">
-              <h3>1</h3>
-              <ul>
-                <li>
-                  <a>Revision</a>
-                </li>
-                <li>
-                  <a>Documento</a>
-                </li>
-                <li>
-                  <a>calificacion</a>
-                </li>
-              </ul>
-            </div>
-            <button className="mas-info" onClick={() =>setVisible(true)}>click</button>
-          </div>
-        </section>
+            <section className="revisiones">
+              <div className="revision-bar">
+                <div className="links-bar">
+                  <h3>1</h3>
+                  <ul>
+                    <li>
+                      <a>Revision</a>
+                    </li>
+                    <li>
+                      <a>Documento</a>
+                    </li>
+                    <li>
+                      <a>calificacion</a>
+                    </li>
+                  </ul>
+                </div>
+                <button className="mas-info" onClick={() => setVisible(true)}>
+                  click
+                </button>
+              </div>
+            </section>
+          </article>
 
-        <section className="revisiones">
-          <div className="revision-bar">
-            <div className="links-bar">
-              <h3>2</h3>
-              <ul>
-                <li>
-                  <a>Revision</a>
-                </li>
-                <li>
-                  <a>Documento</a>
-                </li>
-                <li>
-                  <a>calificacion</a>
-                </li>
-              </ul>
-            </div>
-            <button className="mas-info">click</button>
-          </div>
-        </section>
-
-        <section className="revisiones">
-          <div className="revision-bar">
-            <div className="links-bar">
-              <h3>3</h3>
-              <ul>
-                <li>
-                  <a>Revision</a>
-                </li>
-                <li>
-                  <a>Documento</a>
-                </li>
-                <li>
-                  <a>calificacion</a>
-                </li>
-              </ul>
-            </div>
-            <button className="mas-info">click</button>
-          </div>
-        </section>
-
-        <section className="revisiones">
-          <div className="revision-bar">
-            <div className="links-bar">
-              <h3>4</h3>
-              <ul>
-                <li>
-                  <a>Revision</a>
-                </li>
-                <li>
-                  <a>Documento</a>
-                </li>
-                <li>
-                  <a>calificacion</a>
-                </li>
-              </ul>
-            </div>
-            <button className="mas-info">click</button>
-          </div>
-        </section>
-      </article>
-
-      {visible && <Ventana componente={<ListaHistorial/>} setVisible={setVisible}/>}
-
-    </div>
-
+          {visible && (
+            <Ventana componente={<ListaHistorial />} setVisible={setVisible} />
+          )}
+        </div>
+      ) : (
+        <h1>No hay nada para mostrar...</h1>
+      )}
+    </>
   );
 };
