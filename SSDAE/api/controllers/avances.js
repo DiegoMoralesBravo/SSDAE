@@ -37,10 +37,8 @@ const checkTesis = async (req, res) => {
 const saveFile = async (req, res) => {
 
     const extension = req.file.originalname.split('.')[1];
-    console.log(extension)
 
     if (extension == 'zip' || extension == 'rar') {
-
         data = {
             numero_avance: parseInt(req.body.numeroAvance),
             id_tesis: parseInt(req.body.idTesis),
@@ -48,13 +46,12 @@ const saveFile = async (req, res) => {
             revisado: 'sin revisar'
         }
 
-        console.log(data)
-
         // //Insertar los datos en la base
         const avances = await prisma.avances.create({ data });
 
         return res.status(200).json({
-            mensaje: 'Archivo guardado'
+            mensaje: 'Archivo guardado',
+            avances
         }
         );
     }
@@ -71,39 +68,39 @@ const saveFile = async (req, res) => {
 
 
 const changeFile = async (req, res) => {
-    console.log(req.body)
-
-    // const extension = req.file.originalname.split('.')[1];
-
-    // if (extension == 'zip' || extension == 'rar') {
-
-    //     // let user = JSON.parse(req.body.user)
-
-    //     console.log(req.body)
-
-    //     // //Insertar los datos en la base
-    //     // const tesis = await prisma.tesis.findMany({
-    //     //     where: {
-    //     //         id_alumno: user.id_user
-    //     //     }
-    //     // });
-
-    // } else {
-
-    //     fs.unlink(req.file.path, e => {
-    //         return res.status(400).json({
-    //             mensaje: 'Archivo no guardado'
-    //         }
-    //         );
-    //     });
-
-    // }
+    const extension = req.file.originalname.split('.')[1];
+    if (extension == 'zip' || extension == 'rar') {
+        const updateDoc = await prisma.avances.updateMany({
+            where: {
+                doc: req.body.oldName,
+            },
+            data: {
+                doc: req.file.filename,
+            },
+        })
 
 
+        fs.unlink('../app/public/avances/' + req.body.oldName, e => {
+            console.log('Se elimino')
+        });
 
-    return res.status(200).json({
-        mensaje: 'prueba'
-    })
+        return res.status(200).json({
+            mensaje: 'Archivo guardado',
+            docName: req.file.filename
+        })
+
+    } else {
+
+        fs.unlink(req.file.path, e => {
+            return res.status(400).json({
+                mensaje: 'Archivo no guardado'
+            }
+            );
+        });
+
+    }
+
+
 }
 
 module.exports = {

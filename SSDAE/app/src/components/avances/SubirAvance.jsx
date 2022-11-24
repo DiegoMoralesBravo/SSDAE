@@ -2,8 +2,7 @@ import React, { useRef } from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-
-export const SubirAvance = ({setFile, avances, tesis}) => {
+export const SubirAvance = ({setFile}) => {
     const saveFile = (e) => {
         setFile(e.target.files[0]);
     }

@@ -12,8 +12,11 @@ export const Avances = () => {
   const api = useApi();
   const { user } = useContext(loginContext);
   const [tesisAsignada, setTesisAsignada] = useState(false);
+  const [bandera, setBandera] = useState(1)
   const [tesis, setTesis] = useState()
   const [avances, setAvances] = useState()
+
+
 
   useEffect(() => {
     const checkAvances = async () => {
@@ -27,8 +30,6 @@ export const Avances = () => {
         setAvances(res.avance)
       }
     }
-
-
     checkAvances()
   }, []);
 
@@ -36,7 +37,7 @@ export const Avances = () => {
 
   return (
     <>
-      {tesisAsignada ? <VistaAvance tesis={tesis} avances={avances}/> : <NoTesis/>}
+      {tesisAsignada ? <VistaAvance tesis={tesis} avances={avances} setBandera={setBandera} bandera={bandera}/> : <NoTesis/>}
     </>
     
     
