@@ -37,6 +37,7 @@ export const AvancesControl = () => {
                         <th><strong>Ciclo</strong></th>
                         <th><strong>Buzon</strong></th>
                     </tr>
+
                     {data.map(row => {
                         return (
                             <tr >
@@ -46,6 +47,8 @@ export const AvancesControl = () => {
                             </tr>
                         )
                     })}
+
+
                 </tbody>
             </table>
 

@@ -105,6 +105,9 @@ const changeFile = async (req, res) => {
 
 const avancesControl = async(req, res) => {
 
+    let arrayPanel = [];
+
+
     function containsObject(obj, list) {
         var i;
         for (i = 0; i < list.length; i++) {
@@ -121,11 +124,11 @@ const avancesControl = async(req, res) => {
 
     if(alumnos.length == 0){
         return res.status(200).json({
-            mensaje: 'No hay alumnos'
+            mensaje: 'No hay alumnos',
+            arrayPanel
         });
     }
 
-    let arrayPanel = [];
 
     alumnos.forEach(alumno =>{
 

@@ -60,6 +60,14 @@ CREATE TABLE IF NOT EXISTS Avances
     revisado character varying NOT NULL,
     CONSTRAINT numero_avance_id_tesis PRIMARY KEY (numero_avance, id_tesis)
 );
+
+CREATE TABLE IF NOT EXISTS AvancesControl
+(
+    ano_ingreso serial,
+    ciclo character varying,
+    estatus character varying NOT NULL,
+    CONSTRAINT Avances_primarykey PRIMARY KEY (ano_ingreso, ciclo)
+);
 		 
 INSERT INTO Usuarios
 	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
