@@ -5,6 +5,8 @@ const usuarioRouter = require('./paths/usuario');
 const resetPassRouter = require('./paths/resetPass');
 const tesisRouter = require('./paths/tesis');
 const avancesRouter = require('./paths/avances')
+const historialRouter = require("./paths/historial")
+const historialProfesoresRouter = require("./paths/historial")
 
 const puerto = 3000;
 const app = express();
@@ -29,6 +31,11 @@ app.use("/resetPass",resetPassRouter);
 app.use("/tesis",tesisRouter);
 
 app.use("/avances",avancesRouter);
+
+app.use("/historial",historialRouter);
+
+app.use("/historial",historialProfesoresRouter);
+
 
 //Crear serivodor y escuchar peticiones
 app.listen(puerto, () => {

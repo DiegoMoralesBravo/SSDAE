@@ -22,7 +22,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
- 
     width: 50%;
     align-items: center;
 }
@@ -30,6 +29,7 @@
 .logo-container img{
 
     width: 300px;
+    filter: drop-shadow(0 2px 5px rgba(106, 106, 106, 0.7))
 
 }
 
@@ -50,7 +50,9 @@
 
 .imagen-container img{
 
-    width: 100%;
+    width: 90%;
+    margin-right: 300px;
+     filter: drop-shadow(0 2px 5px rgba(106, 106, 106, 0.7));
 
 
 }
