@@ -2,13 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 
-export const EditarAvance = ({setChangeFile, dowloadPath, setBandera, bandera}) => {
-
-  useEffect(()=>{
-    console.log('Se monta editar')
-
-    console.log(dowloadPath)
-  },[])
+export const EditarAvance = ({setChangeFile, dowloadPath}) => {
 
   const changeFile = (e) => {
     setChangeFile(e.target.files[0])
@@ -21,7 +15,6 @@ export const EditarAvance = ({setChangeFile, dowloadPath, setBandera, bandera}) 
         Cambiar archivo
       </label>
       <input onChange={changeFile} name='file' id="file-upload" type="file" />
-
       <a href={dowloadPath} download><button>Descargar archivo</button></a>
     </div>
   )

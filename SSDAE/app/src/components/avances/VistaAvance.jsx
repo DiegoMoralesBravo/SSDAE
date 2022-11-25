@@ -1,20 +1,21 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { EditarAvance } from './EditarAvance';
 import { SubirAvance } from './SubirAvance';
 import { useApi } from '../../hooks/useApi'
 
-export const VistaAvance = ({ tesis, avances, setBandera, bandera }) => {
+export const VistaAvance = ({ tesis, avances, buzon }) => {
 
     const [editar, setEditar] = useState(false);
     const [changeFile, setChangeFile] = useState();
     const [oldName, setOldName] = useState()
-    const [dowloadPath, setDowloadPath] = useState('Diego');
+    const [dowloadPath, setDowloadPath] = useState('');
     const [file, setFile] = useState();
     const api = useApi();
 
     useEffect(() => {
+        console.log(buzon)
         avances.forEach(avance => {
             if (avance.revisado == 'sin revisar') {
                 setDowloadPath('/public/avances/' + avance.doc)
@@ -49,8 +50,6 @@ export const VistaAvance = ({ tesis, avances, setBandera, bandera }) => {
             console.log(res)
             setDowloadPath('/public/avances/' + res.docName)
             setOldName(res.docName)
-
-
             alert('Se ha guardado el nuevo archivo')
         } else {
             alert('Solo archivos del tipo zip o rar')
@@ -71,7 +70,6 @@ export const VistaAvance = ({ tesis, avances, setBandera, bandera }) => {
         if (res.mensaje == 'Archivo guardado') {
             console.log('Archivo guardado')
             console.log(res)
-
             setDowloadPath('/public/avances/' + res.avances.doc)
             setOldName(res.avances.doc)
             setEditar(true)
@@ -85,10 +83,17 @@ export const VistaAvance = ({ tesis, avances, setBandera, bandera }) => {
             <div className="form">
                 <div className='encabezado-avances'>
                     <p className='centrar'>Buzon para subir avances</p>
-                    <p>Estatus: ACTIVO</p>
+                    <p>Estatus: {buzon}</p>
                     <p>Tema: {tesis[0].tema}</p>
                 </div>
-                {editar ? <EditarAvance dowloadPath={dowloadPath} setChangeFile={setChangeFile} setBandera={setBandera} bandera={bandera} /> : <SubirAvance setFile={setFile} />}
+
+
+                {
+                buzon == 'cerrado' ? '' :  editar ? <EditarAvance dowloadPath={dowloadPath} setChangeFile={setChangeFile} /> : <SubirAvance setFile={setFile} />
+                }
+                {
+               
+                }
             </div>
         </div>
     )

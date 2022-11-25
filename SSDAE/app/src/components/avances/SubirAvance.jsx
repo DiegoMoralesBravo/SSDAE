@@ -1,6 +1,4 @@
 import React, { useRef } from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 export const SubirAvance = ({setFile}) => {
     const saveFile = (e) => {

@@ -11,9 +11,21 @@ const checkTesis = async (req, res) => {
         }
     });
 
+    const alumno = await prisma.alumnos.findMany({
+        where: {
+            id_alumno: req.body.id_user
+        }
+    });
+
+    const buzon = await prisma.avancescontrol.findMany({
+        where: {
+            ano_ingreso: alumno[0].ano_ingreso,
+            ciclo: alumno[0].ciclo
+        }
+    })
+
 
     if (tesis.length > 0) {
-
         const avances = await prisma.avances.findMany({
             where: {
                 id_tesis: tesis[0].id_tesis
@@ -24,9 +36,8 @@ const checkTesis = async (req, res) => {
             mensaje: 'Si hay tesis',
             tesis: tesis,
             avance: avances,
-
+            buzon: buzon[0].estatus
         })
-
     } else {
         return res.status(200).json({
             mensaje: 'No hay tesis asignada'
