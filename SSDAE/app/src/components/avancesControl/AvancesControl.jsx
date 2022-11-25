@@ -7,25 +7,41 @@ import { useApi } from '../../hooks/useApi';
 export const AvancesControl = () => {
 
     const [data, setData] = useState([]);
-    const api = useApi();
+    const [bandera, setBandera] = useState(1);
 
+    const api = useApi();
 
     useEffect(() => {
         console.log('Test')
         getData()
-    }, [])
+    }, [, bandera])
 
     const getData = async () => {
         const url = "http:///localhost:3000/avances/avancesControl";
-
         let res = await api.request(url, "GET");
         console.log(res)
-        console.log(res.arrayPanel)
-        setData(res.arrayPanel);
+        setData(res.avancescontrolTable);
+    }
+
+    const activarDesactivar = async (ano_ingreso, ciclo, estatus) => {
+        let mensaje;
+
+        if(estatus == 'abierto'){
+            mensaje = 'Desea abrir el buzon para el ano: ' + ano_ingreso + ' del ciclo: ' + ciclo
+        }else{
+            mensaje = 'Desea cerrar el buzon para el ano: ' + ano_ingreso + ' del ciclo: ' + ciclo
+        }
+
+        if (confirm(mensaje)) {
+            const url = "http:///localhost:3000/avances/activarDesactivar";
+            let res = await api.request(url, "POST", { ano_ingreso, ciclo, estatus });
+            console.log(res)
+            setBandera(bandera + 1)
+        }
     }
 
     return (
-        <div className='container-table'>
+        <div className='container-table-min'>
 
             <div className='header'>
                 <p>Avances panel</p>
@@ -40,15 +56,15 @@ export const AvancesControl = () => {
 
                     {data.map(row => {
                         return (
-                            <tr >
-                                <td>{row.ano}</td>
+                            <tr key={row.ano_ingreso + row.ciclo}>
+                                <td>{row.ano_ingreso}</td>
                                 <td>{row.ciclo}</td>
-                                <td><button >Activar</button></td>
+                                <td className='row-table'>
+                                    {row.estatus == 'cerrado' ? <button onClick={() => activarDesactivar(row.ano_ingreso, row.ciclo, 'abierto')}>Activar</button> : <button onClick={() => activarDesactivar(row.ano_ingreso, row.ciclo, 'cerrado')}>Desactivar</button>}
+                                </td>
                             </tr>
                         )
                     })}
-
-
                 </tbody>
             </table>
 

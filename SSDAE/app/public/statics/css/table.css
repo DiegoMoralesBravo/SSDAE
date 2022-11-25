@@ -7,6 +7,15 @@
   background: #FFFFFF;
 }
 
+.container-table-min {
+  background-color: aqua;
+  width: 30%;
+  margin: auto;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  font-family: "Roboto", sans-serif;
+  background: #FFFFFF;
+}
+
 
 .header {
   display: flex;

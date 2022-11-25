@@ -37,8 +37,27 @@ const create = async (req, res) => {
 
         const insertData = await prisma.alumnos.create({ data });
 
+        console.log('llegie aqio')
+        const avancescontrol = await prisma.avancescontrol.findMany({
+            where: {
+                ano_ingreso: parseInt(dataBody.ano_ingreso),
+                ciclo: dataBody.ciclo
+            },
+        })
 
-    }else {
+        console.log(avancescontrol)
+
+        if (avancescontrol.length == 0) {
+            data = {
+                ano_ingreso: parseInt(dataBody.ano_ingreso),
+                ciclo: dataBody.ciclo,
+                estatus: 'cerrado'
+            }
+            const insertData = await prisma.avancescontrol.create({ data });
+        }
+
+
+    } else {
         console.log('Maestro')
 
         data = {
@@ -61,7 +80,7 @@ const validation = async (req, res) => {
     console.log('Validacion de usuario');
     //Recoger los parametros por post a guardar
     let data = req.body;
-    
+
     data.contrasena = md5(data.contrasena)
 
 

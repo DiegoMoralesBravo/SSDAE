@@ -73,3 +73,11 @@ model avances {
 
   @@id([numero_avance, id_tesis], map: "numero_avance_id_tesis")
 }
+
+model avancescontrol {
+  ano_ingreso Int    @default(autoincrement())
+  ciclo       String @db.VarChar
+  estatus     String @db.VarChar
+
+  @@id([ano_ingreso, ciclo], map: "avances_primarykey")
+}

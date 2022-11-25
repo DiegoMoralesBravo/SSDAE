@@ -19,7 +19,7 @@ router.post("/saveFile", [subidas.single('file')], avances.saveFile);
 router.post("/checkTesis", avances.checkTesis);
 router.post("/changeFile", [subidas.single('file')] ,avances.changeFile);
 router.get("/avancesControl",avances.avancesControl);
-
+router.post("/activarDesactivar",avances.activarDesactivar);
 
 
 module.exports = router; 

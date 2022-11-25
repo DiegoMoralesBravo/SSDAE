@@ -105,69 +105,48 @@ const changeFile = async (req, res) => {
 
 const avancesControl = async(req, res) => {
 
-    let arrayPanel = [];
+    const avancescontrolTable = await prisma.avancescontrol.findMany()
 
-
-    function containsObject(obj, list) {
-        var i;
-        for (i = 0; i < list.length; i++) {
-            if (list[i] === obj) {
-                return true;
-            }
-        }
-    
-        return false;
-    }
-
-    const alumnos = await prisma.alumnos.findMany()
-    console.log(alumnos)
-
-    if(alumnos.length == 0){
+    if(avancescontrolTable.length == 0){
         return res.status(200).json({
             mensaje: 'No hay alumnos',
-            arrayPanel
+            avancescontrolTable
         });
     }
 
-
-    alumnos.forEach(alumno =>{
-
-        let obj= {ano: alumno.ano_ingreso, ciclo: alumno.ciclo};
-
-        if(containsObject(obj,arrayPanel)){
-            console.log('Si esta')
-        }else{
-            console.log('No esta')
-            arrayPanel.push(obj);
-
-        }
-
-    })
-
-    arrayPanel.sort(function (a, b) {
-        if (a.ano > b.ano) {
-          return 1;
-        }
-        if (a.ano < b.ano) {
-          return -1;
-        }
-        // a must be equal to b
-        return 0;
-      });
-
-    console.log(arrayPanel)
-
     return res.status(200).json({
         mensaje: 'Ok',
-        arrayPanel
+        avancescontrolTable
     });
+}
 
+const activarDesactivar = async (req, res) => {
+    console.log(req.body)
+    console.log(req.body.ano_ingreso)
+    console.log(req.body.ciclo)
+    console.log(req.body.estatus)
+
+    const updateBuzon = await prisma.avancescontrol.updateMany({
+        where: {
+            ano_ingreso: req.body.ano_ingreso,
+            ciclo: req.body.ciclo
+        },
+        data: {
+            estatus: req.body.estatus
+        }
+    })
+    console.log(updateBuzon)
+
+    return res.status(200).json({
+        mensaje: 'chido'
+    })
 }
 
 module.exports = {
     saveFile,
     checkTesis,
     changeFile,
-    avancesControl
+    avancesControl,
+    activarDesactivar
 
 }
