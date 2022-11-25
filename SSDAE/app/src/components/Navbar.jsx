@@ -50,7 +50,7 @@ export const Navbar = () => {
                         <NavLink to="/Tesis"> Tesis </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/Avances"> Avances </NavLink>
+                            <NavLink to="/AvancesControl"> Avances </NavLink>
                         </li>
                     </> : ''}
 

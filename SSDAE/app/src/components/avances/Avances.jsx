@@ -1,63 +1,44 @@
 import React from 'react'
-import { useRef } from 'react';
+import { useContext } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
+import { loginContext } from '../../context/loginContext';
 import { useApi } from '../../hooks/useApi'
+import { NoTesis } from './NoTesis';
+import { VistaAvance } from './VistaAvance';
 
 export const Avances = () => {
   const api = useApi();
-  const alert = useRef();
-  const formulario = useRef();
+  const { user } = useContext(loginContext);
+  const [tesisAsignada, setTesisAsignada] = useState(false);
+  const [tesis, setTesis] = useState()
+  const [buzon, setBuzon] = useState()
+  const [avances, setAvances] = useState()
 
-  const [file, setFile] = useState(null);
+  useEffect(() => {
+    const checkAvances = async () => {
+      let url = "http:///localhost:3000/avances/checkTesis";
+      let res = await api.request(url, "POST", user);
 
-  const saveFile = (e) => {
-    setFile(e.target.files[0]);
-  }
+      console.log(res)
 
-  const sendFile = async (e) => {
-    e.preventDefault();
-    console.log('Enviare el archivo')
-
-    var formData = new FormData();
-
-    formData.append("file", file);
-    formData.append("mensaje", "OJALA LO PUEDAS LEER");
-
-    let url = "http:///localhost:3000/avances/saveFile";
-
-    let res = await api.request(url, "POST", formData, true);
-
-    if (res.mensaje == 'Archivo guardado') {
-      console.log('Archivo guardado')
-    } else {
-      alert.current.style.display = 'block';
-      alert.current.innerText = '*Solo archivos comprimidos'
-    }x``
-
-    formulario.current.reset();
-  }
-
-
+      if (res.mensaje == 'No hay tesis asignada') {
+        setTesisAsignada(false);
+      } else{
+        setTesisAsignada(true);
+        setTesis(res.tesis)
+        setAvances(res.avance)
+        setBuzon(res.buzon)
+      }
+    }
+    checkAvances()
+  }, []);
 
   return (
-    <div className="login-page">
-
-      <div className="form">
-        <div className='encabezado-avances'>
-          <p>Buzon para subir avances</p>
-          <p>Estatus: ACTIVO</p>
-        </div>
-
-
-        <form className="login-form" ref={formulario} onSubmit={sendFile} >
-
-          <input type="file" placeholder="Correo electronico" name='file' onChange={saveFile} required />
-
-          <p ref={alert} style={{ display: 'none' }} >*Usuario y/o contraseña incorrectos</p>
-
-          <button>Subir archivo</button>
-        </form>
-      </div>
-    </div>
+    <>
+      {tesisAsignada ? <VistaAvance tesis={tesis} avances={avances} buzon={buzon}/> : <NoTesis/>}
+    </>
+    
+    
   )
 }

@@ -5,13 +5,10 @@ const router = express.Router();
 
 const almacenamiento = multer.diskStorage({
     destination: (req, file, cb) => {
-
-        cb(null, './../avances/');
+        cb(null, '../app/public/avances');
     },
     filename: (req, file, cb) => {
-        console.log('----------------------------------------------')
-        console.log(req)
-        cb(null, 'test' + file.originalname)
+        cb(null, Date.now() + file.originalname)
     }
 })
 
@@ -19,5 +16,10 @@ const subidas = multer({ storage: almacenamiento })
 
 //Rutas
 router.post("/saveFile", [subidas.single('file')], avances.saveFile);
+router.post("/checkTesis", avances.checkTesis);
+router.post("/changeFile", [subidas.single('file')] ,avances.changeFile);
+router.get("/avancesControl",avances.avancesControl);
+router.post("/activarDesactivar",avances.activarDesactivar);
+
 
 module.exports = router; 

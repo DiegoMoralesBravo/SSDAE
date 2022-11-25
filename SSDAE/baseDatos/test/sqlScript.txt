@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS Alumnos
 (
     id_alumno serial PRIMARY KEY REFERENCES Usuarios ON UPDATE CASCADE ON DELETE CASCADE,
     estatus character varying NOT NULL,
-    fecha_ing date NOT NULL
+    ano_ingreso serial NOT NULL,
+    ciclo character varying NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Profesores
@@ -51,6 +52,22 @@ CREATE TABLE IF NOT EXISTS Prof_Tesis
     CONSTRAINT Prof_Tesis_primarykey PRIMARY KEY (id_profesor, id_tesis)
 );
 
+CREATE TABLE IF NOT EXISTS Avances
+(
+    numero_avance serial,
+    id_tesis serial REFERENCES Tesis ON UPDATE CASCADE ON DELETE CASCADE,
+    doc character varying NOT NULL,
+    revisado character varying NOT NULL,
+    CONSTRAINT numero_avance_id_tesis PRIMARY KEY (numero_avance, id_tesis)
+);
+
+CREATE TABLE IF NOT EXISTS AvancesControl
+(
+    ano_ingreso serial,
+    ciclo character varying,
+    estatus character varying NOT NULL,
+    CONSTRAINT Avances_primarykey PRIMARY KEY (ano_ingreso, ciclo)
+);
 		 
 INSERT INTO Usuarios
 	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
