@@ -16,6 +16,7 @@ import { CrearTesis } from "../components/tesis/CrearTesis";
 import { TablaTesis } from "../components/tesis/TablaTesis";
 import { Historial } from "../components/historial/Historial";
 import { Avances } from "../components/avances/Avances";
+import { AvancesControl } from "../components/avancesControl/AvancesControl";
 
 
 export const MisRutas = () => {
@@ -40,7 +41,8 @@ export const MisRutas = () => {
               <Route path="/Usuarios" element={<TablaUsuarios />} />
               <Route path="/Tesis" element={<TablaTesis />} />
               {user.tipo_usuario != 'root' ? <Route path="/historial" element={<Historial/>} />:""}
-            
+              <Route path="/AvancesControl" element={<AvancesControl />} />
+              
           </>
         ) : (
           ""
@@ -57,7 +59,8 @@ export const MisRutas = () => {
 
         </> : ''}
 
-        {user.tipo_usuario == 'root' ? <>
+
+        {user.tipo_usuario == 'alumno' ? <>
           <Route path="/Avances" element={<Avances />} />'
         </> : ''}
        

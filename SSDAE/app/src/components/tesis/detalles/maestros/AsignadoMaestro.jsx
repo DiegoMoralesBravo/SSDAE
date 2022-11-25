@@ -9,14 +9,12 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
   const [tableInfo, setTableInfo] = useState([]);
   const [rol, setRol] = useState(0);
   const [director, setDirector] = useState('');
+
   const [selectRol, setSelectRol] = useState(['Sin rol', 'Director', 'Codirector', 'Observador']);
 
   const reqAll = async () => {
-
     const url = "http:///localhost:3000/tesis/fillTableProf_tesis";
-
     const res = await api.request(url, "POST", { id_tesis: idTesis });
-
     setTableInfo(res.prof_tesis)
   }
 
@@ -25,10 +23,8 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
   }, [, flagCambio])
 
   useEffect(() => {
-
     if (director) {
       console.log('Igual')
-
     } else {
       console.log('Diferente')
     }
@@ -36,16 +32,12 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
 
 
   const desasignarMaestro = async (id_profesor, nombre) => {
-
     if (confirm("¿Desea desasignar el profesor: " + nombre)) {
-
       const url = "http:///localhost:3000/tesis/unsignTeacher";
-
       const res = await api.request(url, "POST", { id_profesor: id_profesor, id_tesis: idTesis });
       reqAll();
       setFlagCambio(flagCambio + 1)
     }
-
   };
 
   const asignarRoles = () => {
@@ -62,21 +54,14 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
     console.log('Cambio en el selector')
     console.log(e.target.value)
     console.log(id_profesor)
-
     if (director == id_profesor && e.target.value != 'Director') {
       setDirector('');
     }
-
     if (e.target.value == 'Director') {
       setDirector(id_profesor)
     }
-
-
-
     const url = "http:///localhost:3000/tesis/rolTeacher";
-
     const res = await api.request(url, "POST", { id_profesor: id_profesor, id_tesis: idTesis, rol: e.target.value });
-
     console.log(res)
   }
 
@@ -104,9 +89,12 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
                 <td>{user.profesores.usuarios.correo}</td>
                 <td>{user.profesores.interno_externo}</td>
                 <td>
+
                   {rol ?
                     <select onChange={(e) => rolCheck(e, user.id_profesor)}>
+
                       <option>{user.rol}</option>
+                      
                       {selectRol.map(rol => {
 
                         if (user.rol == rol) {
@@ -123,9 +111,11 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
 
                     </select> : user.rol}
                 </td>
+
                 <td>
                   {!rol && <button onClick={() => desasignarMaestro(user.id_profesor, nombre)} >Quitar</button>}
                 </td>
+
               </tr>
             );
           })}
