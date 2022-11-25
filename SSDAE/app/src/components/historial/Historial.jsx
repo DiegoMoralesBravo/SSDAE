@@ -6,7 +6,7 @@ import { ListaHistorial } from "./ListaHistorial";
 import { useContext } from "react";
 import { loginContext } from "../../context/loginContext";
 import { useApi } from "../../hooks/useApi";
-import { Alumno } from "./alumno";
+import { Alumno } from "./Alumno";
 import { Profesor } from "./Profesor";
 
 
