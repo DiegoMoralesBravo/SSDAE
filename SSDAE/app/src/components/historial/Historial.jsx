@@ -6,33 +6,67 @@ import { ListaHistorial } from "./ListaHistorial";
 import { useContext } from "react";
 import { loginContext } from "../../context/loginContext";
 import { useApi } from "../../hooks/useApi";
+import { Alumno } from "./alumno";
+import { Profesor } from "./Profesor";
+
 
 export const Historial = () => {
   const [cargando, setCargando] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [tesisState, setTesis] = useState([]);
+  const [profesorState, setProfesorState] = useState([]);
+  const [tesisByMaestroState, setTesisByMaestro] = useState([]);
+
   const { user } = useContext(loginContext);
   const api = useApi();
-  const [tesisState, setTesis] = useState([]);
 
   useEffect(() => {
-    getData();
+    if (user.tipo_usuario == "alumno") {
+      getData();
+    }
+    if (user.tipo_usuario == "maestro") {
+      getDataToProfesores();
+    }
   }, []);
 
   useEffect(() => {
-    console.log(tesisState);
-  }, [tesisState]);
+
+    console.log(tesisByMaestroState);
+
+  }, [tesisState, profesorState,tesisByMaestroState]);
+
+  const getDataToProfesores = async () => {
+    let url = "http:///localhost:3000/historial/profesores";
+    let res = await api.request(url, "POST", user);
+
+    console.log("------------- aqui se resive la informacion ------------");
+    console.log(res);
+
+    if(res.mensaje == "succes"){
+
+      console.log("entro al if de maestro");
+
+      setTesisByMaestro(res.tesisByProf);
+
+    }
+
+    setCargando(false);
+  };
 
   const getData = async () => {
+    console.log("usuario logeado");
     console.log(user);
 
     let url = "http:///localhost:3000/historial/alumnos";
     let res = await api.request(url, "POST", user);
 
     console.log(res);
+    console.log("informacion" + res.prof_tesis);
 
     if (res.mensaje == "succes") {
-      console.log("entro al if");
+    
       setTesis(res.tesis);
+      setProfesorState(res.nombreDirector);
     }
 
     setCargando(false);
@@ -42,47 +76,10 @@ export const Historial = () => {
     <>
       {cargando ? (
         "Cargando informacion..."
-      ) : tesisState.length >= 1 ? (
-        <div className="historial-container">
-          <article className="articulo-item">
-            <section className="header-card">
-              <div className="datos-alumno">
-                <h2>{tesisState[0].tema}</h2>
-                <h2>Alumno: Diego Morales</h2>
-                <h2>Director: Miguel Angel Torres</h2>
-              </div>
-            </section>
-
-            <section className="revisiones">
-              <div className="revision-bar">
-                <div className="links-bar">
-                  <h3>1</h3>
-                  <ul>
-                    <li>
-                      <a>Revision</a>
-                    </li>
-                    <li>
-                      <a>Documento</a>
-                    </li>
-                    <li>
-                      <a>calificacion</a>
-                    </li>
-                  </ul>
-                </div>
-                <button className="mas-info" onClick={() => setVisible(true)}>
-                  click
-                </button>
-              </div>
-            </section>
-          </article>
-
-          {visible && (
-            <Ventana componente={<ListaHistorial />} setVisible={setVisible} />
-          )}
-        </div>
-      ) : (
-        <h1>No hay nada para mostrar...</h1>
-      )}
+      ) : (tesisState.length >= 1 && user.tipo_usuario == "alumno" )
+      ? (<Alumno tesisState = {tesisState} profesorState = {profesorState} user = {user}/>) 
+      
+        :<Profesor tesisByMaestroState ={tesisByMaestroState}/>}
     </>
   );
 };

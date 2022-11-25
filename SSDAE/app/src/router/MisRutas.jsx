@@ -40,9 +40,9 @@ export const MisRutas = () => {
               <Route path="/resetform" element={<ResetForm />} />
               <Route path="/Usuarios" element={<TablaUsuarios />} />
               <Route path="/Tesis" element={<TablaTesis />} />
-              <Route path="/historial" element={<Historial/>} />
+              {user.tipo_usuario != 'root' ? <Route path="/historial" element={<Historial/>} />:""}
               <Route path="/AvancesControl" element={<AvancesControl />} />
-            
+              
           </>
         ) : (
           ""

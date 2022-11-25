@@ -6,7 +6,7 @@ const resetPassRouter = require('./paths/resetPass');
 const tesisRouter = require('./paths/tesis');
 const avancesRouter = require('./paths/avances')
 const historialRouter = require("./paths/historial")
-const historialProfesoresRouter = require("./paths/historial")
+const historialProfesoresRouter = require("./paths/historialProfesores")
 
 const puerto = 3000;
 const app = express();
