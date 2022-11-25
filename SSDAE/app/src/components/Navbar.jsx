@@ -37,8 +37,15 @@ export const Navbar = () => {
 
                     </li>
                     <li>
-                            <NavLink to="/historial"> Historial </NavLink> 
                         
+                        {
+
+                            
+                            tipo_usuario != 'root' ? <NavLink to="/historial"> Historial </NavLink> : ''
+                        
+                        
+                        }
+                           
                     </li>
                 
 

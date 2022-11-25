@@ -22,9 +22,9 @@ const getDataToHistorial = async (req, res) => {
       },
     });
 
-    console.log("busqueda encadenada");
+    console.log("-----------busqueda encadenada--------------");
 
-    //console.log(prof_tesis);
+    console.log(prof_tesis);
     
 
     let idDirector;
@@ -41,7 +41,7 @@ const getDataToHistorial = async (req, res) => {
       },
     });
 
-    //console.log(nombreDirector);
+    console.log(nombreDirector);
 
     if (tesis.length == 0) {
       return res.status(400).json({

@@ -4,6 +4,6 @@ const historialProfesores = require("../controllers/historialProfesores")
 const router = express.Router();
 
 //Rutas
-router.post("/historial", historialProfesores.getDataToHistorialProfesores);
+router.post("/profesores", historialProfesores.getDataToHistorialProfesores);
 
 module.exports = router; 
