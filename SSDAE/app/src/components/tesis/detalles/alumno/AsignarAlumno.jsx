@@ -31,8 +31,13 @@ export const AsignarAlumno = ({ idTesis, setAlumnoAsignado, alumnoAsignado }) =>
 
     const reqAll = async () => {
         const url = "http:///localhost:3000/tesis/fillTableStudent";
-        const res = await api.request(url, "GET");
+        try {
+            const res = await api.request(url, "GET");
         setTableInfo(JSON.parse(res))
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     useEffect(() => {
@@ -43,9 +48,13 @@ export const AsignarAlumno = ({ idTesis, setAlumnoAsignado, alumnoAsignado }) =>
 
         if (confirm("¿Desea asignar el estudiante: " + name)) {
             const url = "http:///localhost:3000/tesis/asignStudent";
-            const res = await api.request(url, "POST", {id_usuario: studentId, id_tesis: idTesis});
-            reqAll();
-            setAlumnoAsignado(studentId)
+            try {
+                const res = await api.request(url, "POST", {id_usuario: studentId, id_tesis: idTesis});
+                reqAll();
+                setAlumnoAsignado(studentId)
+            } catch (error) {
+                console.log(error)
+            }
           }
     }
 

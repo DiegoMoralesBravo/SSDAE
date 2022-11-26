@@ -1,11 +1,11 @@
-import React from 'react'
-import { useRef } from 'react';
-import { useContext } from 'react';
-import { loginContext } from '../../context/loginContext';
-import { useApi } from '../../hooks/useApi';
-import { ResetForm } from '../resetPass/ResetForm';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React from "react";
+import { useRef } from "react";
+import { useContext } from "react";
+import { loginContext } from "../../context/loginContext";
+import { useApi } from "../../hooks/useApi";
+import { ResetForm } from "../resetPass/ResetForm";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export const LoginForm = () => {
   const { setShowPassForm, setLogin, setUser, user } = useContext(loginContext);
@@ -22,36 +22,39 @@ export const LoginForm = () => {
 
     let dataForm = {
       correo: inputEmail.current.value.toLowerCase(),
-
       contrasena: inputPass.current.value,
     };
 
     const url = "http:///localhost:3000/usuario/validation";
 
-    let res = await api.request(url, "POST", dataForm);
+    try {
+      let res = await api.request(url, "POST", dataForm);
 
-    res.error = "";
-    if (res.mensaje == "User found") {
-      setLogin(true);
+      if (res.mensaje == "User found") {
+        setLogin(true);
 
-      const userData = {
-        id_user: res.user.id_usuario,
-        correo: res.user.correo,
-        nombre: res.user.nombre,
-        ap_p: res.user.ap_p,
-        tipo_usuario: res.user.tipo_usuario,
-      };
+        const userData = {
+          id_user: res.user.id_usuario,
+          correo: res.user.correo,
+          nombre: res.user.nombre,
+          ap_p: res.user.ap_p,
+          tipo_usuario: res.user.tipo_usuario,
+        };
 
-      setUser(userData);
-    } else if (res.mensaje == "User found change pass") {
-      console.log("Cambio de contrasena");
+        setUser(userData);
+      } else if (res.mensaje == "User found change pass") {
+        console.log("Cambio de contrasena");
 
-      setView(<ResetForm email={res.user.correo} />);
-    } else {
-      inputEmail.current.className = "fail";
-      inputPass.current.className = "fail";
-      alert.current.style.display = "block";
-      inputPass.current.value = "";
+        setView(<ResetForm email={res.user.correo} />);
+        
+      } else {
+        inputEmail.current.className = "fail";
+        inputPass.current.className = "fail";
+        alert.current.style.display = "block";
+        inputPass.current.value = "";
+      }
+    } catch (error) {
+      console.log('A ocurrido un error')
     }
   };
 

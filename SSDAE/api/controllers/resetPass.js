@@ -1,152 +1,151 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const md5 = require('md5');
-const nodemailer = require('nodemailer');
-
+const md5 = require("md5");
+const nodemailer = require("nodemailer");
 
 const userValidation = async (req, res) => {
+  console.log("Validacion de que existe un usuario con este correo");
+  //Recoger los parametros por post a guardar
+  let data = req.body;
+  console.log(data);
 
-    console.log('Validacion de que existe un usuario con este correo');
-    //Recoger los parametros por post a guardar
-    let data = req.body;
-    console.log(data)
-
-    //Leer la base de dato de alumnos
+  try {
     const user = await prisma.usuarios.findMany({
-        where: {
-            correo: data.correo,
-        },
-    })
-
-    console.log(user)
+      where: {
+        correo: data.correo,
+      },
+    });
 
     if (user.length) {
-        let token = md5(Math.random().toString());
+      let token = md5(Math.random().toString());
 
-        let currentTime = new Date().getTime();
-        let updatedTIme = new Date(currentTime + 2 * 60 * 60 * 1000);
-        console.log(user.id_usuario)
+      let currentTime = new Date().getTime();
+      let updatedTIme = new Date(currentTime + 2 * 60 * 60 * 1000);
+      console.log(user.id_usuario);
 
-        data = {
-            correo: data.correo,
-            token,
-            fecha_expiracion: updatedTIme
+      data = {
+        correo: data.correo,
+        token,
+        fecha_expiracion: updatedTIme,
+      };
+
+      let url =
+        "http://localhost:5173/resetpass?key=" +
+        token +
+        "&correo=" +
+        data.correo;
+
+      //Insertar los datos en la base para cambio de password
+      try {
+        await prisma.recuperaciones.create({ data });
+      } catch (err) {
+        console.log(err);
+        return res.status(400).send(err.message);
+      }
+
+      var transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: "diego.morales2887@alumnos.udg.mx",
+          pass: "sjvwcaqsfxnvmklw",
+        },
+      });
+
+      const mailOptions = {
+        from: "diego.morales2887@alumnos.udg.mx",
+        to: data.correo,
+        subject: "Recuperacion contrasena",
+        text: "Plaintext version of the message",
+        html:
+          "<p>Link para reset de contrasena, solo se cuenta con 1 hora para el cambio: </p> <a href=" +
+          url +
+          ">Cambiar contrasena</a>",
+      };
+
+      console.log("Se enviara correo");
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          res.status(500).send(error.message);
+        } else {
+          console.log("Correo enviado");
         }
+      });
 
-        let url = 'http://localhost:5173/resetpass?key=' + token + '&correo=' + data.correo ;
-
-        //Insertar los datos en la base para cambio de password
-        try {
-            console.log(data)
-            await prisma.recuperaciones.create({ data });
-        } catch (err) {
-            console.log('HAY UN ERROR NO SE PUDO INSERTAR INFORMACION EN TABLA RECUPERACIONES')
-            console.log(err);
-        }
-
-        var transporter = nodemailer.createTransport({   
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: "diego.morales2887@alumnos.udg.mx",
-                pass: "sjvwcaqsfxnvmklw"
-            }
-        });
-    
-
-
-        const mailOptions = {
-            from: "diego.morales2887@alumnos.udg.mx",
-            to: data.correo,
-            subject: "Recuperacion contrasena",
-            text: "Plaintext version of the message",
-            html: "<p>Link para reset de contrasena, solo se cuenta con 1 hora para el cambio: </p> <a href=" + url + ">Cambiar contrasena</a>"
-        };
-
-
-        console.log('Se enviara correo')
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error)
-                res.status(500).send(error.message);
-            }
-            else {
-                console.log('Correo enviado')
-            }
-        })
-
-        return res.status(200).json({
-            mensaje: 'user found',
-            correo: url,
-        })
-
+      return res.status(200).json({
+        mensaje: "user found",
+        correo: url,
+      });
     } else {
-        console.log("No existe usuario")
-        return res.status(200).json({
-            mensaje: 'no user with email: ' + data.correo
-        });
+      console.log("No existe usuario");
+      return res.status(200).json({
+        mensaje: "no user with email: " + data.correo,
+      });
     }
-
+  } catch (error) {
+    return res.status(400).send(err.message);
+  }
 };
 
 const tokenValidation = async (req, res) => {
-    console.log('Validacion de que existe el token con correo');
-    //Recoger los parametros por post a guardar
-    let data = req.body;
+  console.log("Validacion de que existe el token con correo");
+  //Recoger los parametros por post a guardar
+  let data = req.body;
 
-    console.log(data)
-
-    //Leer la base de dato de alumnos
+  try {
     const user = await prisma.recuperaciones.findMany({
-        where: {
-            token: data.token,
-            correo: data.correo
-        },
-    })
+      where: {
+        token: data.token,
+        correo: data.correo,
+      },
+    });
 
     //Falta comprobacion de la fecha de expiracion del token
-
     if (user.length) {
-        return res.status(200).json({
-            mensaje: 'user found',
-        })
+      return res.status(200).json({
+        mensaje: "user found",
+      });
     } else {
-        return res.status(200).json({
-            mensaje: 'no valid user'
-        });
+      return res.status(200).json({
+        mensaje: "no valid user",
+      });
     }
-}
+  } catch (error) {}
+  return res.status(400).json({
+    mensaje: "Error en revisar token",
+  });
+};
 
 const passChange = async (req, res) => {
-    console.log('Cambio de contrasena');
-    //Recoger los parametros por post a guardar
-    let data = req.body;
+  console.log("Cambio de contrasena");
+  //Recoger los parametros por post a guardar
+  let data = req.body;
+  data.password = md5(data.password);
 
-    data.password = md5(data.password)
-    console.log(data)
-
+  try {
     //Leer la base de dato de alumnos
     const updateUsers = await prisma.usuarios.updateMany({
-        where: {
-            correo: data.email,
-        },
-        data: {
-            contrasena: data.password,
-        },
-    })
-
-    console.log(updateUsers)
+      where: {
+        correo: data.email,
+      },
+      data: {
+        contrasena: data.password,
+      },
+    });
 
     return res.status(200).json({
-        mensaje: 'Contrasena cambiada',
-    })
-}
-
+      mensaje: "Contrasena cambiada",
+    });
+  } catch (error) {
+    return res.status(400).send(err.message);
+  }
+};
 
 module.exports = {
-    userValidation,
-    tokenValidation,
-    passChange
-}
+  userValidation,
+  tokenValidation,
+  passChange,
+};
