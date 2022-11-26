@@ -13,30 +13,29 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
   const [selectRol, setSelectRol] = useState(['Sin rol', 'Director', 'Codirector', 'Observador']);
 
   const reqAll = async () => {
-    const url = "http:///localhost:3000/tesis/fillTableProf_tesis";
-    const res = await api.request(url, "POST", { id_tesis: idTesis });
-    setTableInfo(res.prof_tesis)
+    try {
+      const url = "http:///localhost:3000/tesis/fillTableProf_tesis";
+      const res = await api.request(url, "POST", { id_tesis: idTesis });
+      setTableInfo(res.prof_tesis)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
     reqAll();
   }, [, flagCambio])
 
-  useEffect(() => {
-    if (director) {
-      console.log('Igual')
-    } else {
-      console.log('Diferente')
-    }
-  }, [director])
-
-
   const desasignarMaestro = async (id_profesor, nombre) => {
     if (confirm("¿Desea desasignar el profesor: " + nombre)) {
       const url = "http:///localhost:3000/tesis/unsignTeacher";
-      const res = await api.request(url, "POST", { id_profesor: id_profesor, id_tesis: idTesis });
-      reqAll();
-      setFlagCambio(flagCambio + 1)
+      try {
+        const res = await api.request(url, "POST", { id_profesor: id_profesor, id_tesis: idTesis });
+        reqAll();
+        setFlagCambio(flagCambio + 1)
+      } catch (error) {
+        console.log(error)
+      }
     }
   };
 
@@ -51,9 +50,7 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
 
 
   const rolCheck = async (e, id_profesor) => {
-    console.log('Cambio en el selector')
-    console.log(e.target.value)
-    console.log(id_profesor)
+
     if (director == id_profesor && e.target.value != 'Director') {
       setDirector('');
     }
@@ -61,8 +58,12 @@ export const AsignadoMaestro = ({ idTesis, flagCambio, setFlagCambio }) => {
       setDirector(id_profesor)
     }
     const url = "http:///localhost:3000/tesis/rolTeacher";
-    const res = await api.request(url, "POST", { id_profesor: id_profesor, id_tesis: idTesis, rol: e.target.value });
-    console.log(res)
+
+    try {
+      const res = await api.request(url, "POST", { id_profesor: id_profesor, id_tesis: idTesis, rol: e.target.value });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

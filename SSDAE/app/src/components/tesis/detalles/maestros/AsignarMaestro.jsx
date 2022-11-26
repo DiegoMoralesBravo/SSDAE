@@ -30,9 +30,12 @@ export const AsignarMaestro = ({ idTesis, setFlagCambio, flagCambio }) => {
 
   const reqAll = async () => {
     const url = "http:///localhost:3000/tesis/fillTableTeacher";
-    const res = await api.request(url, "POST", { id_tesis: idTesis });
-
-    setTableInfo(res.profesores)
+    try {
+      const res = await api.request(url, "POST", { id_tesis: idTesis });
+      setTableInfo(res.profesores)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -41,21 +44,18 @@ export const AsignarMaestro = ({ idTesis, setFlagCambio, flagCambio }) => {
 
 
   const asignarMaestro = async (profesorId, name) => {
-
     if (confirm("¿Desea asignar el profesor: " + name)) {
       const url = "http:///localhost:3000/tesis/asignTeacher";
-      const res = await api.request(url, "POST", { id_usuario: profesorId, id_tesis: idTesis });
-
-      reqAll();
-
-      setFlagCambio(flagCambio + 1)
-
+      try {
+        const res = await api.request(url, "POST", { id_usuario: profesorId, id_tesis: idTesis });
+        reqAll();
+        setFlagCambio(flagCambio + 1)
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-
   }
-
-
+  
   return (
     <div >
       <div className='header'>

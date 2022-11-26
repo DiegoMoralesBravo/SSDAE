@@ -22,36 +22,35 @@ const create = async (req, res) => {
 };
 
 const fillTableStudent = async (req, res) => {
-    try {
-        const alumnos = await prisma.usuarios.findMany({
-            where: {
-              tipo_usuario: "alumno",
-            },
-          });
-        
-          const tesis = await prisma.tesis.findMany();
-        
-          newUsuarios = [];
-        
-          for (i = 0; i < alumnos.length; i++) {
-            flag = 0;
-        
-            for (j = 0; j < tesis.length; j++) {
-              if (alumnos[i].id_usuario == tesis[j].id_alumno) {
-                console.log("Este cumple");
-                console.log(alumnos[i]);
-                flag = 1;
-              }
-            }
-            if (!flag) {
-              newUsuarios.push(alumnos[i]);
-            }
-          }
-          return res.status(200).json(JSON.stringify(newUsuarios));
-    } catch (error) {
-        return res.status(400).send(error.message)
+  try {
+    const alumnos = await prisma.usuarios.findMany({
+      where: {
+        tipo_usuario: "alumno",
+      },
+    });
+
+    const tesis = await prisma.tesis.findMany();
+
+    newUsuarios = [];
+
+    for (i = 0; i < alumnos.length; i++) {
+      flag = 0;
+
+      for (j = 0; j < tesis.length; j++) {
+        if (alumnos[i].id_usuario == tesis[j].id_alumno) {
+          console.log("Este cumple");
+          console.log(alumnos[i]);
+          flag = 1;
+        }
+      }
+      if (!flag) {
+        newUsuarios.push(alumnos[i]);
+      }
     }
-  
+    return res.status(200).json(JSON.stringify(newUsuarios));
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 const fillTable = async (req, res) => {
@@ -85,33 +84,26 @@ const fillTable = async (req, res) => {
 };
 
 const fillTableTeacher = async (req, res) => {
-  console.log(
-    "Se obtendran todos los datos de maestros que no esten asignados a esta tesis"
-  );
-
-  console.log(req.body);
-
   let dataPost = req.body;
-
-  const profesores = await prisma.profesores.findMany({
-    where: {
-      prof_tesis: {
-        none: {
-          id_tesis: dataPost.id_tesis,
+  try {
+    const profesores = await prisma.profesores.findMany({
+      where: {
+        prof_tesis: {
+          none: {
+            id_tesis: dataPost.id_tesis,
+          },
         },
       },
-    },
-    include: {
-      usuarios: true,
-    },
-  });
-
-  console.log(profesores);
-  console.log("Se presentaron");
-
-  return res.status(200).json({
-    profesores: profesores,
-  });
+      include: {
+        usuarios: true,
+      },
+    });
+    return res.status(200).json({
+      profesores: profesores,
+    });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 const deleteTesis = async (req, res) => {
@@ -174,29 +166,26 @@ const asignStudentName = async (req, res) => {
   }
 };
 
-const validation = async (req, res) => {
-  console.log("Validacion de usuario");
-  //Recoger los parametros por post a guardar
-  let data = req.body;
+// const validation = async (req, res) => {
+//   console.log("Validacion de usuario");
+//   //Recoger los parametros por post a guardar
+//   let data = req.body;
 
-  //Leer la base de dato
-  const user = await prisma.tesis.findUnique({
-    where: {
-      id_tesis: data.id_tesis,
-    },
-  });
+//   //Leer la base de dato
+//   const user = await prisma.tesis.findUnique({
+//     where: {
+//       id_tesis: data.id_tesis,
+//     },
+//   });
 
-  return res.status(200).json({
-    mensaje: "User found",
-    user: user,
-  });
-};
+//   return res.status(200).json({
+//     mensaje: "User found",
+//     user: user,
+//   });
+// };
 
 const asignTeacher = async (req, res) => {
-  console.log("Se asignara maestro");
-
   let dataPost = req.body;
-  console.log(dataPost);
 
   let data = {
     id_profesor: dataPost.id_usuario,
@@ -204,19 +193,21 @@ const asignTeacher = async (req, res) => {
     rol: "Sin rol",
   };
 
-  //Insertar los datos en la base
-  const prof_tesis = await prisma.prof_tesis.create({ data });
-
-  return res.status(200).json({
-    mensaje: "Teacher asigned",
-  });
+  try {
+    //Insertar los datos en la base
+    const prof_tesis = await prisma.prof_tesis.create({ data });
+    return res.status(200).json({
+      mensaje: "Teacher asigned",
+    });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 const fillTableProf_tesis = async (req, res) => {
-  console.log("Se mostraran maestros relacionados a la tesis");
-
   dataPost = req.body;
 
+  try {
   //Insertar los datos en la base
   const prof_tesis = await prisma.prof_tesis.findMany({
     where: {
@@ -235,34 +226,36 @@ const fillTableProf_tesis = async (req, res) => {
     mensaje: "Maestros mostrados",
     prof_tesis: prof_tesis,
   });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+
 };
 
 const unsignTeacher = async (req, res) => {
-  console.log("Desasignar maestro de tema de tesis");
-
   dataPost = req.body;
-  console.log(dataPost);
-
-  await prisma.prof_tesis.deleteMany({
-    where: {
-      id_profesor: dataPost.id_profesor,
-      id_tesis: dataPost.id_tesis,
-    },
-  });
-
-  return res.status(200).json({
-    mensaje: "Maestro eliminado",
-  });
+    try {
+        await prisma.prof_tesis.deleteMany({
+            where: {
+              id_profesor: dataPost.id_profesor,
+              id_tesis: dataPost.id_tesis,
+            },
+          });
+        
+          return res.status(200).json({
+            mensaje: "Maestro eliminado",
+          });
+    } catch (error) {
+        return res.status(400).send(error.message);
+    }
 };
 
 const rolTeacher = async (req, res) => {
-  console.log("Se asignara rol");
   //Recoger los parametros por post a guardar
   let dataPost = req.body;
 
-  console.log(dataPost);
-
-  //Leer la base de dato de alumnos
+  try {
+      //Leer la base de dato de alumnos
   const updateUsers = await prisma.prof_tesis.updateMany({
     where: {
       id_profesor: dataPost.id_profesor,
@@ -275,6 +268,9 @@ const rolTeacher = async (req, res) => {
   return res.status(200).json({
     mensaje: "Rol modificado",
   });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 module.exports = {
