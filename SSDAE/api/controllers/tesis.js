@@ -282,7 +282,7 @@ module.exports = {
   asignStudent,
   asignStudentName,
   asignTeacher,
-  validation,
+  // validation,
   fillTableProf_tesis,
   unsignTeacher,
   rolTeacher,

@@ -73,10 +73,8 @@ INSERT INTO Usuarios
 	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');
 	
 INSERT INTO Alumnos
-	VALUES (default,'root', '10/10/10');
+	VALUES (default,'root', 2022, 'a');
 	
-
-END;
 
 
 
