@@ -55,8 +55,7 @@ const fillTableStudent = async (req, res) => {
 
 const fillTable = async (req, res) => {
   try {
-    //Insertar los datos en la base
-    const tabla = await prisma.tesis.findMany({
+    let tabla = await prisma.tesis.findMany({
       include: {
         prof_tesis: {
           include: {
@@ -75,8 +74,23 @@ const fillTable = async (req, res) => {
       },
     });
 
+    tabla.forEach(tesis => {
+      tesis.prof_tesis.forEach(profesor => {
+        const nombre = profesor.profesores.usuarios
+        if(profesor.rol == 'Director'){
+          tesis.director = nombre.nombre + ' ' + nombre.ap_p + ' ' + nombre.ap_m
+        }
+      });
+    });
+
+    tabla.forEach(tesis => {
+      if(!tesis.hasOwnProperty('director')){
+        tesis.director = 'Sin asignar'
+      }
+    })
+
     return res.status(200).json({
-      tabla: tabla,
+      tabla,
     });
   } catch (error) {
     return res.status(400).send(error.message);

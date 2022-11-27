@@ -19,6 +19,16 @@ export const TablaTesis = () => {
     reqAll();
   }, [, visibleCreateTesis, visibleDetails]);
 
+  const reqAll = async () => {
+    const url = "http:///localhost:3000/tesis/fillTable";
+    try {
+      const res = await api.request(url, "GET");
+      setTableInfo(res.tabla);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const searchTesis = (e) => {
     setSearch(e.target.value);
     let tesisFound = tableInfo.filter((tesis) => {
@@ -32,16 +42,6 @@ export const TablaTesis = () => {
     } else {
       setTableInfo(tesisFound);
       setResult(false);
-    }
-  };
-
-  const reqAll = async () => {
-    const url = "http:///localhost:3000/tesis/fillTable";
-    try {
-      const res = await api.request(url, "GET");
-      setTableInfo(res.tabla);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -73,8 +73,7 @@ export const TablaTesis = () => {
         <p>TESIS</p>
         <div className="buttons">
           <button className="boton" onClick={() => setVisibleCreateTesis(true)}>
-            {" "}
-            Crear tesis{" "}
+            Crear tesis
           </button>
           <input
             type="text"
@@ -84,7 +83,6 @@ export const TablaTesis = () => {
           ></input>
         </div>
       </div>
-
       {result == true && search.length > 2 && (
         <p>
           No se encontro ninguna tesis:{" "}
@@ -95,59 +93,24 @@ export const TablaTesis = () => {
       <table>
         <tbody className="tabla">
           <tr>
-            <th>
-              <strong>Tema</strong>
-            </th>
-            <th>
-              <strong>Alumno</strong>
-            </th>
-            <th>
-              <strong>Director</strong>
-            </th>
-            <th>
-              <strong>Acciones</strong>
-            </th>
+            <th><strong>Tema</strong></th>
+            <th><strong>Alumno</strong></th>
+            <th><strong>Director</strong></th>
+            <th><strong>Acciones</strong></th>
           </tr>
 
           {tableInfo.map((tesis) => {
-            console.log(tesis);
-            const nombre =
-              tesis.alumnos.usuarios.nombre +
-              " " +
-              tesis.alumnos.usuarios.ap_p +
-              " " +
-              tesis.alumnos.usuarios.ap_m;
-            let directorAsignado = "Sin asignar";
-            if (tesis.prof_tesis.length == 0) {
-            } else {
-              tesis.prof_tesis.forEach((element) => {
-                console.log("Elemento: ");
-                console.log(element);
-                if (element.rol == "Director") {
-                  directorAsignado =
-                    element.profesores.usuarios.nombre +
-                    " " +
-                    element.profesores.usuarios.ap_p +
-                    " " +
-                    element.profesores.usuarios.ap_m;
-                }
-              });
-            }
+            const objetoNombre = tesis.alumnos.usuarios
+            const nombre = objetoNombre.nombre + " " + objetoNombre.ap_p + " " + objetoNombre.ap_m;
 
             return (
               <tr key={tesis.id_tesis}>
                 <td>{tesis.tema}</td>
                 <td>{tesis.alumnos.id_alumno == 1 ? "Sin asignar" : nombre}</td>
-                <td>{directorAsignado}</td>
+                <td>{tesis.director}</td>
                 <td>
-                  <button onClick={() => setDataTesisFunction(tesis)}>
-                    Detalles
-                  </button>
-                  <button
-                    onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)}
-                  >
-                    Eliminar
-                  </button>
+                  <button onClick={() => setDataTesisFunction(tesis)}> Detalles </button>
+                  <button onClick={() => deleteTesis(tesis.id_tesis, tesis.tema)}> Eliminar </button>
                 </td>
               </tr>
             );
