@@ -70,11 +70,6 @@ export const VistaDetalles = ({
     }
   }, [, vista, alumnoAsignado, flagCambio]);
 
-  // const idCheck = async () => {
-  //   const url = "http:///localhost:3000/tesis/validation";
-  //   const res = await api.request(url, "POST", { id_tesis: dataTesis.id });
-  //   setIdAlumno(res.id);
-  // };
 
   return vistaVentana;
 };

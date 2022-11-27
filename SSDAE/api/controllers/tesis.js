@@ -74,20 +74,21 @@ const fillTable = async (req, res) => {
       },
     });
 
-    tabla.forEach(tesis => {
-      tesis.prof_tesis.forEach(profesor => {
-        const nombre = profesor.profesores.usuarios
-        if(profesor.rol == 'Director'){
-          tesis.director = nombre.nombre + ' ' + nombre.ap_p + ' ' + nombre.ap_m
+    tabla.forEach((tesis) => {
+      tesis.prof_tesis.forEach((profesor) => {
+        const nombre = profesor.profesores.usuarios;
+        if (profesor.rol == "Director") {
+          tesis.director =
+            nombre.nombre + " " + nombre.ap_p + " " + nombre.ap_m;
         }
       });
     });
 
-    tabla.forEach(tesis => {
-      if(!tesis.hasOwnProperty('director')){
-        tesis.director = 'Sin asignar'
+    tabla.forEach((tesis) => {
+      if (!tesis.hasOwnProperty("director")) {
+        tesis.director = "Sin asignar";
       }
-    })
+    });
 
     return res.status(200).json({
       tabla,
@@ -222,46 +223,45 @@ const fillTableProf_tesis = async (req, res) => {
   dataPost = req.body;
 
   try {
-  //Insertar los datos en la base
-  const prof_tesis = await prisma.prof_tesis.findMany({
-    where: {
-      id_tesis: dataPost.id_tesis,
-    },
-    include: {
-      profesores: {
-        include: {
-          usuarios: true,
+    //Insertar los datos en la base
+    const prof_tesis = await prisma.prof_tesis.findMany({
+      where: {
+        id_tesis: dataPost.id_tesis,
+      },
+      include: {
+        profesores: {
+          include: {
+            usuarios: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return res.status(200).json({
-    mensaje: "Maestros mostrados",
-    prof_tesis: prof_tesis,
-  });
+    return res.status(200).json({
+      mensaje: "Maestros mostrados",
+      prof_tesis: prof_tesis,
+    });
   } catch (error) {
     return res.status(400).send(error.message);
   }
-
 };
 
 const unsignTeacher = async (req, res) => {
   dataPost = req.body;
-    try {
-        await prisma.prof_tesis.deleteMany({
-            where: {
-              id_profesor: dataPost.id_profesor,
-              id_tesis: dataPost.id_tesis,
-            },
-          });
-        
-          return res.status(200).json({
-            mensaje: "Maestro eliminado",
-          });
-    } catch (error) {
-        return res.status(400).send(error.message);
-    }
+  try {
+    await prisma.prof_tesis.deleteMany({
+      where: {
+        id_profesor: dataPost.id_profesor,
+        id_tesis: dataPost.id_tesis,
+      },
+    });
+
+    return res.status(200).json({
+      mensaje: "Maestro eliminado",
+    });
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 const rolTeacher = async (req, res) => {
@@ -269,22 +269,60 @@ const rolTeacher = async (req, res) => {
   let dataPost = req.body;
 
   try {
-      //Leer la base de dato de alumnos
-  const updateUsers = await prisma.prof_tesis.updateMany({
-    where: {
-      id_profesor: dataPost.id_profesor,
-    },
-    data: {
-      rol: dataPost.rol,
-    },
-  });
+    //Leer la base de dato de alumnos
+    const updateUsers = await prisma.prof_tesis.updateMany({
+      where: {
+        id_profesor: dataPost.id_profesor,
+        id_tesis: dataPost.idTesis,
+      },
+      data: {
+        rol: dataPost.rol,
+      },
+    });
 
-  return res.status(200).json({
-    mensaje: "Rol modificado",
-  });
+    return res.status(200).json({
+      mensaje: "Rol modificado",
+    });
   } catch (error) {
     return res.status(400).send(error.message);
   }
+};
+
+const checkRoles = async (req, res) => {
+  let banderaDirector = 0;
+  try {
+    const prof_tesis = await prisma.prof_tesis.findMany({
+      where: {
+        id_tesis: req.body.idTesis,
+      },
+    });
+
+    prof_tesis.forEach(profesor => {
+      if(profesor.rol == 'Director'){
+        banderaDirector++;
+      }
+    })
+
+    if(banderaDirector == 0){
+      return res.status(200).json({
+        mensaje: "Sin director",
+      });
+    }else if(banderaDirector != 1){
+      return res.status(200).json({
+        mensaje: "Muchos directores",
+      });
+    }
+    else{
+      return res.status(200).json({
+        mensaje: "Ok",
+      });
+    }
+
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+
+
 };
 
 module.exports = {
@@ -300,4 +338,5 @@ module.exports = {
   fillTableProf_tesis,
   unsignTeacher,
   rolTeacher,
+  checkRoles,
 };
