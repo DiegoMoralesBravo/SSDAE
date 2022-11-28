@@ -68,6 +68,21 @@ CREATE TABLE IF NOT EXISTS AvancesControl
     estatus character varying NOT NULL,
     CONSTRAINT Avances_primarykey PRIMARY KEY (ano_ingreso, ciclo)
 );
+
+CREATE TABLE IF NOT EXISTS Evaluacion
+(
+    id_evaluacion serial PRIMARY KEY,
+    numero_avance serial REFERENCES Avances(numero_avance) ON UPDATE CASCADE ON DELETE CASCADE,
+    id_tesis serial REFERENCES Avances(id_tesis) ON UPDATE CASCADE ON DELETE CASCADE,
+    campo1 integer NOT NULL,
+    campo2 integer NOT NULL,
+    campo3 integer NOT NULL,
+    campo4 integer NOT NULL,
+    campo5 integer NOT NULL,
+    campo6 integer NOT NULL,
+    campo7 integer NOT NULL,
+    doc character varying NOT NULL
+);
 		 
 INSERT INTO Usuarios
 	VALUES (default,'root@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'root', 'jose', 'sanchez', 'soto');

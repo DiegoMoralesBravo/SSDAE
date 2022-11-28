@@ -7,6 +7,8 @@ const tesisRouter = require('./paths/tesis');
 const avancesRouter = require('./paths/avances')
 const historialRouter = require("./paths/historial")
 const historialProfesoresRouter = require("./paths/historialProfesores")
+const evaluacionRouter = require('./paths/evaluacion')
+
 
 const puerto = 3000;
 const app = express();
@@ -35,6 +37,9 @@ app.use("/avances",avancesRouter);
 app.use("/historial",historialRouter);
 
 app.use("/historial",historialProfesoresRouter);
+
+app.use("/evaluacion",evaluacionRouter);
+
 
 
 //Crear serivodor y escuchar peticiones

@@ -22,8 +22,7 @@ export const Navbar = () => {
         <ul className="nav-list">
           <li>
             <NavLink to="/">
-              {" "}
-              {nombre + " " + ap_p + " (" + tipo_usuario + ")"}{" "}
+              {nombre + " " + ap_p + " (" + tipo_usuario + ")"}
             </NavLink>
           </li>
 
@@ -64,10 +63,19 @@ export const Navbar = () => {
             ""
           )}
 
+          {tipo_usuario == "maestro" ? (
+            <>
+              <li>
+                <NavLink to="/Evaluacion"> Evaluacion </NavLink>
+              </li>
+            </>
+          ) : (
+            ""
+          )}
+
           <li>
             <NavLink to="/" onClick={logout}>
-              {" "}
-              Cerrar sesion{" "}
+              Cerrar sesion
             </NavLink>
           </li>
         </ul>
