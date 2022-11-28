@@ -1,5 +1,4 @@
 
-
 .articulo-item{
 
 background: white;
@@ -22,6 +21,7 @@ min-height: 300px;
 
 background-color:#262626;
 width: 100%;
+border-radius: 10px 10px 0 0;
 
 
 }
@@ -36,7 +36,7 @@ margin: 30px;
 .datos-alumno h2{
     margin: 12px;
     font-size: 16px;
-    color: white;
+    color: rgb(181, 181, 181);
 }
 
 .revisiones{

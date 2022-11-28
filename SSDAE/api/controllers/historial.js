@@ -22,6 +22,14 @@ const getDataToHistorial = async (req, res) => {
       },
     });
 
+    const avances = await prisma.avances.findMany({
+
+      where:{
+        id_tesis: tesis[0].id_tesis,
+      },
+
+    })
+
     console.log("-----------busqueda encadenada--------------");
 
     console.log(prof_tesis);
@@ -54,6 +62,7 @@ const getDataToHistorial = async (req, res) => {
       tesis,
       prof_tesis,
       nombreDirector: nombreDirector[0],
+      avances
     });
   }
 

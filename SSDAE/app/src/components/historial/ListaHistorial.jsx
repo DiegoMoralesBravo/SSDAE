@@ -4,9 +4,7 @@ export const ListaHistorial = () => {
   return (
     <div className="login-page">
     <div className="form-revisiones">
-
-    <div className='revisiones-container'>
-      <div className='cabecera-revisiones'>
+    <div className='cabecera-revisiones'>
               <ul>
                 <li><a href="">Revisor 1</a></li>
                 <li><a href="">Revisor 2</a></li>
@@ -14,6 +12,9 @@ export const ListaHistorial = () => {
                 <li><a href="">Revisor 4</a></li>
               </ul>
        </div>
+
+    <div className='revisiones-container'>
+      
         <section className='comentarios'>
           <h3>comentario</h3>
           <div className='comentarios-revision'>

@@ -3,7 +3,8 @@
     z-index: 1;
     background: #ffffff;
     max-width: 1000px;
-    margin: 0 auto 100px;
+    max-height: 500px;
+    margin: 0 auto 0px 0;
     padding: 0 0 45px 0;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(135, 135, 135, 0.2), 0 5px 5px 0 rgba(84, 84, 84, 0.24);
@@ -11,16 +12,23 @@
     display: flex;
     flex-direction: column;
     font-family: "Roboto", sans-serif;
+  
 
 }
 
+.revisiones-container{
 
+    background-color: rgb(255, 255, 255);
+    overflow-y: scroll;
+    
+  
+}
 
 .cabecera-revisiones{
 
     background-color: black;
     width: 100%;
-    height: 42px;
+    height: 150px;
     border-radius: 12px 12px 0 0;
     display: flex;
     align-items: center;
@@ -109,4 +117,13 @@
     padding: 14px;
     max-height: 50px;
     min-height: 300px;
+}
+
+.span-avance{
+    margin-right: 10px;
+    margin-left: 5px;
+    color: rgb(250, 250, 250);
+    font-weight: 1000;
+    font-size: 18px;
+   
 }
