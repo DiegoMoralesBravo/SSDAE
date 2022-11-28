@@ -16,6 +16,8 @@ export const Historial = () => {
   const [tesisState, setTesis] = useState([]);
   const [profesorState, setProfesorState] = useState([]);
   const [tesisByMaestroState, setTesisByMaestro] = useState([]);
+  const [avancesState, setAvances] = useState([]);
+  const [avancesProfState, setAvancesProf] = useState([]);
 
   const { user } = useContext(loginContext);
   const api = useApi();
@@ -31,26 +33,36 @@ export const Historial = () => {
 
   useEffect(() => {
 
-    console.log(tesisByMaestroState);
-
-  }, [tesisState, profesorState,tesisByMaestroState]);
+    // console.log(tesisByMaestroState);
+    // console.log("-----------avances-------------");
+    // console.log(avancesState)
+    // console.log(avancesProfState)
+  }, [tesisState, 
+    profesorState,
+    tesisByMaestroState,
+    avancesState,
+    avancesProfState]);
 
   const getDataToProfesores = async () => {
     let url = "http:///localhost:3000/historial/profesores";
     let res = await api.request(url, "POST", user);
 
-    console.log("------------- aqui se resive la informacion ------------");
-    console.log(res);
+    // console.log("------------- aqui se resive la informacion ------------");
+    // console.log(res);
 
     if(res.mensaje == "succes"){
 
-      console.log("entro al if de maestro");
+      // console.log("entro al if de maestro");
 
       setTesisByMaestro(res.tesisByProf);
 
     }
 
     setCargando(false);
+
+
+    const maestros = tesisByMaestroState.map(element => element.tesis.avances)
+    setAvancesProf(maestros);
   };
 
   const getData = async () => {
@@ -67,6 +79,7 @@ export const Historial = () => {
     
       setTesis(res.tesis);
       setProfesorState(res.nombreDirector);
+      setAvances(res.avances);
     }
 
     setCargando(false);
@@ -77,9 +90,17 @@ export const Historial = () => {
       {cargando ? (
         "Cargando informacion..."
       ) : (tesisState.length >= 1 && user.tipo_usuario == "alumno" )
-      ? (<Alumno tesisState = {tesisState} profesorState = {profesorState} user = {user}/>) 
+      ? (<Alumno 
+          tesisState = {tesisState} 
+          profesorState = {profesorState} 
+          user = {user}
+          avancesState = {avancesState}
+        />) 
       
-        :<Profesor tesisByMaestroState ={tesisByMaestroState}/>}
+        :<Profesor 
+        tesisByMaestroState ={tesisByMaestroState}
+        avancesProfState = {avancesProfState}
+        />}
     </>
   );
 };
