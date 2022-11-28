@@ -8,6 +8,9 @@
     display: none;
 }
 
+.textoCentrar{
+    text-align: center;
+}
 
 
 .custom-file-upload {

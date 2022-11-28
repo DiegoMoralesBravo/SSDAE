@@ -6,6 +6,7 @@ import { ListaHistorial } from "./ListaHistorial";
 
 export const Profesor = ({ tesisByMaestroState }) => {
     const [visible, setVisible] = useState(false);
+    
   return tesisByMaestroState.map((tesis, key) => {
     return (
       <div key={tesis.id_tesis} className="historial-container">

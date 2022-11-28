@@ -1,187 +1,136 @@
 import React from "react";
-//Importar los módulos
-import { useRef } from "react";
+import { Ventana } from "../Ventana";
 import { useState } from "react";
-import { useApi } from "../../hooks/useApi";
-import { loginContext } from "../../context/loginContext";
-import { useContext } from "react";
 import { useEffect } from "react";
+import { useApi } from "../../hooks/useApi";
+import { useContext } from "react";
+import { loginContext } from "../../context/loginContext";
+import { Formulario } from "./Formulario";
 
 export const Evaluacion = () => {
-  //------------------------------------------------------
-  //Esto es para acceder al nombre del profesor:
-  const { user } = useContext(loginContext);
-  const [file, setFile] = useState(null);
-  const [data, setData] = useState(null);
-
+  const [visible, setVisible] = useState(false);
+  const [data, setData] = useState([]);
+  const [avance, setAvance] = useState({});
   const api = useApi();
-  const alert = useRef();
+  const { user } = useContext(loginContext);
 
   useEffect(() => {
-    const check = async () => {
+    const getData = async () => {
       let url = "http:///localhost:3000/evaluacion/check";
       try {
         let res = await api.request(url, "POST", user);
         console.log(res);
+        if (res.tesisByProf.length) {
+          console.log("Si tiene informacion");
+          setData(res.tesisByProf);
+        } else {
+          //AQUI PONER UNA VISTA DE QUE NO HAY INFORMACION
+          console.log("No tiene informacion");
+        }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
-    
-    console.log('Test')
-    check();
 
-
+    getData();
   }, []);
 
-  const saveFile = (e) => {
-    setFile(e.target.files[0]);
+  const form = (avance) => {
+    console.log(avance);
+    setAvance(avance);
+    setVisible(true);
   };
 
-  const conseguirDatosFormulario = async (e) => {
-    e.preventDefault();
-
-    let datos = e.target;
-
-    let evaluacion = {
-      campo1: datos.campo1.value,
-      //   campo2: datos.campo2.value,
-      //   campo3: datos.campo3.value,
-      //   campo4: datos.campo4.value,
-      //   campo5: datos.campo5.value,
-      //   campo6: datos.campo6.value,
-      //   campo7: datos.campo7.value,
-      //   obGen: datos.obGen.value,
-    };
-
-    console.log(evaluacion);
-
-    setData(evaluacion);
-
-    var formData = new FormData();
-    formData.append("file", file);
-    formData.append("data", data);
-    formData.append("data", user);
-
-    console.log(formData);
-
-    let url = "http:///localhost:3000/evaluacion/save";
-
-    try {
-      let res = await api.request(url, "POST", formData, true);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //------------------------------------------------------
-  //El código HTML:
   return (
-    <div className="form">
-      <div>
-        <form onSubmit={conseguirDatosFormulario}>
-          <h2>Acta de calificación del avance de tesis</h2>
-          <h3>
-            ---------------------------------------------------------------
-          </h3>
-          <br></br>
+    <>
+     {data != 0 ? (data.map((tesis, key) => {
+        return (
+          <div key={tesis.id_tesis} className="historial-container">
+            <article className="articulo-item">
+              <section className="header-card">
+                <div className="datos-alumno">
+                  <h2>
+                    <span className="span-avance">Tema: </span>
+                    {tesis.tesis.tema}
+                  </h2>
+                  <h2>
+                    <span className="span-avance">Nombre del alumno: </span>
+                    {tesis.tesis.alumnos.usuarios.nombre}
+                  </h2>
 
-          <label>Estructura y calidad del documento</label>
-          <input
-            type="number"
-            name="campo1"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
+                  {tesis.tesis.prof_tesis.map((profesor, key) => {
+                    return (
+                      <h2 key={profesor.profesores.id_profesor}>
+                        <span className="span-avance"> Nombre: </span>
+                        {profesor.profesores.usuarios.nombre}
+                        <span className="span-avance"> Rol: </span>
+                        {profesor.rol}
+                      </h2>
+                    );
+                  })}
+                </div>
+              </section>
 
-          {/* <label>Amplitud y actualidad de la información utilizada</label>
-          <input
-            type="number"
-            name="campo2"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
+              <section className="revisiones">
 
-          <label>Grado de avance con respecto al informe anterior</label>
-          <input
-            type="number"
-            name="campo3"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
 
-          <label>Nivel técnico empleado en el informe</label>
-          <input
-            type="number"
-            name="campo4"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
+                {tesis.tesis.avances.length != 0 ? (tesis.tesis.avances.map((elemento, key) => {
+                  return (
+                    <div key={elemento.numero_avance} className="revision-bar">
+                      <div className="links-bar">
+                        <h3>{elemento.numero_avance}</h3>
+                        <ul>
+                          <li>
+                            <a>No. Avance</a>
+                          </li>
+                          <li>
+                            <a
+                              href={"/public/avances/" + elemento.doc}
+                              download
+                            >
+                              <span>Descargar archivo</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a>
+                              {elemento.evaluacion.length == 1
+                                ? "Ya fue revisado!"
+                                : "Sin revisar"}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
 
-          <label>
-            Asertividad en la explicación de la aportación en el avance
-          </label>
-          <input
-            type="number"
-            name="campo5"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
+                      {elemento.evaluacion.length == 1 ? (
+                        ""
+                      ) : (
+                        <button
+                          className="mas-info"
+                          onClick={() => form(elemento)}
+                        >
+                          Calificar
+                        </button>
+                      )}
+                    </div>
+                  );
+                }))
+                : (<h1 className="textoCentrar">Sin avances!</h1>)}
 
-          <label>Nivel de propuesta de las actividades futuras</label>
-          <input
-            type="number"
-            name="campo6"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
 
-          <label>Apreciación general de la información recibida</label>
-          <input
-            type="number"
-            name="campo7"
-            placeholder="0-100"
-            min="0"
-            max="100"
-            required
-          />
-          <label>Observaciones generales</label>
+                
+              </section>
+            </article>
+          </div>
+        );
+      })) : (<h1 className="textoCentrar">Sin tema asignado como observador!</h1>)}
+   
 
-          <p>Campo no obligatorio</p>
-          <input
-            type="text"
-            name="obGen"
-            placeholder="Observaciones generales (No obligatorio)"
-          />
-*/}
-          <br></br>
-          <label>Comentarios (Solo archivos de imagen o texto)</label>
-
-          <p>Campo no obligatorio</p>
-          <input type="file" name="file" onChange={saveFile} />
-
-          <p ref={alert} style={{ display: "none" }}>
-            *Usuario y/o contraseña incorrectos
-          </p>
-
-          <br></br>
-
-          <button>Enviar evaluacion</button>
-        </form>
-      </div>
-    </div>
+      {visible && (
+        <Ventana
+          componente={<Formulario avance={avance} setVisible={setVisible} />}
+          setVisible={setVisible}
+        />
+      )}
+    </>
   );
 };

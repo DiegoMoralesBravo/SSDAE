@@ -54,11 +54,12 @@ CREATE TABLE IF NOT EXISTS Prof_Tesis
 
 CREATE TABLE IF NOT EXISTS Avances
 (
-    numero_avance serial,
+    id_avance serial PRIMARY KEY,
+    numero_avance serial NOT NULL,
     id_tesis serial REFERENCES Tesis ON UPDATE CASCADE ON DELETE CASCADE,
     doc character varying NOT NULL,
-    revisado character varying NOT NULL,
-    CONSTRAINT numero_avance_id_tesis PRIMARY KEY (numero_avance, id_tesis)
+    revisado character varying NOT NULL
+
 );
 
 CREATE TABLE IF NOT EXISTS AvancesControl
@@ -72,8 +73,10 @@ CREATE TABLE IF NOT EXISTS AvancesControl
 CREATE TABLE IF NOT EXISTS Evaluacion
 (
     id_evaluacion serial PRIMARY KEY,
-    numero_avance serial REFERENCES Avances(numero_avance) ON UPDATE CASCADE ON DELETE CASCADE,
-    id_tesis serial REFERENCES Avances(id_tesis) ON UPDATE CASCADE ON DELETE CASCADE,
+    id_profesor serial REFERENCES Profesores ON UPDATE CASCADE ON DELETE CASCADE,
+    id_avance serial REFERENCES Avances ON UPDATE CASCADE ON DELETE CASCADE,
+    numero_avance serial NOT NULL,
+    id_tesis serial NOT NULL,
     campo1 integer NOT NULL,
     campo2 integer NOT NULL,
     campo3 integer NOT NULL,
@@ -81,7 +84,7 @@ CREATE TABLE IF NOT EXISTS Evaluacion
     campo5 integer NOT NULL,
     campo6 integer NOT NULL,
     campo7 integer NOT NULL,
-    doc character varying NOT NULL
+    doc character varying
 );
 		 
 INSERT INTO Usuarios

@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:molex007@localhost:5432/postgres"
+  url      = "postgresql://postgres:popohq14@localhost:5432/postgres"
 }
 
 model alumnos {
@@ -20,6 +20,7 @@ model profesores {
   id_profesor     Int          @id @default(autoincrement())
   interno_externo String       @db.VarChar
   usuarios        usuarios     @relation(fields: [id_profesor], references: [id_usuario], onDelete: Cascade)
+  evaluacion      evaluacion[]
   prof_tesis      prof_tesis[]
 }
 
@@ -64,20 +65,38 @@ model prof_tesis {
   @@id([id_profesor, id_tesis], map: "prof_tesis_primarykey")
 }
 
-model avances {
-  numero_avance Int    @default(autoincrement())
-  id_tesis      Int    @default(autoincrement())
-  doc           String @db.VarChar
-  revisado      String @db.VarChar
-  tesis         tesis  @relation(fields: [id_tesis], references: [id_tesis], onDelete: Cascade)
-
-  @@id([numero_avance, id_tesis], map: "numero_avance_id_tesis")
-}
-
 model avancescontrol {
   ano_ingreso Int    @default(autoincrement())
   ciclo       String @db.VarChar
   estatus     String @db.VarChar
 
   @@id([ano_ingreso, ciclo], map: "avances_primarykey")
+}
+
+model avances {
+  id_avance     Int          @id @default(autoincrement())
+  numero_avance Int          @default(autoincrement())
+  id_tesis      Int          @default(autoincrement())
+  doc           String       @db.VarChar
+  revisado      String       @db.VarChar
+  tesis         tesis        @relation(fields: [id_tesis], references: [id_tesis], onDelete: Cascade)
+  evaluacion    evaluacion[]
+}
+
+model evaluacion {
+  id_evaluacion Int        @id @default(autoincrement())
+  id_profesor   Int        @default(autoincrement())
+  id_avance     Int        @default(autoincrement())
+  numero_avance Int        @default(autoincrement())
+  id_tesis      Int        @default(autoincrement())
+  campo1        Int
+  campo2        Int
+  campo3        Int
+  campo4        Int
+  campo5        Int
+  campo6        Int
+  campo7        Int
+  doc           String?    @db.VarChar
+  avances       avances    @relation(fields: [id_avance], references: [id_avance], onDelete: Cascade)
+  profesores    profesores @relation(fields: [id_profesor], references: [id_profesor], onDelete: Cascade)
 }
