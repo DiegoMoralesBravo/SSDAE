@@ -46,7 +46,7 @@ export const Navbar = () => {
                 <NavLink to="/AvancesControl"> Avances </NavLink>
               </li>
               <li>
-                <NavLink to="/RevisionControl"> Revision </NavLink>
+                <NavLink to="/RevisionControl"> Evaluacion </NavLink>
               </li>
             </>
           ) : (

@@ -2,14 +2,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getDataToHistorial = async (req, res) => {
-
-  console.log("entro al endpoint");
-  
   const data = req.body;
-  
-  console.log(data);
 
-  if (data.tipo_usuario == "alumno") {
+  try {
     const tesis = await prisma.tesis.findMany({
       where: {
         id_alumno: data.id_user,
@@ -20,20 +15,21 @@ const getDataToHistorial = async (req, res) => {
       where: {
         id_tesis: tesis[0].id_tesis,
       },
+      include: {
+        profesores: {
+          include: {
+            usuarios: true,
+          },
+        },
+      },
     });
 
     const avances = await prisma.avances.findMany({
-
-      where:{
+      where: {
         id_tesis: tesis[0].id_tesis,
       },
+    });
 
-    })
-
-    console.log("-----------busqueda encadenada--------------");
-
-    console.log(prof_tesis);
-    
 
     let idDirector;
 
@@ -62,12 +58,74 @@ const getDataToHistorial = async (req, res) => {
       tesis,
       prof_tesis,
       nombreDirector: nombreDirector[0],
-      avances
+      avances,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      mensaje: error.message,
     });
   }
+};
 
-}
+const evaluaciones = async (req, res) => {
+  console.log(req.body);
+
+  try {
+    const evaluacion = await prisma.evaluacion.findMany({
+      where: {
+        id_tesis: req.body.id_tesis,
+        numero_avance: req.body.numero_avance,
+        id_avance: req.body.id_avance,
+      },
+      include: {
+        profesores: {
+          include: {
+            usuarios: true,
+          },
+        },
+      },
+    });
+
+
+    return res.status(200).json({
+      mensaje: "ok",
+      evaluacion,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      mensaje: error.message,
+    });
+  }
+};
+
+
+
+const getComentarios = async (req, res) => {
+  try {
+    const comentarios = await prisma.evaluacion.findMany({
+      where: {
+        id_tesis: req.body.id_tesis,
+        numero_avance: req.body.numero_avance,
+        id_avance: req.body.id_avance,
+        id_profesor: req.body.id_profesor,
+      },
+    });
+
+    console.log(comentarios)
+
+    return res.status(200).json({
+      mensaje: "ok",
+      comentarios,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      mensaje: error.message,
+    });
+  }
+};
 
 module.exports = {
   getDataToHistorial,
+  evaluaciones,
+  getComentarios,
 };

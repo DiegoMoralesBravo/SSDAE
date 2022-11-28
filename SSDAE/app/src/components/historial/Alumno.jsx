@@ -2,11 +2,32 @@ import React from "react";
 import { Ventana } from "../Ventana";
 import { useState } from "react";
 import { ListaHistorial } from "./ListaHistorial";
+import { useApi } from "../../hooks/useApi";
 
-export const Alumno = ({ tesisState, profesorState, user, avancesState }) => {
+export const Alumno = ({
+  tesisState,
+  profesorState,
+  user,
+  avancesState,
+  profTesis,
+}) => {
   const [visible, setVisible] = useState(false);
+  const [data, setData] = useState();
+  const api = useApi();
 
-  // {"Tema: " + profesorState}
+  const evaluaciones = async (avance) => {
+    console.log(avance);
+    let url = "http:///localhost:3000/historial/alumnosEvaluaciones";
+
+    try {
+      let res = await api.request(url, "POST", avance);
+      setData(res.evaluacion)
+    } catch (error) {
+      console.log(error);
+    }
+    setVisible(true);
+  };
+
   return (
     <div>
       <div className="historial-container">
@@ -14,15 +35,21 @@ export const Alumno = ({ tesisState, profesorState, user, avancesState }) => {
           <section className="header-card">
             <div className="datos-alumno">
               <h2>
-                <span>Tema: </span>
+                <span className="span-avance">Tema: </span>
                 {tesisState[0].tema}
               </h2>
+              {profTesis.map((profesor, key) => {
+                return (
+                  <h2 key={profesor.profesores.usuarios.nombre}>
+                    <span className="span-avance"> Nombre: </span>
+                    {profesor.profesores.usuarios.nombre}
+                    <span className="span-avance"> Rol: </span>
+                    {profesor.rol}
+                  </h2>
+                );
+              })}
               <h2>
-                <span>Director: </span>
-                {profesorState.nombre + " " + profesorState.ap_p}
-              </h2>
-              <h2>
-                <span>Nombre del alumno: </span>
+                <span className="span-avance">Nombre del alumno: </span>
                 {user.nombre + " " + user.ap_p}{" "}
               </h2>
             </div>
@@ -31,7 +58,7 @@ export const Alumno = ({ tesisState, profesorState, user, avancesState }) => {
           <section className="revisiones">
             {avancesState.map((avance, key) => {
               return (
-                <div key ={key} className="revision-bar">
+                <div key={key} className="revision-bar">
                   <div className="links-bar">
                     <h3>{avance.numero_avance}</h3>
                     <ul>
@@ -39,15 +66,17 @@ export const Alumno = ({ tesisState, profesorState, user, avancesState }) => {
                         <a>Avance</a>
                       </li>
                       <li>
-                      <a href= {'/public/avances/' + avance.doc} download><span>Descargar archivo</span></a>
-                      </li>
-                      <li>
-                        <a>calificacion</a>
+                        <a href={"/public/avances/" + avance.doc} download>
+                          <span>Descargar archivo</span>
+                        </a>
                       </li>
                     </ul>
                   </div>
-                  <button className="mas-info" onClick={() => setVisible(true)}>
-                    click
+                  <button
+                    className="mas-info"
+                    onClick={() => evaluaciones(avance)}
+                  >
+                    Evaluacion
                   </button>
                 </div>
               );
@@ -56,7 +85,7 @@ export const Alumno = ({ tesisState, profesorState, user, avancesState }) => {
         </article>
 
         {visible && (
-          <Ventana componente={<ListaHistorial />} setVisible={setVisible} />
+          <Ventana componente={<ListaHistorial data={data} />} setVisible={setVisible} />
         )}
       </div>
     </div>

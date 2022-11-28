@@ -123,15 +123,15 @@ const check = async (req, res) => {
 
 
     tesisByProf.forEach( async(tesis) => {
-      console.log('Esta es la tesis')
 
-      let observadoresCalificados = await prisma.prof_tesis.findMany({
-        where: {
-          id_tesis: tesis.tesis.id_tesis,
-          rol: "Observador",
-        }
-      })
-
+    
+        let observadoresCalificados = await prisma.prof_tesis.findMany({
+          where: {
+            id_tesis: tesis.tesis.id_tesis,
+            rol: "Observador",
+          }
+        })
+      
       let observadores = await prisma.evaluacion.findMany({
         where: {
           id_tesis: tesis.tesis.avances.id_tesis,

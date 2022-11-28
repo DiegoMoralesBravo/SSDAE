@@ -117,7 +117,6 @@ export const Evaluacion = () => {
                 : (<h1 className="textoCentrar">Sin avances!</h1>)}
 
 
-                
               </section>
             </article>
           </div>

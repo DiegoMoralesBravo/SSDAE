@@ -24,7 +24,13 @@ const getDataToHistorialProfesores = async (req, res) => {
                   usuarios:true
                 }
               },
-              avances: true,
+              avances: {
+                include:{
+                  evaluacion: true
+                }
+              },
+
+
               prof_tesis: {
 
                 include:{
