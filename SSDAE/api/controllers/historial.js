@@ -28,6 +28,9 @@ const getDataToHistorial = async (req, res) => {
       where: {
         id_tesis: tesis[0].id_tesis,
       },
+      include: {
+        evaluacion: true
+      }
     });
 
 

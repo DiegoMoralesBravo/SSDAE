@@ -4,24 +4,17 @@ import { useState } from "react";
 import { ListaHistorial } from "./ListaHistorial";
 import { useApi } from "../../hooks/useApi";
 
-export const Alumno = ({
-  tesisState,
-  profesorState,
-  user,
-  avancesState,
-  profTesis,
-}) => {
+export const Alumno = ({ tesisState, user, avancesState, profTesis }) => {
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState();
   const api = useApi();
 
   const evaluaciones = async (avance) => {
-    console.log(avance);
     let url = "http:///localhost:3000/historial/alumnosEvaluaciones";
 
     try {
       let res = await api.request(url, "POST", avance);
-      setData(res.evaluacion)
+      setData(res.evaluacion);
     } catch (error) {
       console.log(error);
     }
@@ -72,12 +65,17 @@ export const Alumno = ({
                       </li>
                     </ul>
                   </div>
-                  <button
-                    className="mas-info"
-                    onClick={() => evaluaciones(avance)}
-                  >
-                    Evaluacion
-                  </button>
+
+                  {avance.evaluacion.length != 0 ? (
+                    <button
+                      className="mas-info"
+                      onClick={() => evaluaciones(avance)}
+                    >
+                      Evaluacion
+                    </button>
+                  ) : (
+                    <h1 className="espacioIzq">Sin evaluaciones</h1>
+                  )}
                 </div>
               );
             })}
@@ -85,7 +83,10 @@ export const Alumno = ({
         </article>
 
         {visible && (
-          <Ventana componente={<ListaHistorial data={data} />} setVisible={setVisible} />
+          <Ventana
+            componente={<ListaHistorial data={data} />}
+            setVisible={setVisible}
+          />
         )}
       </div>
     </div>

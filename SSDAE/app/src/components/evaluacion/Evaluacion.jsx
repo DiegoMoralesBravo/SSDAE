@@ -33,7 +33,7 @@ export const Evaluacion = () => {
     };
 
     getData();
-  }, []);
+  }, [, visible]);
 
   const form = (avance) => {
     console.log(avance);

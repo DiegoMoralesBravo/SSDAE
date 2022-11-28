@@ -52,14 +52,13 @@ export const Formulario = ({ avance, setVisible }) => {
     let datos = e.target;
 
     let evaluacion = {
-      campo1: datos.campo1.value,
-      //   campo2: datos.campo2.value,
-      //   campo3: datos.campo3.value,
-      //   campo4: datos.campo4.value,
-      //   campo5: datos.campo5.value,
-      //   campo6: datos.campo6.value,
-      //   campo7: datos.campo7.value,
-      //   obGen: datos.obGen.value,
+        campo1: datos.campo1.value,
+        campo2: datos.campo2.value,
+        campo3: datos.campo3.value,
+        campo4: datos.campo4.value,
+        campo5: datos.campo5.value,
+        campo6: datos.campo6.value,
+        campo7: datos.campo7.value,
     };
 
     setData(evaluacion);
@@ -87,7 +86,7 @@ export const Formulario = ({ avance, setVisible }) => {
             required
           />
 
-          {/* <label>Amplitud y actualidad de la información utilizada</label>
+          <label>Amplitud y actualidad de la información utilizada</label>
           <input
             type="number"
             name="campo2"
@@ -150,7 +149,7 @@ export const Formulario = ({ avance, setVisible }) => {
           />
           <label>Observaciones generales</label>
 
-          <p>Campo no obligatorio</p>
+          {/* <p>Campo no obligatorio</p>
           <input
             type="text"
             name="obGen"

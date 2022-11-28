@@ -20,12 +20,12 @@ const save = async (req, res) => {
     numero_avance: avance.numero_avance,
     id_tesis: avance.id_tesis,
     campo1: parseInt(dataCampos.campo1),
-    campo2: 2,
-    campo3: 2,
-    campo4: 2,
-    campo5: 2,
-    campo6: 2,
-    campo7: 2,
+    campo2: parseInt(dataCampos.campo2),
+    campo3: parseInt(dataCampos.campo3),
+    campo4: parseInt(dataCampos.campo4),
+    campo5: parseInt(dataCampos.campo5),
+    campo6: parseInt(dataCampos.campo6),
+    campo7: parseInt(dataCampos.campo7),
     doc: 'sin doc'
   };
 
