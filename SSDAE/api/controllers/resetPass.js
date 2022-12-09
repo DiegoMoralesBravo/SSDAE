@@ -50,7 +50,7 @@ const userValidation = async (req, res) => {
         secure: true,
         auth: {
           user: "diego.morales2887@alumnos.udg.mx",
-          pass: "sjvwcaqsfxnvmklw",
+          pass: "sada",
         },
       });
 
