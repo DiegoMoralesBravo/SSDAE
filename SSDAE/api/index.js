@@ -10,7 +10,6 @@ const historialProfesoresRouter = require("./paths/historialProfesores")
 const evaluacionRouter = require('./paths/evaluacion')
 
 
-const puerto = 3000;
 const app = express();
 
 //Cargar datos en la base de datos
@@ -21,31 +20,32 @@ app.use(cors());
 
 //Ya te lo convierte a objeto lo que llega
 app.use(express.json()); //Recibir datos con content-type app/json
-app.use(express.urlencoded({extended:true})); // form-urlencoded
+app.use(express.urlencoded({ extended: true })); // form-urlencoded
 
 //Rutas
 //Rutas para alumnos
-app.use("/usuario",usuarioRouter); 
+app.use("/usuario", usuarioRouter);
 
 //Rutas para resetear contrasena
-app.use("/resetPass",resetPassRouter); 
+app.use("/resetPass", resetPassRouter);
 
-app.use("/tesis",tesisRouter);
+app.use("/tesis", tesisRouter);
 
-app.use("/avances",avancesRouter);
+app.use("/avances", avancesRouter);
 
-app.use("/historial",historialRouter);
+app.use("/historial", historialRouter);
 
-app.use("/historial",historialProfesoresRouter);
+app.use("/historial", historialProfesoresRouter);
 
-app.use("/evaluacion",evaluacionRouter);
+app.use("/evaluacion", evaluacionRouter);
+
+// define the first route
+app.get("/", function (req, res) {
+    res.send("<h1>Funcionando!</h1>")
+})
+
+// start the server listening for requests
+app.listen(process.env.PORT || 3000,
+    () => console.log("Server is running..."));
 
 
-
-//Crear serivodor y escuchar peticiones
-app.listen(puerto, () => {
-    console.log('Aplicacion corriendo puerto 3000');
-});
-
-
- 

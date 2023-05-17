@@ -70,9 +70,8 @@ const create = async (req, res) => {
 };
 
 const validation = async (req, res) => {
-  console.log("Validacion de usuario");
   let data = req.body;
-
+  console.log(data)
   data.contrasena = md5(data.contrasena);
 
   try {
