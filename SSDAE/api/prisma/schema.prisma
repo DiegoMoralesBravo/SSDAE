@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://poipoi:popohq14@localhost:5432/postgres"
 }
 
 model alumnos {
@@ -48,7 +48,7 @@ model recuperaciones {
 model tesis {
   id_tesis    Int          @id @default(autoincrement())
   tema        String       @db.VarChar
-  id_alumno   Int          @default(autoincrement())
+  id_alumno   Int
   descripcion String       @db.VarChar
   alumnos     alumnos      @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade)
   avances     avances[]

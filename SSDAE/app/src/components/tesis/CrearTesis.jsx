@@ -20,6 +20,7 @@ export const CrearTesis = () => {
     let url = "http:///localhost:3000/tesis/create";
 
     try {
+      console.log(data)
       let res = await api.request(url, "POST", data);
       if (res.mensaje == "Tesis created") {
         alert.current.style.display = "block";
