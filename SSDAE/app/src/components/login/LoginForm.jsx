@@ -25,7 +25,7 @@ export const LoginForm = () => {
       contrasena: inputPass.current.value,
     };
 
-    const url = "http:///localhost:3000/usuario/validation";
+    const url = "ssdae-backend.herokuapp.com/usuario/validation";
 
     try {
       let res = await api.request(url, "POST", dataForm);
